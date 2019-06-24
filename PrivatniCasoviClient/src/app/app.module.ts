@@ -1,12 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule } from '@angular/router';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app.routing';
 import { MsAdalAngular6Module } from 'microsoft-adal-angular6';
 import { AuthenticationGuard } from 'microsoft-adal-angular6';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { SignupComponent } from './signup/signup.component';
+import { LandingComponent } from './landing/landing.component';
+import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { FooterComponent } from './shared/footer/footer.component';
+
+import { HomeModule } from './home/home.module';
 import { TokenInterceptor } from './token.interceptor';
-import { TestService } from './test.service';
+import { TestService } from './test-service.service';
+import { MyComponentComponent } from './my-component/my-component.component';
 
 export function getAdalConfig() {
   return {
@@ -24,12 +36,22 @@ export function getAdalConfig() {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SignupComponent,
+    LandingComponent,
+    ProfileComponent,
+    NavbarComponent,
+    FooterComponent,
+    MyComponentComponent
   ],
   imports: [
     BrowserModule,
+    NgbModule.forRoot(),
+    FormsModule,
     HttpClientModule,
+    RouterModule,
     AppRoutingModule,
+    HomeModule,
     MsAdalAngular6Module.forRoot(getAdalConfig),
   ],
   providers: [AuthenticationGuard, {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}, TestService],

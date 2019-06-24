@@ -25,10 +25,10 @@
     </Endpoints>
     <Contents>
       <Content destination=".\">
-        <SourceDirectory path="C:\Users\Stefan\Documents\PrivatniCasoviFTN\PrivatniCasoviFTN\rcf\Debug\PrivatniCasoviAPIContent\" />
+        <SourceDirectory path="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\rcf\Debug\PrivatniCasoviAPIContent\" />
       </Content>
       <Content destination=".\">
-        <SourceDirectory path="C:\Users\Stefan\Documents\PrivatniCasoviFTN\PrivatniCasoviFTN\ecf\PrivatniCasoviAPIContent\" />
+        <SourceDirectory path="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\ecf\PrivatniCasoviAPIContent\" />
       </Content>
     </Contents>
     <Imports>

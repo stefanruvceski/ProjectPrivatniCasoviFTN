@@ -24,14 +24,14 @@
     <Property name="SetConfiguration" value="Configuration=Debug" />
     <Property name="SetPlatform" value="Platform=AnyCPU" />
     <Property name="RoleTargetFramework" value="v4.5.1" />
-    <Property name="OutputDir" value="C:\Users\Stefan\Documents\PrivatniCasoviFTN\PrivatniCasoviFTN\obj\Debug\PrivatniCasoviAPI\" />
+    <Property name="OutputDir" value="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\obj\Debug\PrivatniCasoviAPI\" />
     <Property name="EntryPoint" value="PrivatniCasoviAPI.dll" />
-    <Property name="SourceDir" value="C:\Users\Stefan\Documents\PrivatniCasoviFTN\PrivatniCasoviAPI\" />
-    <Property name="SitePhysicalPath" value="C:\Users\Stefan\Documents\PrivatniCasoviFTN\PrivatniCasoviAPI\" />
+    <Property name="SourceDir" value="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviAPI\" />
+    <Property name="SitePhysicalPath" value="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviAPI\" />
     <Property name="TargetRuntimeVersion" value="v4.0" />
   </Properties>
   <Sites>
-    <Site name="Web" physicalDirectory="C:\Users\Stefan\Documents\PrivatniCasoviFTN\PrivatniCasoviAPI\">
+    <Site name="Web" physicalDirectory="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviAPI\">
       <Bindings>
         <Binding name="Endpoint1" endpointName="Endpoint1" />
       </Bindings>

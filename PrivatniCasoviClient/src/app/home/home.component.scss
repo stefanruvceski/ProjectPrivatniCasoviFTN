@@ -1,0 +1,16 @@
+.my-custom-scrollbar {
+    position: relative;
+    height: 670px;
+    }
+    .table-wrapper-scroll-y {
+    display: block;
+    }
+
+    html {
+        overflow: scroll;
+        overflow-y: hidden;
+    }
+    ::-webkit-scrollbar {
+        width: 0px;  /* Remove scrollbar space */
+        background: transparent;  /* Optional: just make scrollbar invisible */
+    }
