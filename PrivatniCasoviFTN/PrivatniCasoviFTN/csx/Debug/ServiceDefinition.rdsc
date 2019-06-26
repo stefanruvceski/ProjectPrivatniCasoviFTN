@@ -2,5 +2,6 @@
 <serviceContract xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" dslVersion="1.0.0.0" name="PrivatniCasoviFTNContract" xmlns="http://schemas.microsoft.com/dsltools/Contracts">
   <elements>
     <interface name="PrivatniCasoviAPI:Endpoint1" url="http://*:80" />
+    <interface name="WorkerRole1:InputRequest" url="tcp://*:11000" />
   </elements>
 </serviceContract>

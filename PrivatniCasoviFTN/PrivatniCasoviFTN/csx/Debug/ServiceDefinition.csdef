@@ -5,6 +5,7 @@
       <LocalStorage name="DiagnosticStore" sizeInMB="4096" cleanOnRoleRecycle="false" />
     </LocalResources>
     <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
     </ConfigurationSettings>
     <Endpoints>
@@ -12,4 +13,17 @@
     </Endpoints>
     <Certificates />
   </WebRole>
+  <WorkerRole name="WorkerRole1" vmsize="Standard_D1_v2">
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" sizeInMB="4096" cleanOnRoleRecycle="false" />
+    </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+    </ConfigurationSettings>
+    <Endpoints>
+      <InputEndpoint name="InputRequest" protocol="tcp" port="11000" localPort="11000" />
+    </Endpoints>
+    <Certificates />
+  </WorkerRole>
 </ServiceDefinition>

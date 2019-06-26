@@ -19,6 +19,7 @@
     </Sites>
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="DataConnectionString" />
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="Endpoint1" protocol="http" port="80" />
@@ -35,4 +36,24 @@
       <Import moduleName="Diagnostics" />
     </Imports>
   </WebRole>
+  <WorkerRole name="WorkerRole1" vmsize="Standard_D1_v2">
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="DataConnectionString" />
+    </ConfigurationSettings>
+    <Endpoints>
+      <InputEndpoint name="InputRequest" protocol="tcp" port="11000" />
+    </Endpoints>
+    <Contents>
+      <Content destination=".\">
+        <SourceDirectory path="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\rcf\Debug\WorkerRole1Content\" />
+      </Content>
+      <Content destination=".\">
+        <SourceDirectory path="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\ecf\WorkerRole1Content\" />
+      </Content>
+    </Contents>
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+  </WorkerRole>
 </ServiceDefinition>

@@ -45,12 +45,22 @@
       <RoleName>PrivatniCasoviAPI</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
+    <ProjectReference Include="..\WorkerRole1\WorkerRole1.csproj">
+      <Name>WorkerRole1</Name>
+      <Project>{84ee0fc0-d539-48c5-bd1f-27936f6711db}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>WorkerRole1</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PrivatniCasoviAPIContent\" />
+    <Folder Include="WorkerRole1Content\" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="PrivatniCasoviAPIContent\diagnostics.wadcfgx" />
+    <DiagnosticsConfiguration Include="WorkerRole1Content\diagnostics.wadcfgx" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

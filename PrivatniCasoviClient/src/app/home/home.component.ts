@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TestService } from 'app/test-service.service';
 
 @Component({
     selector: 'app-home',
@@ -15,7 +16,10 @@ export class HomeComponent implements OnInit {
 
     focus;
     focus1;
-    constructor() { }
+    constructor(private service: TestService) { 
+
+        this.service.fja().subscribe();
+    }
 
     ngOnInit() {}
 }

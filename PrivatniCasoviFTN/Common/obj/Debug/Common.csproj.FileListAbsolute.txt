@@ -1,0 +1,16 @@
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Common.dll
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Common.pdb
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Microsoft.Azure.KeyVault.Core.dll
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Microsoft.Azure.KeyVault.Core.xml
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Microsoft.WindowsAzure.Configuration.xml
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Microsoft.WindowsAzure.Storage.xml
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\obj\Debug\Common.csprojAssemblyReference.cache
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\obj\Debug\Common.csproj.CopyComplete
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\obj\Debug\Common.dll
+C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\Common\obj\Debug\Common.pdb
