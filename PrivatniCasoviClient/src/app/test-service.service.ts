@@ -11,8 +11,8 @@ export class TestService {
   constructor(private http: HttpClient) { }
 
   fja() {
-    const url = 'http://localhost:52988/api/values';
-    return this.http.get<string>(url).pipe(
+    const url = 'http://localhost:52988/api/values/get';
+    return this.http.get<string>(url + '?id=3').pipe(
       catchError(this.handleError<string>(`getHero `))
     );
   }

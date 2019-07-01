@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
         console.log(this.adalSvc.userInfo);
         const token = this.adalSvc.acquireToken('https://graph.microsoft.com').subscribe((tokenn: string) => {
           localStorage.setItem('jwt', tokenn);
+          console.log(tokenn);
           this.route.navigate(['/home']);
         });
 

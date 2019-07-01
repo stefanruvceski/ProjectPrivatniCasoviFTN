@@ -11,6 +11,6 @@ namespace Common
     public interface IContract
     {
         [OperationContract]
-        void test();
+        string test(string id);
     }
 }

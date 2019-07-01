@@ -4,6 +4,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace Common
         CloudStorageAccount storageAccount;
         CloudTable table;
         CloudTableClient tableClient;
+        KLASE klasa;
         #endregion
 
         #region Kreiranje tabele
@@ -29,67 +31,78 @@ namespace Common
             {
                 // InitTable();
             }
+            Enum.TryParse(tableName, out klasa);
         }
         #endregion
 
-        //private void InitTable()
-        //{
-        //    TableBatchOperation tableOperations = new TableBatchOperation();
+        public void InitTable(List<CustomEntity> list)
+        {
+            TableBatchOperation tableOperations = new TableBatchOperation();
 
-        //    Film a1 = new Film("123",10);
-        //    Film a2 = new Film("456", 10);
-        //    Film a3 = new Film("789", 10);
-        //    Film a4 = new Film("000", 10);
+            if (klasa.Equals(KLASE.PREDMET))
+            {
+                
 
-        //    tableOperations.InsertOrReplace(a1);
-        //    tableOperations.InsertOrReplace(a2);
-        //    tableOperations.InsertOrReplace(a3);
-        //    tableOperations.InsertOrReplace(a4);
+                List<Predmet> predmeti = new List<Predmet>();
+                list.ForEach(x=>predmeti.Add((Predmet)x));
 
-        //    table.ExecuteBatch(tableOperations);
-        //}
+                predmeti.ForEach(x => tableOperations.InsertOrReplace(x));
+            }
+           
+            
 
-        //#region Operacije nad tabelom
-        ////Operacije nad tabelom
-        ////Find: Film -> Replace: Naziv klase koja se koristi
-        //public void AddOrReplaceFilm(Film obj)
-        //{
-        //    TableOperation add = TableOperation.InsertOrReplace(obj);
-        //    table.Execute(add);
+            table.ExecuteBatch(tableOperations);
+        }
 
-        //}
+        #region Operacije nad tabelom
+        public void AddOrReplace(CustomEntity entity)
+        {
+            
+            if (klasa.Equals(KLASE.PREDMET))
+            {
+                TableOperation add = TableOperation.InsertOrReplace((Predmet)entity);
+                table.Execute(add);
+            }
+        }
 
-        //public void DeleteFilm(Film obj)
-        //{
-        //    TableOperation delete = TableOperation.Delete(obj);
-        //    table.Execute(delete);
-        //}
+        public void Delete(CustomEntity entity)
+        {
 
-        //public List<Film> GetAllFilms()
-        //{
-        //    IQueryable<Film> requests = from g in table.CreateQuery<Film>()
-        //                                where g.PartitionKey == "Film"
-        //                                select g;
-        //    return requests.ToList();
-        //}
+            if (klasa.Equals(KLASE.PREDMET))
+            {
+                TableOperation delete = TableOperation.Delete((Predmet)entity);
+                table.Execute(delete);
+            }
+        }
 
-        //public Film GetOneFilm(string id)
-        //{
-        //    IQueryable<Film> requests = from g in table.CreateQuery<Film>()
-        //                                where g.PartitionKey == "Film" && g.RowKey == id
-        //                                select g;
+        public int GetCount()
+        {
+            int retVal = 0;
 
-        //    return requests.ToList()[0];
-        //}
+            if (klasa.Equals(KLASE.PREDMET))
+            {
+                IQueryable<Predmet> requests = from g in table.CreateQuery<Predmet>()
+                                         where g.PartitionKey == klasa.ToString()
+                                         select g;
 
-        //public List<Film> GetAllFilmByName(string name)
-        //{
-        //    IQueryable<Film> requests = from g in table.CreateQuery<Film>()
-        //                                where g.PartitionKey == "Film" && g.Naziv == name
-        //                                select g;
+                retVal = requests.ToList().Count();
+            }
 
-        //    return requests.ToList();
-        //}
-        //#endregion
+            return retVal;
+        }
+
+        public CustomEntity GetOne(string id)
+        {
+            if (klasa.Equals(KLASE.PREDMET))
+            {
+                IQueryable<Predmet> requests = from g in table.CreateQuery<Predmet>()
+                                            where g.PartitionKey == klasa.ToString() && g.RowKey == id
+                                            select g;
+
+                return requests.ToList()[0];
+            }
+            return null;
+        }
+        #endregion
     }
 }

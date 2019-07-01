@@ -21,7 +21,8 @@ namespace PrivatniCasoviAPI
                     Tenant = ConfigurationManager.AppSettings["ida:Tenant"],
                     TokenValidationParameters = new TokenValidationParameters {
                         // ValidAudience = ConfigurationManager.AppSettings["ida:Audience"]
-                           ValidateAudience = false
+                           ValidateAudience = false,
+                        SaveSigninToken = true
                     },
                 });
         }

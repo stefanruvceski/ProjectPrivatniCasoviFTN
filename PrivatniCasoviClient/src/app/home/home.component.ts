@@ -16,9 +16,9 @@ export class HomeComponent implements OnInit {
 
     focus;
     focus1;
-    constructor(private service: TestService) { 
+    constructor(private service: TestService) {
 
-        this.service.fja().subscribe();
+        this.service.fja().subscribe(data => alert(data));
     }
 
     ngOnInit() {}
