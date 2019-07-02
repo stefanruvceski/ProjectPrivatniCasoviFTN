@@ -5,5 +5,5 @@ using System.Web;
 
 namespace Common
 {
-    public enum KLASE { PREDMET= 0,CAS};
+    public enum CLASSES { SUBJECT = 0, CLASS, FIRM, USER, COMMENT, PRICELIST, STUDENTCLASS, TEACHERCLASS };
 }

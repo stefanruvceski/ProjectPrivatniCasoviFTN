@@ -1,4 +1,6 @@
 ﻿using Common;
+using Common.BindingModels;
+using Common.DataBase_Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,23 +12,146 @@ namespace WorkerRole1
 {
     class JobServerProvider : IContract
     {
-        TableHelper tableHelper = new TableHelper(KLASE.PREDMET.ToString());
+        TableHelper tableHelper = new TableHelper(CLASSES.SUBJECT.ToString());
+        TableHelper tableHelper2 = new TableHelper(CLASSES.COMMENT.ToString());
+        TableHelper tableHelper3 = new TableHelper(CLASSES.FIRM.ToString());
+        TableHelper tableHelper4 = new TableHelper(CLASSES.PRICELIST.ToString());
+        TableHelper tableHelper5 = new TableHelper(CLASSES.CLASS.ToString());
+        TableHelper tableHelper6 = new TableHelper(CLASSES.STUDENTCLASS.ToString());
+        TableHelper tableHelper7 = new TableHelper(CLASSES.TEACHERCLASS.ToString());
+        TableHelper tableHelper8 = new TableHelper(CLASSES.USER.ToString());
+
         public string test(string id)
         {
-            List<CustomEntity> predmeti = new List<CustomEntity>()
+
+            //List<CustomEntity> subjects = new List<CustomEntity>()
+            //{
+            //    new Subject("PJISP"),
+            //    new Subject("SCADA"),
+            //    new Subject("RVA"),
+            //    new Subject("MISS"),
+            //    new Subject("HCI"),
+            //};
+
+            //List<CustomEntity> comments = new List<CustomEntity>()
+            //{
+            //    new Comment("Super cas",5),
+            //    new Comment("ok cas",4),
+            //    new Comment("pristojan cas",3),
+            //    new Comment("los cas",2),
+            //    new Comment("dosta los cas",1),
+            //};
+
+            //List<CustomEntity> firms = new List<CustomEntity>()
+            //{
+            //    new Firm("Privatni Casovi FTN","0658601731","Alekse Santica 46","privatnicasoviFTN@privatnicasovi.onmicrosoft.com","Novi Sad"),
+            //};
+
+            //List<CustomEntity> pricelists = new List<CustomEntity>()
+            //{
+            //    new Pricelist(1500,1,0),
+            //    new Pricelist(2000,2,0),
+            //    new Pricelist(1000,3,0),
+            //    new Pricelist(1500,4,0),
+            //};
+
+            //List<CustomEntity> users = new List<CustomEntity>()
+            //{
+            //    new User("filipr","Filip","Ruvceski","Kolo srpskih sestara 22","065123123","filipruvceski@privatnicasovi.onmicrosoft.com","filipruvceski@privatnicasovi.onmicrosoft.com",0,"Osnovna skola"),
+            //     new User("milicap","Milica","Pranjkic","Narodnog Fronta 45","063123123","milicapranjkic@privatnicasovi.onmicrosoft.com","milicapranjkic@privatnicasovi.onmicrosoft.com",0,"srednja skola"),
+            //};
+
+            //List<CustomEntity> classes = new List<CustomEntity>()
+            //{
+            //    new PrivateClass("Kola",0,1500,DateTime.Now,3,1),
+            //};
+
+            //List<CustomEntity> studentclasses = new List<CustomEntity>()
+            //{
+            //    new StudentClass(0,0,0,false),
+            //};
+
+            //List<CustomEntity> teacherClasses = new List<CustomEntity>()
+            //{
+            //    new TeacherClass(1,0,1,false),
+            //};
+
+            //tableHelper.InitTable(subjects);
+            //tableHelper2.InitTable(comments);
+            //tableHelper3.InitTable(firms);
+            //tableHelper8.InitTable(users);
+            //tableHelper4.InitTable(pricelists);
+            //tableHelper5.InitTable(classes);
+            //tableHelper6.InitTable(studentclasses);
+            //tableHelper7.InitTable(teacherClasses);
+            //Trace.WriteLine("USPEO");
+
+            return ((Subject)tableHelper.GetOne(id)).Name;
+        }
+
+        public bool EditUserInformations(EditUserInfoBindingModel bindingModel)
+        {
+            try
             {
-                new Predmet("PJISP"),
-                new Predmet("SCADA"),
-                new Predmet("RVA"),
-                new Predmet("MISS"),
-                new Predmet("HCI"),
+                User model = new User(bindingModel.Username, bindingModel.FirstName, bindingModel.LastName, bindingModel.Address, bindingModel.Phone, bindingModel.Email, bindingModel.PrefferEmail, 0, bindingModel.Degree);
+                if (bindingModel.Id != "-1")
+                    model.RowKey = bindingModel.Id;
+                User u = (User)tableHelper8.GetOne(bindingModel.Email);
+                if (u.RowKey != null)
+                    model.RowKey = u.RowKey;
+
+                tableHelper8.AddOrReplace(model);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public EditUserInfoBindingModel GetUserByEmail(string email)
+        {
+            User u = (User)tableHelper8.GetOne(email);
+
+            if (u.Username == null)
+            {
+                return new EditUserInfoBindingModel() { Email = email };
+            }
+            else
+            {
+                return new EditUserInfoBindingModel()
+                {
+                    Id = u.RowKey,
+                    Username = u.Username,
+                    Email = u.Email,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Address = u.Address,
+                    Phone = u.Phone,
+                    PrefferEmail = u.PrefferEmail,
+                    Degree = u.DegreeOfEducation
+                };
+            }
+
+        }
+
+        public EditUserInfoBindingModel GetUserForEdit(string email)
+        {
+            User u = (User)tableHelper8.GetOne(email);
+
+            return new EditUserInfoBindingModel()
+            {
+                Id = u.RowKey,
+                Username = u.Username,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Address = u.Address,
+                Phone = u.Phone,
+                PrefferEmail = u.PrefferEmail,
+                Degree = u.DegreeOfEducation
             };
-
-            tableHelper.InitTable(predmeti);
-
-            Trace.WriteLine("USPEO");
-
-            return ((Predmet)tableHelper.GetOne(id)).Naziv;
         }
     }
 }

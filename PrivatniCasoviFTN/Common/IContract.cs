@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.BindingModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -12,5 +13,11 @@ namespace Common
     {
         [OperationContract]
         string test(string id);
+        [OperationContract]
+        bool EditUserInformations(EditUserInfoBindingModel bindingModel);
+        [OperationContract]
+        EditUserInfoBindingModel GetUserByEmail(string email);
+        [OperationContract]
+        EditUserInfoBindingModel GetUserForEdit(string email);
     }
 }
