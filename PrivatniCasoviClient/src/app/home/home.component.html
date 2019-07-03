@@ -75,7 +75,7 @@
                                                                       <tr>
                                                                         <th>#</th>
                                                                         <th>Subject</th>
-                                                                        <th>Teacher</th>
+                                                                        <th *ngIf="!isTeacher()">Teacher</th>
                                                                         <th>Status</th>
                                                                         <th>Date</th>
                                                                         <th>Lesson</th>
@@ -87,12 +87,26 @@
                                                                       <tr *ngFor="let item of classes">
                                                                         <td>{{item.Id}}</td>
                                                                         <td>{{item.Subject}}</td>
-                                                                        <td>{{item.Teacher}}</td>
+                                                                        <td *ngIf="!isTeacher()">{{item.Teacher}}</td>
                                                                         <td>{{item.Status}}</td>
                                                                         <td>{{item.Date}}</td>
                                                                         <td>{{item.Lesson}}</td>
                                                                         <td>{{item.NumberOfStudents}}</td>
-                                                                        <td><input type=button id={{item.Id}} name="btn" (click)=onClick($event) value="delete" /></td> 
+                                                                        <td class="center">
+                                                                            
+                                                                                <div *ngIf="isTeacherAccepted(item.Status)" class=" icon-danger" style="display:inline-block; cursor: pointer;">
+                                                                                    <a  class="nav-link" rel="tooltip" title="Accept"  data-placement="bottom" (click)=onClickAccept(item.Id) >
+                                                                                        <i class="nc-icon nc-check-2"></i>
+                                                                                        <p class="d-lg-none">Twitter</p>
+                                                                                    </a>
+                                                                                </div>  
+                                                                                <div *ngIf="isTeacherDeleted(item.Status)" class=" icon-danger" style="display:inline-block;cursor: pointer;">
+                                                                                     <a class="nav-link" rel="tooltip" title="Delete" data-placement="bottom" (click)=onClickDelete(item.Id) >
+                                                                                         <i class="nc-icon nc-simple-remove"></i>
+                                                                                         <p class="d-lg-none">Twitter</p>
+                                                                                     </a>
+                                                                                </div>  
+                                                                        </td> 
                                                                       </tr>
                                                                     
                                                                     </tbody>

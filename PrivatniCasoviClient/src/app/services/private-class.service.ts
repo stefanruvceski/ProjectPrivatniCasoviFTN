@@ -23,7 +23,19 @@ export class PrivateClassService {
   }
   getUserClasses() {
     return this.http.get<Observable<PrivateClass>>('http://localhost:52988/api/privateclass/getprivateclasses').pipe(
-        catchError(this.handleError<Observable<PrivateClass>>(`getuser `))
+        catchError(this.handleError<Observable<PrivateClass>>(`getuserclasses `))
+      );
+  }
+
+  
+  userDeleteClass(id: string){
+    return this.http.get<Observable<PrivateClass>>('http://localhost:52988/api/privateclass/teacherdeleteClass?id='+id).pipe(
+        catchError(this.handleError<Observable<PrivateClass>>(`teacherdeleteClass `))
+      );
+  }
+  teacherAcceptClass(id: string){
+    return this.http.get<Observable<PrivateClass>>('http://localhost:52988/api/privateclass/acceptClass?id='+id).pipe(
+        catchError(this.handleError<Observable<PrivateClass>>(`acceptClass `))
       );
   }
 

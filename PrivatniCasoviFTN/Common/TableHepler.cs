@@ -126,9 +126,24 @@ namespace Common
                 TableOperation add = TableOperation.InsertOrReplace((Subject)entity);
                 table.Execute(add);
             }
-            if (_class.Equals(CLASSES.USER))
+            else if (_class.Equals(CLASSES.USER))
             {
                 TableOperation add = TableOperation.InsertOrReplace((User)entity);
+                table.Execute(add);
+            }
+            else if (_class.Equals(CLASSES.TEACHERCLASS))
+            {
+                TableOperation add = TableOperation.InsertOrReplace((TeacherClass)entity);
+                table.Execute(add);
+            }
+            else if (_class.Equals(CLASSES.CLASS))
+            {
+                TableOperation add = TableOperation.InsertOrReplace((PrivateClass)entity);
+                table.Execute(add);
+            }
+            else if (_class.Equals(CLASSES.STUDENTCLASS))
+            {
+                TableOperation add = TableOperation.InsertOrReplace((StudentClass)entity);
                 table.Execute(add);
             }
         }
@@ -184,20 +199,61 @@ namespace Common
                     return new User();
                 }
             }
+            if (_class.Equals(CLASSES.CLASS))
+            {
+                IQueryable<PrivateClass> requests = from g in table.CreateQuery<PrivateClass>()
+                                            where g.PartitionKey == _class.ToString() && g.RowKey == id
+                                            select g;
+
+                return requests.ToList()[0];
+            }
 
             return null;
         }
 
-        public dynamic GetCustomEntities(string id, string group)
+        public bool AcceptClass(string userId,string classId)
         {
             if (_class.Equals(CLASSES.CLASS))
             {
+                PrivateClass privateClass  = (PrivateClass)GetOne(classId);
+                privateClass.ClassStatus = CLASS_STATUS.ACCEPTED.ToString();
+                TableOperation replace = TableOperation.Replace(privateClass);
+                table.Execute(replace);
+
+                TeacherClass teacherClass = new TeacherClass(int.Parse(userId),int.Parse(classId),-1,false);
+                new TableHelper(CLASSES.TEACHERCLASS.ToString()).AddOrReplace(teacherClass);
+                return true;
+            }
+            return false;
+        }
+
+        public string GetUsetId(string email)
+        {
+            var request = from g in table.CreateQuery<User>()
+                                        where g.PartitionKey == _class.ToString() && g.Email == email
+                                        select g.RowKey;
+
+            return request.ToList()[0].ToString();
+        }
+        public bool TeacherDeleteClass(string classId)
+        {
+            PrivateClass privateClass = (PrivateClass)GetOne(classId);
+            privateClass.ClassStatus = CLASS_STATUS.DECLINED.ToString();
+            TableOperation replace = TableOperation.Replace(privateClass);
+            table.Execute(replace);
+            return true;
+        }
+        public dynamic GetUsersClasses(string id, string group)
+        {
+            if (_class.Equals(CLASSES.CLASS))
+            {
+                TableHelper tsc = new TableHelper(CLASSES.STUDENTCLASS.ToString());
+                TableHelper ts = new TableHelper(CLASSES.SUBJECT.ToString());
+                TableHelper ttc = new TableHelper(CLASSES.TEACHERCLASS.ToString());
+                TableHelper tt = new TableHelper(CLASSES.USER.ToString());
                 if (group == "PrivatniCasoviStudents")
                 {
-                    TableHelper tsc = new TableHelper(CLASSES.STUDENTCLASS.ToString());
-                    TableHelper ts = new TableHelper(CLASSES.SUBJECT.ToString());
-                    TableHelper ttc = new TableHelper(CLASSES.TEACHERCLASS.ToString());
-                    TableHelper tt = new TableHelper(CLASSES.USER.ToString());
+                   
                     var requests = from pc in table.CreateQuery<PrivateClass>().ToList()
                                    join sc in tsc.table.CreateQuery<StudentClass>().ToList() on pc.RowKey equals sc.ClassId.ToString()
                                    join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
@@ -210,13 +266,12 @@ namespace Common
                 }
                 else if(group == "PrivatniCasoviTeachers")
                 {
-                    var requests = from pc in table.CreateQuery<PrivateClass>()
-                                   join tc in table.CreateQuery<TeacherClass>() on pc.RowKey equals tc.ClassId.ToString()
-                                   join t in table.CreateQuery<User>() on tc.TeachertId.ToString() equals t.RowKey
-                                   where tc.TeachertId.ToString() == id
-                                   select new { Id = pc.RowKey, Teacher = t.Username, Status = pc.ClassStatus, Date = pc.Date, Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents };
+                    var requests = from pc in table.CreateQuery<PrivateClass>().ToList()
+                                   join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
+                                   where pc.ClassStatus == CLASS_STATUS.REQUESTED.ToString() || pc.ClassStatus == CLASS_STATUS.ACCEPTED.ToString()
+                                   select new PrivateClassBindingModel { Id = pc.RowKey, Subject = s.Name, Teacher = "", Status = pc.ClassStatus.ToString(), Date = pc.Date.ToShortDateString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
 
-                    return requests.ToList();
+                    return requests.ToList().GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
                 }
                 else
                 {

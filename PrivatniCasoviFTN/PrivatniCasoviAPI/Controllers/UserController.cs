@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.BindingModels;
+using Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,10 +33,13 @@ namespace PrivatniCasoviAPI.Controllers
 
         [HttpGet]
         [Route("api/users/onsignin")]
-        public EditUserInfoBindingModel OnSingIn()
+        public async System.Threading.Tasks.Task<EditUserInfoBindingModel> OnSingInAsync()
         {
             Connect();
-            return proxy.GetUserByEmail(User.Identity.Name);
+            EditUserInfoBindingModel retVal =  proxy.GetUserByEmail(User.Identity.Name);
+            retVal.Username += "_" + await AuthorizationHelper.GetGroupName();
+
+            return retVal;
         }
 
         [HttpGet]

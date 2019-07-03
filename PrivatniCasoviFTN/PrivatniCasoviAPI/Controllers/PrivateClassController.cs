@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace PrivatniCasoviAPI.Controllers
@@ -17,16 +18,53 @@ namespace PrivatniCasoviAPI.Controllers
 
         [HttpGet]
         [Route("api/privateclass/getprivateclasses")]
-        public async System.Threading.Tasks.Task<List<PrivateClassBindingModel>> GetPrivateCLassesAsync()
+        public async Task<List<PrivateClassBindingModel>> GetPrivateCLassesAsync()
         {
             Connect();
-            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviUsers"))
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviStudents"))
             {
-                return proxy.GetPrivateClassesForUser(User.Identity.Name,"PrivatniCasoviStudents");
+                return proxy.GetPrivateClassesForUser(User.Identity.Name, "PrivatniCasoviStudents");
+            }
+            else if (await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
+            {
+                return proxy.GetPrivateClassesForUser(User.Identity.Name, "PrivatniCasoviTeachers");
             }
             return null;
         }
 
+        [HttpGet]
+        [Route("api/privateclass/acceptClass")]
+        public async Task<IHttpActionResult> AcceptClass(string id)
+        {
+            Connect();
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
+            {
+                proxy.AcceptClass(id, User.Identity.Name);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Not Authorized");
+            }
+            
+        }
+
+        [HttpGet]
+        [Route("api/privateclass/teacherdeleteClass")]
+        public async Task<IHttpActionResult> DeleteClass(string id)
+        {
+            Connect();
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers") || await AuthorizationHelper.IsInGroup("PrivatniCasoviStudents"))
+            {
+                proxy.TeacherDeleteClass(id);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Not Authorized");
+            }
+
+        }
         private void Connect()
         {
             if (proxy == null)

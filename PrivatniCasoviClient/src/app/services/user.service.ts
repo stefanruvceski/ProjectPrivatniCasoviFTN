@@ -32,7 +32,8 @@ export class UserService {
   onSignIn() {
     let str = '';
     this.http.get<User>('http://localhost:52988/api/users/onsignin').subscribe(data => {
-       str = data.Username;
+       str = data.Username.split('_')[0];
+       localStorage.setItem('group',data.Username.split('_')[1]);
      this.username = Observable.create(str);
      this.userSubject.next(str);
      });

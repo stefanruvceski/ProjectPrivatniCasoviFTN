@@ -24,42 +24,42 @@ namespace WorkerRole1
         public JobServerProvider()
         {
 
-            List<CustomEntity> subjects = new List<CustomEntity>()
-            {
-                new Subject("PJISP"),
-                new Subject("SCADA"),
-                new Subject("RVA"),
-                new Subject("MISS"),
-                new Subject("HCI"),
-            };
-
-            List<CustomEntity> comments = new List<CustomEntity>()
-            {
-                new Comment("Super cas",5),
-                new Comment("ok cas",4),
-                new Comment("pristojan cas",3),
-                new Comment("los cas",2),
-                new Comment("dosta los cas",1),
-            };
-
-            List<CustomEntity> firms = new List<CustomEntity>()
-            {
-                new Firm("Privatni Casovi FTN","0658601731","Alekse Santica 46","privatnicasoviFTN@privatnicasovi.onmicrosoft.com","Novi Sad"),
-            };
-
-            List<CustomEntity> pricelists = new List<CustomEntity>()
-            {
-                new Pricelist(1500,1,0),
-                new Pricelist(2000,2,0),
-                new Pricelist(1000,3,0),
-                new Pricelist(1500,4,0),
-            };
-
-            //List<CustomEntity> users = new List<CustomEntity>()
+            //List<CustomEntity> subjects = new List<CustomEntity>()
             //{
-            //    new User("filipr","Filip","Ruvceski","Kolo srpskih sestara 22","065123123","filipruvceski@privatnicasovi.onmicrosoft.com","filipruvceski@privatnicasovi.onmicrosoft.com",0,"Osnovna skola"),
-            //     new User("milicap","Milica","Pranjkic","Narodnog Fronta 45","063123123","milicapranjkic@privatnicasovi.onmicrosoft.com","milicapranjkic@privatnicasovi.onmicrosoft.com",0,"srednja skola"),
+            //    new Subject("PJISP"),
+            //    new Subject("SCADA"),
+            //    new Subject("RVA"),
+            //    new Subject("MISS"),
+            //    new Subject("HCI"),
             //};
+
+            //List<CustomEntity> comments = new List<CustomEntity>()
+            //{
+            //    new Comment("Super cas",5),
+            //    new Comment("ok cas",4),
+            //    new Comment("pristojan cas",3),
+            //    new Comment("los cas",2),
+            //    new Comment("dosta los cas",1),
+            //};
+
+            //List<CustomEntity> firms = new List<CustomEntity>()
+            //{
+            //    new Firm("Privatni Casovi FTN","0658601731","Alekse Santica 46","privatnicasoviFTN@privatnicasovi.onmicrosoft.com","Novi Sad"),
+            //};
+
+            //List<CustomEntity> pricelists = new List<CustomEntity>()
+            //{
+            //    new Pricelist(1500,1,0),
+            //    new Pricelist(2000,2,0),
+            //    new Pricelist(1000,3,0),
+            //    new Pricelist(1500,4,0),
+            //};
+
+            ////List<CustomEntity> users = new List<CustomEntity>()
+            ////{
+            ////    new User("filipr","Filip","Ruvceski","Kolo srpskih sestara 22","065123123","filipruvceski@privatnicasovi.onmicrosoft.com","filipruvceski@privatnicasovi.onmicrosoft.com",0,"Osnovna skola"),
+            ////     new User("milicap","Milica","Pranjkic","Narodnog Fronta 45","063123123","milicapranjkic@privatnicasovi.onmicrosoft.com","milicapranjkic@privatnicasovi.onmicrosoft.com",0,"srednja skola"),
+            ////};
 
             List<CustomEntity> classes = new List<CustomEntity>()
             {
@@ -71,22 +71,22 @@ namespace WorkerRole1
                 new StudentClass(0,0,0,false),
             };
 
-            List<CustomEntity> teacherClasses = new List<CustomEntity>()
-            {
-                new TeacherClass(1,0,1,false),
-            };
+            //List<CustomEntity> teacherClasses = new List<CustomEntity>()
+            //{
+            //    new TeacherClass(1,0,1,false),
+            //};
 
-            tableHelper.InitTable(subjects);
-            tableHelper2.InitTable(comments);
-            tableHelper3.InitTable(firms);
-            //tableHelper8.InitTable(users);
-            tableHelper4.InitTable(pricelists);
-            tableHelper5.InitTable(classes);
-            tableHelper6.InitTable(studentclasses);
-            tableHelper7.InitTable(teacherClasses);
-            Trace.WriteLine("USPEO");
+            //tableHelper.InitTable(subjects);
+            //tableHelper2.InitTable(comments);
+            //tableHelper3.InitTable(firms);
+            ////tableHelper8.InitTable(users);
+            //tableHelper4.InitTable(pricelists);
+            //tableHelper5.InitTable(classes);
+            //tableHelper6.InitTable(studentclasses);
+            //tableHelper7.InitTable(teacherClasses);
+            //Trace.WriteLine("USPEO");
 
-            
+
         }
 
         public bool EditUserInformations(EditUserInfoBindingModel bindingModel)
@@ -157,10 +157,20 @@ namespace WorkerRole1
         public List<PrivateClassBindingModel> GetPrivateClassesForUser(string email, string group)
         {
             List<PrivateClassBindingModel> retVal = new List<PrivateClassBindingModel>();
-            retVal =  tableHelper5.GetCustomEntities("2",group);
+            retVal =  tableHelper5.GetUsersClasses(tableHelper8.GetUsetId(email),group);
 
             
             return retVal;
+        }
+
+        public bool AcceptClass(string classId, string email)
+        {
+            return tableHelper5.AcceptClass(tableHelper8.GetUsetId(email), classId);
+        }
+
+        public bool TeacherDeleteClass(string classId)
+        {
+            return tableHelper5.TeacherDeleteClass(classId);
         }
     }
 }

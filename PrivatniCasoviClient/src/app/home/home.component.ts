@@ -94,7 +94,7 @@ export class NgbdModalContent {
             this.profileForm.controls.email.value,
              this.profileForm.controls.email.value,
             this.profileForm.controls.degree.value);
-
+            localStorage.getItem
         this.userService.editUserInformations(u).subscribe(data => {
                 alert('Success');
                 this.activeModal.close();
@@ -129,10 +129,7 @@ export class HomeComponent implements OnInit {
             }
         });
 
-        this.privateClassService.getUserClasses().subscribe(data => {
-            console.log(data);
-            this.classes = data;
-        });
+        this.getUserClasses();
         // this.service.fja().subscribe(data => alert(data));
         // this.modalService.open('Content2', { windowClass: 'dark-modal' });
     }
@@ -140,13 +137,65 @@ export class HomeComponent implements OnInit {
     getUser(): User {
         return this.user;
     }
+
+    getUserClasses(){
+      this.privateClassService.getUserClasses().subscribe(data => {
+        console.log(data);
+        this.classes = data;
+    });
+    }
     open() {
         const modalRef = this.modalService.open(NgbdModalContent);
         modalRef.componentInstance.name = 'World';
     }
-    onClick(evenet) {
-        alert((event.target as Element).id);
+    onClickDelete(id) {
+      this.privateClassService.userDeleteClass(id).subscribe(data => {
+        this.getUserClasses();
+        alert('success');
+        
+      }, error => {
+        this.getUserClasses();
+        alert('error');
+        
+      });
     }
 
+    onClickAccept(id) {
+      this.privateClassService.teacherAcceptClass(id).subscribe(data => {
+        this.getUserClasses();
+        alert('success');
+
+      }, error => {
+        this.getUserClasses();
+        alert('error');
+      });
+  }
+
+    isTeacherAccepted(status: string){
+      if(localStorage.getItem('group') == 'PrivatniCasoviTeachers'){
+        if(status == 'REQUESTED'){
+          return true;
+        }
+      }
+      return false;
+      
+      
+    }
+
+    isTeacher(){
+      if(localStorage.getItem('group') == 'PrivatniCasoviTeachers'){
+       return true;
+      }
+      return false;
+    }
+
+    isTeacherDeleted(status: string){
+      if(localStorage.getItem('group') == 'PrivatniCasoviTeachers'){
+        if(status == 'ACCEPTED'){
+          return true;
+        }
+      return false;
+    }
+  }
     ngOnInit() {}
 }
