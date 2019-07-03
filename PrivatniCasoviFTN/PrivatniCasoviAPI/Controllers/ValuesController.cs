@@ -28,8 +28,8 @@ namespace PrivatniCasoviAPI.Controllers
             if (await AuthorizationHelper.IsInGroup("PrivatniCasoviUsers"))
             {
                 Connect();
-                string p = proxy.test(id);
-                return new string[] { p };
+               // string p = proxy.test(id);
+                return new string[] { "p" };
             }
             else
             {

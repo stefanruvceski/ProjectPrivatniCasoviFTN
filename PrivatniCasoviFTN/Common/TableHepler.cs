@@ -1,4 +1,5 @@
-﻿using Common.DataBase_Models;
+﻿using Common.BindingModels;
+using Common.DataBase_Models;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -15,7 +16,7 @@ namespace Common
     {
         #region Fields
         CloudStorageAccount storageAccount;
-        CloudTable table;
+        public CloudTable table;
         CloudTableClient tableClient;
         CLASSES _class;
         #endregion
@@ -184,6 +185,44 @@ namespace Common
                 }
             }
 
+            return null;
+        }
+
+        public dynamic GetCustomEntities(string id, string group)
+        {
+            if (_class.Equals(CLASSES.CLASS))
+            {
+                if (group == "PrivatniCasoviStudents")
+                {
+                    TableHelper tsc = new TableHelper(CLASSES.STUDENTCLASS.ToString());
+                    TableHelper ts = new TableHelper(CLASSES.SUBJECT.ToString());
+                    TableHelper ttc = new TableHelper(CLASSES.TEACHERCLASS.ToString());
+                    TableHelper tt = new TableHelper(CLASSES.USER.ToString());
+                    var requests = from pc in table.CreateQuery<PrivateClass>().ToList()
+                                   join sc in tsc.table.CreateQuery<StudentClass>().ToList() on pc.RowKey equals sc.ClassId.ToString()
+                                   join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
+                                   join tc in ttc.table.CreateQuery<TeacherClass>().ToList() on pc.RowKey equals tc.ClassId.ToString()
+                                   join t in tt.table.CreateQuery<User>().ToList() on tc.TeachertId.ToString() equals t.RowKey
+                                   where  sc.StudentId.ToString() == id
+                                   select new PrivateClassBindingModel { Id = pc.RowKey,Subject = s.Name, Teacher = t.Username, Status = pc.ClassStatus.ToString(),Date = pc.Date.ToShortDateString(),Lesson = pc.Lesson,NumberOfStudents = pc.NumberOfStudents.ToString()};
+
+                    return requests.ToList().GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
+                }
+                else if(group == "PrivatniCasoviTeachers")
+                {
+                    var requests = from pc in table.CreateQuery<PrivateClass>()
+                                   join tc in table.CreateQuery<TeacherClass>() on pc.RowKey equals tc.ClassId.ToString()
+                                   join t in table.CreateQuery<User>() on tc.TeachertId.ToString() equals t.RowKey
+                                   where tc.TeachertId.ToString() == id
+                                   select new { Id = pc.RowKey, Teacher = t.Username, Status = pc.ClassStatus, Date = pc.Date, Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents };
+
+                    return requests.ToList();
+                }
+                else
+                {
+                    return null;
+                }
+            }
             return null;
         }
         #endregion

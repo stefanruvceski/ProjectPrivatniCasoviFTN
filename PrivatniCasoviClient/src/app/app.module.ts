@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
 import { LandingComponent } from './landing/landing.component';
 import { ProfileComponent } from './profile/profile.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, NgbdModalContent } from './home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
@@ -19,6 +19,8 @@ import { HomeModule } from './home/home.module';
 import { TokenInterceptor } from './token.interceptor';
 import { TestService } from './test-service.service';
 import { MyComponentComponent } from './my-component/my-component.component';
+import { UserService } from './services/user.service';
+import { PrivateClassService } from './services/private-class.service';
 
 export function getAdalConfig() {
   return {
@@ -42,10 +44,13 @@ export function getAdalConfig() {
     ProfileComponent,
     NavbarComponent,
     FooterComponent,
-    MyComponentComponent
+    MyComponentComponent,
+    NgbdModalContent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     NgbModule.forRoot(),
     FormsModule,
     HttpClientModule,
@@ -54,7 +59,9 @@ export function getAdalConfig() {
     HomeModule,
     MsAdalAngular6Module.forRoot(getAdalConfig),
   ],
-  providers: [AuthenticationGuard, {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}, TestService],
-  bootstrap: [AppComponent]
+  providers: [AuthenticationGuard, {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
+              TestService, UserService, PrivateClassService],
+  bootstrap: [AppComponent],
+  entryComponents: [NgbdModalContent],
 })
 export class AppModule { }

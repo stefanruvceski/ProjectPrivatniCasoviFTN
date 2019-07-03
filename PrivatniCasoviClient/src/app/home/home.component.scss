@@ -1,6 +1,6 @@
 .my-custom-scrollbar {
     position: relative;
-    height: 670px;
+    height: 370px;
     }
     .table-wrapper-scroll-y {
     display: block;
@@ -14,3 +14,21 @@
         width: 0px;  /* Remove scrollbar space */
         background: transparent;  /* Optional: just make scrollbar invisible */
     }
+
+    input{
+        background-color: rgba(0, 0, 0, 0.6);
+        color:white;
+    }
+
+    table{
+        color:white;
+    }
+
+    thead th {
+        background-color:#34160F;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        z-index: 10;
+    }
+

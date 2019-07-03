@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home.component';
+import { HomeComponent, NgbdModalContent } from './home.component';
 
 import { ComponentsModule } from '../components/components.module';
 
@@ -18,7 +18,8 @@ import { ComponentsModule } from '../components/components.module';
         ComponentsModule
     ],
     declarations: [ HomeComponent ],
-    exports:[ HomeComponent ],
+    exports: [ HomeComponent ],
+
     providers: []
 })
 export class HomeModule { }

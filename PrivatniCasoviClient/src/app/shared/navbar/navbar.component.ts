@@ -1,5 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { UserService } from 'app/services/user.service';
+import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 
 @Component({
     selector: 'app-navbar',
@@ -9,14 +11,21 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
-
-    constructor(public location: Location, private element : ElementRef) {
+    username: string;
+    constructor(public location: Location, private element: ElementRef, private userService: UserService,
+        private adalSvc: MsAdalAngular6Service) {
         this.sidebarVisible = false;
     }
 
     ngOnInit() {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
+        this.userService.username.subscribe ((newUsername) => {this.username = newUsername;  });
+    }
+
+    logout() {
+        window.localStorage.clear();
+        this.adalSvc.logout();
     }
     sidebarOpen() {
         const toggleButton = this.toggleButton;
@@ -48,21 +57,19 @@ export class NavbarComponent implements OnInit {
         }
     };
     isHome() {
-        var titlee = this.location.prepareExternalUrl(this.location.path());
+        const titlee = this.location.prepareExternalUrl(this.location.path());
 
-        if( titlee === '/home' ) {
+        if ( titlee === '/home' ) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    isDocumentation() {
-        var titlee = this.location.prepareExternalUrl(this.location.path());
-        if( titlee === '/documentation' ) {
+    IsLanding() {
+        const titlee = this.location.prepareExternalUrl(this.location.path());
+        if ( titlee === '/landing' ) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

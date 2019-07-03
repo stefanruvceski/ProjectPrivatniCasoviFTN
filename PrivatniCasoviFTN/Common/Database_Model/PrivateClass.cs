@@ -26,8 +26,10 @@ namespace Common.DataBase_Models
             NumberOfStudents = numberOfStudents;
             PartitionKey = CLASSES.CLASS.ToString();
             RowKey = (cnt++).ToString();
+            ClassStatus = CLASS_STATUS.REQUESTED;
         }
 
+        public CLASS_STATUS ClassStatus { get; set; }
         public string Lesson { get; set; }
         public int FirmId { get; set; }
         public int Price { get; set; }

@@ -11,13 +11,14 @@ namespace Common
     [ServiceContract]
     public interface IContract
     {
-        [OperationContract]
-        string test(string id);
+       
         [OperationContract]
         bool EditUserInformations(EditUserInfoBindingModel bindingModel);
         [OperationContract]
         EditUserInfoBindingModel GetUserByEmail(string email);
         [OperationContract]
         EditUserInfoBindingModel GetUserForEdit(string email);
+        [OperationContract]
+        List<PrivateClassBindingModel> GetPrivateClassesForUser(string email, string group);
     }
 }
