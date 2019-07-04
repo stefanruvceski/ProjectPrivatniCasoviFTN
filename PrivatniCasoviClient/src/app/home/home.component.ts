@@ -1,4 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { OptionsInput } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import interactionPlugin from '@fullcalendar/interaction';
+import { Calendar } from '@fullcalendar/core';;
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+
 import { TestService } from 'app/test-service.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,6 +15,10 @@ import { UserService } from 'app/services/user.service';
 import { PrivateClassService } from 'app/services/private-class.service';
 import { Observable } from 'rxjs';
 import { PrivateClass } from 'app/Model/PrivateClass';
+import { element } from '@angular/core/src/render3';
+
+import { reduce } from 'rxjs/operators';
+
 
 @Component({
     selector: 'app-home',
@@ -116,6 +128,9 @@ export class HomeComponent implements OnInit {
         middle: false,
         right: false
     };
+    options: OptionsInput;
+    eventsModel: Array<any>;
+    @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
     user: User;
     classes: Observable<PrivateClass>;
     focus;
@@ -197,5 +212,77 @@ export class HomeComponent implements OnInit {
       return false;
     }
   }
-    ngOnInit() {}
+    ngOnInit() {
+      this.options = {
+        editable: true,
+        droppable: true,
+        eventDrop: function(eventDrop){
+          console.log(eventDrop.event.start.toDateString());
+        },
+        dateClick:function(bla){
+          alert('Request class for ' + bla.date.toLocaleString());
+        },
+        eventClick: function(arg){
+            console.log(arg.event.start.toLocaleString());
+            alert('Title: '+arg.event.title+'\n'+'Start: ' + arg.event.start.toLocaleString() + '\n' + 'End: ' + arg.event.end.toLocaleString()
+              + '\nTeacher: ' + arg.event.id.split('_')[1]+ '\nNumber of students: ' + arg.event.id.split('_')[2]
+              + '\nLesson: '+ arg.event.id.split('_')[3]
+              );
+        },
+        header: {
+          left: 'prev next',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        },
+      
+        plugins: [dayGridPlugin,timeGridPlugin,listPlugin, interactionPlugin]
+      };this.updateEvents();
+  
+    
+   
+    }
+
+    display(){
+      console.log(this.eventsModel);
+    }
+    eventClick(model) {
+      console.log(model);
+    }
+    eventDragStop(model) {
+      console.log(model);
+    }
+    
+    dateClick(model) {
+      console.log(model);
+    }
+    updateHeader() {
+      this.options.header = {
+        left: 'prev,next myCustomButton',
+        center: 'title',
+        right: ''
+      };
+    }
+    updateEvents() {
+      this.privateClassService.getUserClasses().subscribe(data => {
+        console.log(data);
+        this.eventsModel = [{}];
+        data.forEach((value: PrivateClass) => {
+          
+          this.eventsModel.push({id:value.Id + '_'+ value.Teacher+'_'+value.NumberOfStudents+'_'+value.Lesson, title: value.Subject,start: value.StartDate, end: value.EndDate, color:value.Color});
+      });
+    });
+    //   this.eventsModel = [{
+    //      title: 'MISS', date: '2019-04-01',time: '02:00',color:'rgba(250,0,0,1)',
+    //   },{
+    //     title: 'RVA', date: '2019-04-01' 
+    //  },{
+    //   title: 'Meeting',
+    //   start: '2019-07-04T10:30:00',
+    //   end: '2019-07-04T12:30:00'
+    //  }];
+    }
+    get yearMonth(): string {
+      const dateObj = new Date();
+      return dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1);
+    }
 }

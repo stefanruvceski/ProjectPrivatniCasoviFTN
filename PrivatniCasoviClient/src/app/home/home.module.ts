@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent, NgbdModalContent } from './home.component';
 
 import { ComponentsModule } from '../components/components.module';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { ComponentsModule } from '../components/components.module';
         BrowserModule,
         FormsModule,
         RouterModule,
+        FullCalendarModule,
         ComponentsModule
     ],
     declarations: [ HomeComponent ],

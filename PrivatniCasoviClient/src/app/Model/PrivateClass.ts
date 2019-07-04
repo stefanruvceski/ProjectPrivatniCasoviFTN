@@ -4,7 +4,9 @@ export class PrivateClass {
                 public Subject: string,
                 public Teacher: string,
                 public Status: string,
-                public Date: string,
+                public StartDate: string,
+                public EndDate: string,
+                public Color:string,
                 public Lesson: string,
                 public NumberOfStudents: string) {}
 }

@@ -159,6 +159,13 @@ namespace WorkerRole1
             List<PrivateClassBindingModel> retVal = new List<PrivateClassBindingModel>();
             retVal =  tableHelper5.GetUsersClasses(tableHelper8.GetUsetId(email),group);
 
+            foreach (PrivateClassBindingModel item in retVal)
+            {
+                DateTime dt = DateTime.Parse(item.StartDate);//2019-07-04T10:30:00',
+                item.StartDate = $"{dt.Year}-0{dt.Month}-0{dt.Day}T{dt.TimeOfDay.ToString()}";
+                item.EndDate = $"{dt.Year}-0{dt.Month}-0{dt.Day}T{(dt.TimeOfDay+ new TimeSpan(1,30,0)).ToString()}";
+                item.Color = "#288010";
+            }
             
             return retVal;
         }

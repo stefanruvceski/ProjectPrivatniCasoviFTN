@@ -21,6 +21,7 @@ import { TestService } from './test-service.service';
 import { MyComponentComponent } from './my-component/my-component.component';
 import { UserService } from './services/user.service';
 import { PrivateClassService } from './services/private-class.service';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 export function getAdalConfig() {
   return {
@@ -55,6 +56,7 @@ export function getAdalConfig() {
     FormsModule,
     HttpClientModule,
     RouterModule,
+    FullCalendarModule,
     AppRoutingModule,
     HomeModule,
     MsAdalAngular6Module.forRoot(getAdalConfig),

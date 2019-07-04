@@ -260,7 +260,7 @@ namespace Common
                                    join tc in ttc.table.CreateQuery<TeacherClass>().ToList() on pc.RowKey equals tc.ClassId.ToString()
                                    join t in tt.table.CreateQuery<User>().ToList() on tc.TeachertId.ToString() equals t.RowKey
                                    where  sc.StudentId.ToString() == id
-                                   select new PrivateClassBindingModel { Id = pc.RowKey,Subject = s.Name, Teacher = t.Username, Status = pc.ClassStatus.ToString(),Date = pc.Date.ToShortDateString(),Lesson = pc.Lesson,NumberOfStudents = pc.NumberOfStudents.ToString()};
+                                   select new PrivateClassBindingModel { Id = pc.RowKey,Subject = s.Name, Teacher = t.Username, Status = pc.ClassStatus.ToString(),StartDate = pc.Date.ToString(),Lesson = pc.Lesson,NumberOfStudents = pc.NumberOfStudents.ToString()};
 
                     return requests.ToList().GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
                 }
@@ -269,7 +269,7 @@ namespace Common
                     var requests = from pc in table.CreateQuery<PrivateClass>().ToList()
                                    join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
                                    where pc.ClassStatus == CLASS_STATUS.REQUESTED.ToString() || pc.ClassStatus == CLASS_STATUS.ACCEPTED.ToString()
-                                   select new PrivateClassBindingModel { Id = pc.RowKey, Subject = s.Name, Teacher = "", Status = pc.ClassStatus.ToString(), Date = pc.Date.ToShortDateString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
+                                   select new PrivateClassBindingModel { Id = pc.RowKey, Subject = s.Name, Teacher = "", Status = pc.ClassStatus.ToString(), StartDate = pc.Date.ToString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
 
                     return requests.ToList().GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
                 }

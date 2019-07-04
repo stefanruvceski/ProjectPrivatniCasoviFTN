@@ -12,7 +12,9 @@ namespace Common.BindingModels
         public string Subject { get; set; }
         public string Teacher { get; set; }
         public string Status { get; set; }
-        public string Date { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string Color { get; set; }
         public string Lesson { get; set; }
         public string NumberOfStudents { get; set; }
     }

@@ -1,19 +1,17 @@
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] At least one other instance of the launcher is running. Will wait until they all finish
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Service running in Emulator Mode, will not wait/kill other instances of the launcher
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Emulator config file set to C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] DiagnosticsStoreRootPath set to: C:\Users\Stefan\AppData\Local\dftmp\Resources\e6bb2bb6-eba7-43ac-a5a3-f10ef609e6ea
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Loading config file: C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Config file to read: C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Checking VM Type
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Emulator config file set to C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Extension set to Emulator Mode
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Reading XML configuration file
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Bypassing private config decryption
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Stopping the running plugin, if any
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] No DiagnosticsPlugin is running.
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Killing any DiagnosticsPlugin that might remain.
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Killing any MonAgentHost that might remain.
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Diagnostics plugin stopped successfully
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:02:43 PM] Resetting DiagnosticPlugin
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:03:53 PM] DiagnosticsPlugin launched successfully with new configuration
-DiagnosticsPluginLauncher.exe Information: 0 : [7/3/2019 5:03:53 PM] DiagnosticPlugin exited with code 0
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Emulator config file set to C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] DiagnosticsStoreRootPath set to: C:\Users\Stefan\AppData\Local\dftmp\Resources\3b965b27-9917-4573-bd4b-7c84baae48c3
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Loading config file: C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Config file to read: C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Checking VM Type
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Emulator config file set to C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Extension set to Emulator Mode
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Reading XML configuration file
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Bypassing private config decryption
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Stopping the running plugin, if any
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] No DiagnosticsPlugin is running.
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:13 AM] Killing any DiagnosticsPlugin that might remain.
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:14 AM] Killing any MonAgentHost that might remain.
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:14 AM] Diagnostics plugin stopped successfully
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:42:14 AM] Resetting DiagnosticPlugin
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:43:24 AM] DiagnosticsPlugin launched successfully with new configuration
+DiagnosticsPluginLauncher.exe Information: 0 : [07/04/2019 12:43:24 AM] DiagnosticPlugin exited with code 0
