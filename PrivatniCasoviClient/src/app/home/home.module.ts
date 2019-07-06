@@ -17,7 +17,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
         FormsModule,
         RouterModule,
         FullCalendarModule,
-        ComponentsModule
+        ComponentsModule,
     ],
     declarations: [ HomeComponent ],
     exports: [ HomeComponent ],

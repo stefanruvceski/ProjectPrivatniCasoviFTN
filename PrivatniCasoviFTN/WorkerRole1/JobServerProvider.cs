@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.BindingModel;
 using Common.BindingModels;
 using Common.DataBase_Models;
 using System;
@@ -114,6 +115,12 @@ namespace WorkerRole1
         {
             User u = (User)tableHelper8.GetOne(email);
 
+            if(u.Email == null)
+            {
+                u = new User(null, null, null, null, null, email,null, 0, null);
+                tableHelper8.AddOrReplace(u);
+            }
+
             if (u.Username == null)
             {
                 return new EditUserInfoBindingModel() { Email = email };
@@ -162,9 +169,32 @@ namespace WorkerRole1
             foreach (PrivateClassBindingModel item in retVal)
             {
                 DateTime dt = DateTime.Parse(item.StartDate);//2019-07-04T10:30:00',
-                item.StartDate = $"{dt.Year}-0{dt.Month}-0{dt.Day}T{dt.TimeOfDay.ToString()}";
-                item.EndDate = $"{dt.Year}-0{dt.Month}-0{dt.Day}T{(dt.TimeOfDay+ new TimeSpan(1,30,0)).ToString()}";
-                item.Color = "#288010";
+                string day = dt.Day.ToString();
+                if (dt.Day < 10)
+                    day = "0" + day;
+
+                string month = dt.Month.ToString();
+                if (dt.Month < 10)
+                    month = "0" + month;
+
+                item.StartDate = $"{dt.Year}-{month}-{day}T{dt.TimeOfDay.ToString()}";
+                item.EndDate = $"{dt.Year}-{month}-{day}T{(dt.TimeOfDay+ new TimeSpan(1,30,0)).ToString()}";
+                if(item.IsMine == "yes")
+                {
+                    item.Color = "#f5d142";
+                }
+                else if (item.Status == CLASS_STATUS.ACCEPTED.ToString())
+                {
+                    item.Color = "#288010";
+                }
+                else if(item.Status == CLASS_STATUS.REQUESTED.ToString())
+                {
+                    item.Color = "#4287f5";
+                }
+                else
+                {
+                    item.Color = "#f54242";
+                }
             }
             
             return retVal;
@@ -178,6 +208,54 @@ namespace WorkerRole1
         public bool TeacherDeleteClass(string classId)
         {
             return tableHelper5.TeacherDeleteClass(classId);
+        }
+
+        public int JoinClass(string classId, string email)
+        {
+            return tableHelper5.StudentJoinClass(tableHelper8.GetUsetId(email), classId);
+        }
+
+        public List<string> GetAllSubjects()
+        {
+            return tableHelper.GetAllSubjects();
+        }
+
+        public bool AddClass(AddPrivateClassBindingModel model, string email)
+        {
+            //mesec/dan/godina
+            DateTime dt = new DateTime(int.Parse(model.Date.Split('/')[2]), int.Parse(model.Date.Split('/')[0]), int.Parse(model.Date.Split('/')[1]), int.Parse(model.Time.Split(':')[0]), int.Parse(model.Time.Split(':')[1]),0);
+            PrivateClass privateClass = new PrivateClass(model.Lesson,0,0,dt,0,1);
+            
+            return tableHelper5.AddClass(model,privateClass, tableHelper8.GetUsetId(email));
+        }
+
+        public bool UserDeclineClass(string email, string classId)
+        {
+            return tableHelper5.UserDeclineClass(tableHelper8.GetUsetId(email), classId);
+        }
+
+        public string UserChangeDate(string email, string classId, string date,out bool flag)
+        {
+            string time = date.Split(',')[1];
+            date = date.Split(',')[0];
+            
+            DateTime dt = new DateTime(int.Parse(date.Split('/')[2]), int.Parse(date.Split('/')[0]), int.Parse(date.Split('/')[1]), int.Parse(time.Split(':')[0]), int.Parse(time.Split(':')[1]), 0);
+
+            string retVal =  tableHelper5.UserChangeDate(tableHelper8.GetUsetId(email), classId,dt);
+
+            DateTime dt2 = DateTime.Parse(retVal.Split('_')[1]);
+            string day = dt2.Day.ToString();
+            if (dt2.Day < 10)
+                day = "0" + day;
+
+            string month = dt2.Month.ToString();
+            if (dt2.Month < 10)
+                month = "0" + month;
+            if (retVal.Split('_')[0] == "success")
+                flag = true;
+            else
+                flag = false;
+            return retVal.Split('_')[0]+ "_"+ $"{dt2.Year}-{month}-{day}T{dt2.TimeOfDay.ToString()}";
         }
     }
 }

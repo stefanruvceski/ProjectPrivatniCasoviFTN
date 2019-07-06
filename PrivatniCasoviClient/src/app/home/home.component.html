@@ -11,17 +11,23 @@
             <div class="rightColumn">
               
                               <div >
-                                      <div [routerLink]="['/home']" routerLinkActive="router-link-active"style="cursor: pointer;">
+                                      <div>
                                           <div class="card " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
-                                              <div class="info">
-                                                  <div class="icon icon-danger">
+                                              <div class="info center text-center">
+                                                  <!-- <div class="icon icon-danger">
                                                       <i class="nc-icon nc-ruler-pencil"></i>
                                                   </div>
                                                   <div class="description">
                                                       <h4 class="info-title">MATEMATIKA</h4>
                                                      
-                                                      
-                                                  </div>
+                                                   
+                                                  </div> -->
+                                                 <h5 style=" color:white">CLASS LEGEND</h5>
+                                                 <h6 style="border-radius: 5px; margin-left: 10px;margin-right: 10px; background-color: #f5d142;color:white">MINE</h6>
+                                                 <h6 style="border-radius: 5px; margin-left: 10px;margin-right: 10px; background-color: #4287f5;color:white">REQUESTED</h6>
+                                                 <h6 style="border-radius: 5px; margin-left: 10px;margin-right: 10px; background-color: #288010;color:white">ACCEPTED</h6>
+                                                 <h6 style="border-radius: 5px; margin-left: 10px;margin-right: 10px; background-color: #f54242;color:white">DECLINED</h6>
+                                                 
                                               </div>
                                           </div>
                                       </div>
@@ -70,7 +76,6 @@
                                                   <div class="description">
                                                       <h4 class="info-title">ELEKTROTEHNIKA</h4>
                                                       
-                                                     
                                                   </div>
                                               </div>
                                           </div>
@@ -131,6 +136,7 @@
                                                                   #fullcalendar
                                                                   [editable]="true"
                                                                   [events]="eventsModel"
+                                                                  (eventDragStart)=options.eventDragStart($event)
                                                                   [header]="options.header"
                                                                   [customButtons]="options.customButtons"
                                                                   (dateClick)="options.dateClick($event)"
@@ -245,3 +251,7 @@
             </div>
 
 </div> -->
+<button hidden id="radi" (click)="open()">dfds</button>
+<button hidden id="changeDate" (click)="changeDate()">chan</button>
+<button hidden id="dropable" (click)="dropable()">chan</button>
+                                                  

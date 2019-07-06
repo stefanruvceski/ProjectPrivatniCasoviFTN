@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.BindingModel;
 using Common.BindingModels;
 using Common.Utils;
 using System;
@@ -50,6 +51,34 @@ namespace PrivatniCasoviAPI.Controllers
         }
 
         [HttpGet]
+        [Route("api/privateclass/joinclass")]
+        public async Task<IHttpActionResult> JoinClass(string classId)
+        {
+            Connect();
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviStudents"))
+            {
+                switch(proxy.JoinClass(classId, User.Identity.Name))
+                {
+                    case 1: 
+                        return Ok();
+                    case 0:
+                        return BadRequest("Inner error");
+                    case -1:
+                        return BadRequest("Class is full");
+                    case -2:
+                        return BadRequest("You alredy are in class");
+                    default:
+                        return BadRequest();
+                }
+            }
+            else
+            {
+                return BadRequest("Not Authorized");
+            }
+
+        }
+
+        [HttpGet]
         [Route("api/privateclass/teacherdeleteClass")]
         public async Task<IHttpActionResult> DeleteClass(string id)
         {
@@ -65,6 +94,58 @@ namespace PrivatniCasoviAPI.Controllers
             }
 
         }
+
+        [HttpPost]
+        [Route("api/privateclass/add")]
+
+        public  async Task<IHttpActionResult> AddClass(AddPrivateClassBindingModel model)
+        {
+            Connect();
+            if (!await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
+            {
+                if(proxy.AddClass(model, User.Identity.Name))
+                    return Ok();
+                else
+                    return BadRequest("Inner error");
+            }
+            else
+            {
+                return BadRequest("Not Authorized");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/privateclass/userdeclineclass")]
+        
+        public IHttpActionResult UserDeclineClass(string classId)
+        {
+            Connect();
+            if(proxy.UserDeclineClass(User.Identity.Name, classId))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Inner error");
+            }
+        }
+        [HttpGet]
+        [Route("api/privateclass/changedate")]
+        public IHttpActionResult ChangeDate(string classId,string date)
+        {
+            Connect();
+            bool flag;
+            string retVal = proxy.UserChangeDate(User.Identity.Name, classId, date, out flag);
+            if(flag)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(retVal);
+            }
+        }
+
         private void Connect()
         {
             if (proxy == null)

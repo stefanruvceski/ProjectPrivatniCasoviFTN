@@ -8,5 +8,6 @@ export class PrivateClass {
                 public EndDate: string,
                 public Color:string,
                 public Lesson: string,
+                public IsMine:string,
                 public NumberOfStudents: string) {}
 }
