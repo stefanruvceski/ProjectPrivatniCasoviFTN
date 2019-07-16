@@ -37,6 +37,14 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassStatusWorkerRole\ClassStatusWorkerRole.csproj">
+      <Name>ClassStatusWorkerRole</Name>
+      <Project>{07c9ca60-e525-43a4-b840-51320f6ed760}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>ClassStatusWorkerRole</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
     <ProjectReference Include="..\PrivatniCasoviAPI\PrivatniCasoviAPI.csproj">
       <Name>PrivatniCasoviAPI</Name>
       <Project>{77db3256-9cd5-43e0-b8bf-fb4e5dfbdd21}</Project>
@@ -55,10 +63,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClassStatusWorkerRoleContent\" />
     <Folder Include="PrivatniCasoviAPIContent\" />
     <Folder Include="WorkerRole1Content\" />
   </ItemGroup>
   <ItemGroup>
+    <DiagnosticsConfiguration Include="ClassStatusWorkerRoleContent\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="PrivatniCasoviAPIContent\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="WorkerRole1Content\diagnostics.wadcfgx" />
   </ItemGroup>

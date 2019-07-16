@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PrivatniCasoviFTN" generation="1" functional="0" release="0" Id="e0932cc3-661c-4f13-84eb-20a2b0fc4668" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PrivatniCasoviFTN" generation="1" functional="0" release="0" Id="074cba9b-eaa2-49a7-877e-374121fc9836" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="PrivatniCasoviFTNGroup" generation="1" functional="0" release="0">
       <componentports>
@@ -15,6 +15,21 @@
         </inPort>
       </componentports>
       <settings>
+        <aCS name="ClassStatusWorkerRole:DataConnectionString" defaultValue="">
+          <maps>
+            <mapMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/MapClassStatusWorkerRole:DataConnectionString" />
+          </maps>
+        </aCS>
+        <aCS name="ClassStatusWorkerRole:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="">
+          <maps>
+            <mapMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/MapClassStatusWorkerRole:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+          </maps>
+        </aCS>
+        <aCS name="ClassStatusWorkerRoleInstances" defaultValue="[1,1,1]">
+          <maps>
+            <mapMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/MapClassStatusWorkerRoleInstances" />
+          </maps>
+        </aCS>
         <aCS name="PrivatniCasoviAPI:DataConnectionString" defaultValue="">
           <maps>
             <mapMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/MapPrivatniCasoviAPI:DataConnectionString" />
@@ -59,6 +74,21 @@
         </lBChannel>
       </channels>
       <maps>
+        <map name="MapClassStatusWorkerRole:DataConnectionString" kind="Identity">
+          <setting>
+            <aCSMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/ClassStatusWorkerRole/DataConnectionString" />
+          </setting>
+        </map>
+        <map name="MapClassStatusWorkerRole:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" kind="Identity">
+          <setting>
+            <aCSMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/ClassStatusWorkerRole/Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+          </setting>
+        </map>
+        <map name="MapClassStatusWorkerRoleInstances" kind="Identity">
+          <setting>
+            <sCSPolicyIDMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/ClassStatusWorkerRoleInstances" />
+          </setting>
+        </map>
         <map name="MapPrivatniCasoviAPI:DataConnectionString" kind="Identity">
           <setting>
             <aCSMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/PrivatniCasoviAPI/DataConnectionString" />
@@ -92,6 +122,24 @@
       </maps>
       <components>
         <groupHascomponents>
+          <role name="ClassStatusWorkerRole" generation="1" functional="0" release="0" software="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\ClassStatusWorkerRole" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaWorkerHost.exe " memIndex="-1" hostingEnvironment="consoleroleadmin" hostingEnvironmentVersion="2">
+            <settings>
+              <aCS name="DataConnectionString" defaultValue="" />
+              <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
+              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;ClassStatusWorkerRole&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;InputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
+            </settings>
+            <resourcereferences>
+              <resourceReference name="DiagnosticStore" defaultAmount="[4096,4096,4096]" defaultSticky="true" kind="Directory" />
+              <resourceReference name="EventStore" defaultAmount="[1000,1000,1000]" defaultSticky="false" kind="LogStore" />
+            </resourcereferences>
+          </role>
+          <sCSPolicy>
+            <sCSPolicyIDMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/ClassStatusWorkerRoleInstances" />
+            <sCSPolicyUpdateDomainMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/ClassStatusWorkerRoleUpgradeDomains" />
+            <sCSPolicyFaultDomainMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/ClassStatusWorkerRoleFaultDomains" />
+          </sCSPolicy>
+        </groupHascomponents>
+        <groupHascomponents>
           <role name="PrivatniCasoviAPI" generation="1" functional="0" release="0" software="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\PrivatniCasoviAPI" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaIISHost.exe " memIndex="-1" hostingEnvironment="frontendadmin" hostingEnvironmentVersion="2">
             <componentports>
               <inPort name="Endpoint1" protocol="http" portRanges="80" />
@@ -99,7 +147,7 @@
             <settings>
               <aCS name="DataConnectionString" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
-              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;PrivatniCasoviAPI&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;InputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
+              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;PrivatniCasoviAPI&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;InputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
             </settings>
             <resourcereferences>
               <resourceReference name="DiagnosticStore" defaultAmount="[4096,4096,4096]" defaultSticky="true" kind="Directory" />
@@ -120,7 +168,7 @@
             <settings>
               <aCS name="DataConnectionString" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
-              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;WorkerRole1&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;InputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
+              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;WorkerRole1&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;InputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
             </settings>
             <resourcereferences>
               <resourceReference name="DiagnosticStore" defaultAmount="[4096,4096,4096]" defaultSticky="true" kind="Directory" />
@@ -137,22 +185,25 @@
       <sCSPolicy>
         <sCSPolicyUpdateDomain name="PrivatniCasoviAPIUpgradeDomains" defaultPolicy="[5,5,5]" />
         <sCSPolicyUpdateDomain name="WorkerRole1UpgradeDomains" defaultPolicy="[5,5,5]" />
+        <sCSPolicyUpdateDomain name="ClassStatusWorkerRoleUpgradeDomains" defaultPolicy="[5,5,5]" />
+        <sCSPolicyFaultDomain name="ClassStatusWorkerRoleFaultDomains" defaultPolicy="[2,2,2]" />
         <sCSPolicyFaultDomain name="PrivatniCasoviAPIFaultDomains" defaultPolicy="[2,2,2]" />
         <sCSPolicyFaultDomain name="WorkerRole1FaultDomains" defaultPolicy="[2,2,2]" />
+        <sCSPolicyID name="ClassStatusWorkerRoleInstances" defaultPolicy="[1,1,1]" />
         <sCSPolicyID name="PrivatniCasoviAPIInstances" defaultPolicy="[1,1,1]" />
         <sCSPolicyID name="WorkerRole1Instances" defaultPolicy="[1,1,1]" />
       </sCSPolicy>
     </group>
   </groups>
   <implements>
-    <implementation Id="7a5bd0e2-c50b-479e-9d20-59a8bdba356b" ref="Microsoft.RedDog.Contract\ServiceContract\PrivatniCasoviFTNContract@ServiceDefinition">
+    <implementation Id="41efa1a6-fffc-48f9-a607-69e2d997a16b" ref="Microsoft.RedDog.Contract\ServiceContract\PrivatniCasoviFTNContract@ServiceDefinition">
       <interfacereferences>
-        <interfaceReference Id="8d32fabc-d8aa-4025-a7b9-3ab16a696391" ref="Microsoft.RedDog.Contract\Interface\PrivatniCasoviAPI:Endpoint1@ServiceDefinition">
+        <interfaceReference Id="f94567e2-57ff-4dc7-98e3-41ea3ca4b3a1" ref="Microsoft.RedDog.Contract\Interface\PrivatniCasoviAPI:Endpoint1@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/PrivatniCasoviAPI:Endpoint1" />
           </inPort>
         </interfaceReference>
-        <interfaceReference Id="3a01406b-091a-4bf8-9111-e8ff1148fa70" ref="Microsoft.RedDog.Contract\Interface\WorkerRole1:InputRequest@ServiceDefinition">
+        <interfaceReference Id="8cc1878f-5c88-4304-af01-ca6dff21b389" ref="Microsoft.RedDog.Contract\Interface\WorkerRole1:InputRequest@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1:InputRequest" />
           </inPort>

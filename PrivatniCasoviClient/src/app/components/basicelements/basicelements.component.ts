@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./basicelements.component.scss']
 })
 export class BasicelementsComponent implements OnInit {
-    simpleSlider = 40;
+   simpleSlider  = 40;
     doubleSlider = [20, 60];
     state_default: boolean = true;
     focus: any;

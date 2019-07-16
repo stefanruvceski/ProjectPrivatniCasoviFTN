@@ -97,9 +97,13 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
             <input type="text" id="inputLesson" formControlName="lesson" class="form-control" placeholder="lesson"  autofocus>
             
           </div>
-  
          
           </form> 
+          <br>
+          <div *ngIf="isSecretary()">
+          <h6 >Number of Students: {{simpleSlider}}</h6>
+          <nouislider [connect]="false"  [min]="1" (change)="onChangeSlider($event)" [max]="4" [step]="1" [(ngModel)]="simpleSlider" [tooltips]="false" class="slider"></nouislider>
+          </div>
           <div *ngIf="name.time=='no'">
           <br>         
            <h6>Time</h6>
@@ -150,6 +154,15 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
                 <td></td>
                   <td>{{name.numOfStud}}</td>
                 </tr>
+                <tr *ngIf="isSecretary() && name.status != 'ACCEPTED'">
+                <td colspan="2">Teacher</td>
+                <td></td>
+                  <td>
+                    <select required >
+                      <option *ngFor="let teacher of teachers" value="{{teacher}}" (change)="onChangeTeacher($event.target.innerText)"  [ngValue]="type">{{teacher}}</option>
+                    </select>
+                  </td>
+                </tr>
               </table>
 
             </div>
@@ -162,15 +175,24 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
         </div>
         <div class="divider"></div>
         <div class="right-side">
-            <button *ngIf="name.isEvent && name.isMine=='no'"button type="button" class="btn btn-success btn-link" (click)="joinClass(name.id)">Join class</button>
-            <button *ngIf="name.isEvent && name.isMine=='yes'"button type="button" class="btn btn-danger btn-link" (click)="declineClass(name.id)">Decline class</button>
-            <button *ngIf="!name.isEvent"button type="button" class="btn btn-success btn-link" (click)="requestClass()">Request class</button>
+            <button *ngIf="name.isEvent && name.isMine=='no' && isStudent()"button type="button" class="btn btn-success btn-link" (click)="joinClass(name.id)">Join class</button>
+            <button *ngIf="name.isEvent && name.isMine=='no' && isTeacher()"button type="button" class="btn btn-success btn-link" (click)="acceptClass(name.id)">Accept class</button>
+            <button *ngIf="name.isEvent && name.isMine=='yes' && isStudent()"button type="button" class="btn btn-danger btn-link" (click)="studentDeclineClass(name.id)">Decline class</button>
+            <button *ngIf="name.isEvent && name.isMine=='yes' && isTeacher()"button type="button" class="btn btn-danger btn-link" (click)="teacherDeclineClass(name.id)">Decline class</button>
+            <button *ngIf="!name.isEvent && isStudent()"button type="button" class="btn btn-success btn-link" (click)="requestClass()">Request class</button>
+            <div class="row"><div class="col">
+            <button *ngIf="name.isEvent && isSecretary() && name.status != 'ACCEPTED'" button type="button" class="btn btn-success btn-link" (click)="assignClass(name.id)">Assign</button>
+            <button *ngIf="!name.isEvent && isSecretary()"button type="button" class="btn btn-success btn-link" (click)="secretaryRequestClass()">Request class</button>
+            </div> <div class="divider"></div><div class="col">
+            <button *ngIf="name.isEvent && name.status != 'DECLINED' && isSecretary()" button type="button" class="btn btn-danger btn-link" (click)="secretaryDeclineClass(name.id)">Decline</button>
+            </div></div>
             </div>
     </div>
     `
 })
 export class NgbdModalContent {
     user: User;
+    simpleSlider  = 1;
     name: any;
     ctrl = new FormControl('', (control: FormControl) => {
       const value = control.value;
@@ -188,12 +210,15 @@ export class NgbdModalContent {
   
       return null;
     });
+    teacher: string;
+    teachers: Observable<string>;
     privateClass: AddPrivateClass;
     subjects: Observable<string>;
     profileForm2 = this.fb.group({
         id: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
         subject: ['', [ Validators.minLength(3), Validators.maxLength(30)]],
         lesson: ['', [ Validators.minLength(3), Validators.maxLength(30)]],
+        numOfStudents:  ['', [ Validators.minLength(3), Validators.maxLength(30)]],
 
         });
         time: NgbTimeStruct = {hour: 13, minute: 30, second: 0};
@@ -210,10 +235,20 @@ export class NgbdModalContent {
           });
     constructor( public activeModal: NgbActiveModal,
                 private fb: FormBuilder, private privateClassService: PrivateClassService,private userService: UserService, private subjectService: SubjectService) {
-                  this.subjectService.getAllSubjects().subscribe(data=> {
-                    this.subjects = data;
-                  });
-                  this.privateClass = new  AddPrivateClass("","","","");
+                 
+                  if(HomeComponent.class.isEvent){
+                    this.subjectService.getAllSubjectTeachers(HomeComponent.class.title).subscribe(data=> {
+                      this.teachers = data;
+                      this.teacher = data[0];
+                    });
+                  }
+                  else{
+                    this.subjectService.getAllSubjects().subscribe(data=> {
+                      this.subjects = data;
+                      console.log(data);
+                    });
+                  }
+                  this.privateClass = new  AddPrivateClass("","","","","");
     }
 
     onSubmit() {
@@ -233,19 +268,89 @@ export class NgbdModalContent {
       alert(error)
   });
     }
-
+    onChangeSlider(e){
+      this.privateClass.NumOfStudents = e;
+     this.simpleSlider = e;
+    }
+    onChangeTeacher(e){
+      this.teacher = e;
+    }
     onchange(){
       this.privateClass.Subject = this.profileForm2.controls.subject.value;
     }
-    declineClass(id:string){
+    
+    secretaryDeclineClass(id:string){
       this.activeModal.close();
   
-      this.privateClassService.declineClass(id).subscribe(data =>{
+      this.privateClassService.secretaryDeclineClass(id).subscribe(data =>{
    
         alert('success');
       }, error => {
         alert(error);
       });
+    }
+    studentDeclineClass(id:string){
+      this.activeModal.close();
+  
+      this.privateClassService.studentDeclineClass(id).subscribe(data =>{
+   
+        alert('success');
+      }, error => {
+        alert(error);
+      });
+    }
+    acceptClass(id: string){
+      this.activeModal.close();
+  
+      this.privateClassService.teacherAcceptClass(id).subscribe(data =>{
+        alert('success');
+      }, error => {
+        alert(error);
+      });
+    }
+
+    assignClass(id: string){
+     
+      if(this.teacher == null){
+        alert('Please chose teacher.')
+      }
+      else{
+        this.activeModal.close();
+        this.privateClassService.assignClass(id,this.teacher).subscribe(data =>{
+          alert('success');
+        }, error => {
+          alert(error);
+        });
+      }
+    }
+    teacherDeclineClass(id:string){
+      this.activeModal.close();
+  
+      this.privateClassService.teacherDeclineClass(id).subscribe(data =>{
+   
+        alert('success');
+      }, error => {
+        alert(error);
+      });
+    }
+    secretaryRequestClass(){
+      this.activeModal.close();
+      this.privateClass.Lesson = this.profileForm2.controls.lesson.value;
+      this.privateClass.Date = this.name.date;
+      if(this.name.time == 'no'){
+        
+        this.privateClass.Time = this.time.hour.toString() + ':' + this.time.minute.toString();
+      }
+      else{
+        alert(this.name.time);
+        this.privateClass.Time = this.name.time.split(':')[0] + ':' + this.name.time.split(':')[1];
+      }
+      this.activeModal.close();
+      this.privateClassService.addPrivateClass(this.privateClass).subscribe(data =>{
+        alert('success');
+      }, error => {
+        alert(error);
+      })
     }
     requestClass(){
       this.activeModal.close();
@@ -266,6 +371,7 @@ export class NgbdModalContent {
         alert(error);
       })
     }
+   
     joinClass(id:string){
       this.activeModal.close();
       if(Number(this.name.numOfStud) >=4) {
@@ -279,6 +385,17 @@ export class NgbdModalContent {
         alert(error);
       });
     }
+    isTeacher(){
+      return localStorage.getItem('group') == 'PrivatniCasoviTeachers' ? true:false;
+    }
+    isSecretary(){
+      return localStorage.getItem('group') == 'PrivatniCasoviSecretaries' ? true:false;
+    }
+    isStudent(){
+      return localStorage.getItem('group') == 'PrivatniCasoviStudents' ? true:false;
+    }
+
+   
 }
 
 
@@ -317,7 +434,8 @@ export class HomeComponent implements OnInit {
       status: " ",
       isMine: " "
     };
-    constructor(private userService: UserService, private privateClassService: PrivateClassService, private modalService: NgbModal) {
+    notTeacherSubjects: Observable<string>;
+    constructor(private userService: UserService,private subjectService: SubjectService, private privateClassService: PrivateClassService, private modalService: NgbModal) {
          this.userService.onSignIn().subscribe(data => {
             this.user = data;
             if (this.user.Username.split('_')[0] == "") {
@@ -325,8 +443,16 @@ export class HomeComponent implements OnInit {
             }
           console.log(HomeComponent.class);
         });
+        if(this.isTeacher()){
+          this.getNotTeacherSubjects();
+        }
 
         this.getUserClasses();
+    }
+    getNotTeacherSubjects(){
+      this.subjectService.getNotTeacherSubjects().subscribe(data =>{
+        this.notTeacherSubjects = data;
+      });
     }
 
     getUser(): User {
@@ -339,6 +465,7 @@ export class HomeComponent implements OnInit {
     });
     }
     open() {
+      
         const modalRef = this.modalService.open(NgbdModalContent);
         modalRef.componentInstance.name = HomeComponent.class;
         modalRef.componentInstance.info = this.user.Username.split('_')[0];
@@ -349,29 +476,39 @@ export class HomeComponent implements OnInit {
 
         
     }
-    onClickDelete(id) {
-      this.privateClassService.userDeleteClass(id).subscribe(data => {
-        this.getUserClasses();
-        alert('success');
-        
-      }, error => {
-        this.getUserClasses();
-        alert(error);
-        
-      });
+    subjectToAdd= null;
+    newSubject = null;
+    onchangeSubject(event){
+      this.subjectToAdd = event;
     }
 
-    onClickAccept(id) {
-      this.privateClassService.teacherAcceptClass(id).subscribe(data => {
-        this.getUserClasses();
-        alert('success');
+    onKey(event){
+      this.newSubject = event.target.value;
+    }
 
-      }, error => {
-        this.getUserClasses();
-        alert('error');
-      });
-  }
+    onAddNewSubject(){
+      if(this.newSubject != null){
+        this.subjectService.addNewSubject(this.newSubject).subscribe(data=>{
+          this.getNotTeacherSubjects();
+          this.newSubject = "";
+          alert('success');
 
+        }, error => {
+          alert(error);
+        });
+      }
+    }
+
+    onTeachSubject(){
+      if(this.subjectToAdd != null){
+        this.subjectService.teacherAddNewTeachingSubject(this.subjectToAdd).subscribe(data=>{
+          this.getNotTeacherSubjects();
+          alert('success');
+        }, error => {
+          alert(error);
+        });
+      }
+    }
     isTeacherAccepted(status: string){
       if(localStorage.getItem('group') == 'PrivatniCasoviTeachers'){
         if(status == 'REQUESTED'){
@@ -380,13 +517,19 @@ export class HomeComponent implements OnInit {
       }
       return false;
     }
-
+    isStudent(){
+      return localStorage.getItem('group') == 'PrivatniCasoviStudents' ? true:false;
+    }
     isTeacher(){
       if(localStorage.getItem('group') == 'PrivatniCasoviTeachers'){
        return true;
       }
       return false;
     }
+    isSecretary(){
+      return localStorage.getItem('group') == 'PrivatniCasoviSecretaries' ? true:false;
+    }
+    
 
     isTeacherDeleted(status: string){
       if(localStorage.getItem('group') == 'PrivatniCasoviTeachers'){
@@ -413,24 +556,38 @@ export class HomeComponent implements OnInit {
           element.click();
         },
         dateClick:function(args){
-          let element =  document.getElementById('radi') as HTMLElement;
-        
-         if(args.date.toLocaleString().split(',')[1] ==  ' 12:00:00 AM'){
-          HomeComponent.class.date = args.date.toLocaleDateString();
-          HomeComponent.class.time = "no";
-          HomeComponent.class.isEvent = false;
-         } 
-         else{
-          HomeComponent.class.date = args.date.toLocaleDateString();
-          HomeComponent.class.time = args.date.toLocaleTimeString();
-          HomeComponent.class.isEvent = false;
-         }
-         element.click();
+          if(localStorage.getItem('group') != 'PrivatniCasoviTeachers'){
+            const date = new Date()
+            date.setDate(date.getDate() - Number.parseInt("1"));
+            if(args.date >= date){
+              let element =  document.getElementById('radi') as HTMLElement;
           
+              if(args.date.toLocaleString().split(',')[1] ==  ' 12:00:00 AM'){
+                HomeComponent.class.date = args.date.toLocaleDateString();
+                HomeComponent.class.time = "no";
+                HomeComponent.class.isEvent = false;
+              } 
+              else{
+                HomeComponent.class.date = args.date.toLocaleDateString();
+                HomeComponent.class.time = args.date.toLocaleTimeString();
+                HomeComponent.class.isEvent = false;
+              }
+              element.click();
+            }
+            else{
+              alert('Date has passed.');
+              
+            }
+          }
         },
+       
         eventClick: function(arg){
-           
-          if(arg.event.id.split('_')[4] != 'DECLINED' && Date.parse(arg.event.start.toLocaleString()) > Date.now()){
+           console.log( new Date());
+
+           if(arg.event.start < new Date()){
+             alert('You cant see passed event.');
+           }
+          if(arg.event.id.split('_')[4] != 'DECLINED' && arg.event.start > new Date()){
               let element =  document.getElementById('radi') as HTMLElement;
               HomeComponent.class.startDate = arg.event.start.toLocaleString();
               HomeComponent.class.endDate = arg.event.end.toLocaleString();
@@ -442,7 +599,11 @@ export class HomeComponent implements OnInit {
               HomeComponent.class.isEvent = true;
               HomeComponent.class.status = arg.event.id.split('_')[4]
               HomeComponent.class.isMine = arg.event.id.split('_')[5]
+              console.log('more');
               element.click();
+            }
+            else {
+              console.log('ne more');
             }
 
         },

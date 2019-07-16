@@ -23,16 +23,28 @@ export class PrivateClassService {
     return this.http.post<User>('http://localhost:52988/', user, httpOptions).pipe(catchError(this.errorHandler));
   }
   addPrivateClass( privateClass: AddPrivateClass) {
-    return this.http.post<User>('http://localhost:52988/api/privateclass/add', privateClass, httpOptions).pipe(catchError(this.errorHandler));
+    return this.http.post<User>('http://localhost:52988/api/privateclass/addClass', privateClass, httpOptions).pipe(catchError(this.errorHandler));
   }
+  
   getUserClasses() {
     return this.http.get<Observable<PrivateClass>>('http://localhost:52988/api/privateclass/getprivateclasses').pipe(
         catchError(this.handleError<Observable<PrivateClass>>(`getuserclasses `))
       );
   }
 
-  declineClass(id: string){
-    return this.http.get<string>('http://localhost:52988/api/privateclass/userdeclineclass?classId='+id).pipe(
+  studentDeclineClass(id: string){
+    return this.http.get<string>('http://localhost:52988/api/privateclass/studentdeclineclass?classId='+id).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+  teacherDeclineClass(id: string){
+    return this.http.get<string>('http://localhost:52988/api/privateclass/teacherdeclineclass?classId='+id).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+  
+  secretaryDeclineClass(id: string){
+    return this.http.get<string>('http://localhost:52988/api/privateclass/secretarydeclineclass?classId='+id).pipe(
       catchError(this.errorHandler)
     );
   }
@@ -49,16 +61,18 @@ export class PrivateClassService {
     );
   }
   
-  userDeleteClass(id: string){
-    return this.http.get<Observable<PrivateClass>>('http://localhost:52988/api/privateclass/teacherdeleteClass?id='+id).pipe(
-        catchError(this.handleError<Observable<PrivateClass>>(`teacherdeleteClass `))
-      );
-  }
+  
   teacherAcceptClass(id: string){
-    return this.http.get<Observable<PrivateClass>>('http://localhost:52988/api/privateclass/acceptClass?id='+id).pipe(
-        catchError(this.handleError<Observable<PrivateClass>>(`acceptClass `))
+    return this.http.get<string>('http://localhost:52988/api/privateclass/acceptClass?id='+id).pipe(
+        catchError(this.errorHandler)
       );
   }
+  assignClass(id: string,teacher: string){
+    return this.http.get<string>('http://localhost:52988/api/privateclass/assignClass?classId='+id+'&teacher='+teacher).pipe(
+        catchError(this.errorHandler)
+      );
+  }
+  
 
   errorHandler(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

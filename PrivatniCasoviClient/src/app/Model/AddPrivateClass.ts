@@ -5,5 +5,8 @@ export class AddPrivateClass {
                 
                 public Date: string,
                 public Time: string,
-                public Lesson: string){}
+                public Lesson: string,
+                public NumOfStudents: string){
+                    NumOfStudents = "0";
+                }
 }

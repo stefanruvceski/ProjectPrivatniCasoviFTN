@@ -1,7 +1,5 @@
 
-
-
-<div class="page-header" data-parallax="true" style="background-image: url('./assets/img/daniel-olahh.jpg');">
+<div class="page-header" data-parallax="true" >
   <div class="filter"></div>
   <div class="container">
       <div class="motto text-center">
@@ -12,16 +10,9 @@
               
                               <div >
                                       <div>
-                                          <div class="card " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
+                                          <div class=" " style="height:150px;border: solid #F5593D 1px;margin-bottom: 20px; border-radius: 40px;background-color:transparent;">
                                               <div class="info center text-center">
-                                                  <!-- <div class="icon icon-danger">
-                                                      <i class="nc-icon nc-ruler-pencil"></i>
-                                                  </div>
-                                                  <div class="description">
-                                                      <h4 class="info-title">MATEMATIKA</h4>
-                                                     
-                                                   
-                                                  </div> -->
+                                                 
                                                  <h5 style=" color:white">CLASS LEGEND</h5>
                                                  <h6 style="border-radius: 5px; margin-left: 10px;margin-right: 10px; background-color: #f5d142;color:white">MINE</h6>
                                                  <h6 style="border-radius: 5px; margin-left: 10px;margin-right: 10px; background-color: #4287f5;color:white">REQUESTED</h6>
@@ -32,15 +23,15 @@
                                           </div>
                                       </div>
                                   </div>
-                                  <div >
-                                        <div [routerLink]="['/home']" routerLinkActive="router-link-active"style="cursor: pointer;">
+                                  <div *ngIf="isStudent()">
+                                        <div [routerLink]="['/mathematics']" routerLinkActive="router-link-active"style="cursor: pointer;">
                                             <div class="card " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
                                                 <div class="info">
                                                     <div class="icon icon-danger">
                                                         <i class="nc-icon nc-ruler-pencil"></i>
                                                     </div>
                                                     <div class="description">
-                                                        <h4 class="info-title">MATEMATIKA</h4>
+                                                        <h4 class="info-title">MATHEMATICS</h4>
                                                        
                                                         
                                                     </div>
@@ -49,32 +40,67 @@
                                         </div>
                                     </div>
                           
-                              <div  >
+                              <div  *ngIf="isTeacher()">
                                       <div [routerLink]="['/home']" routerLinkActive="router-link-active"style="cursor: pointer;">
                                           <div class="card " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
-                                              <div class="info">
-                                                  <div class="icon icon-danger">
-                                                      <i class="nc-icon nc-laptop"></i>
-                                                  </div>
-                                                  <div class="description">
-                                                      <h4 class="info-title">PROGRAMIRANJE</h4>
-                                                      
-                                                     
-                                                  </div>
-                                              </div>
+                                            <div class="info center text-center">
+                                                 
+                                                <h5 style=" color:white">TEACH SUBJECT</h5>
+                                               
+                                                <select style="width:10em;border-radius: 5px;text-align: center;margin-bottom: 10px;" size="2" >
+                                                    <option *ngFor="let subject of notTeacherSubjects" (click)="onchangeSubject($event.target.innerText)">{{subject}} </option>
+                                                 
+                                                    
+                                                </select>
+                                                <br>
+                                                <a (click)="onTeachSubject()" style="width: 150px;" class="btn btn-outline-default btn-lg btn-round"><i class="fa fa-user"></i>Teach</a>
+
+                                             </div>
                                           </div>
                                       </div>
                                   </div>
+                                  <div  *ngIf="isSecretary()">
+                                        <div [routerLink]="['/home']" routerLinkActive="router-link-active"style="cursor: pointer;">
+                                            <div class=" " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
+                                              <div class="info center text-center">
+                                                   
+                                                  <h5 style=" color:white">ADD SUBJECT</h5>
+                                                 
+                                                  
+                                                        <input value="{{newSubject}}" (keyup)="onKey($event)" class="btn-outline-default btn-lg btn-round" style="text-align: center;height:40px;width:150px;margin-bottom: 15px;" type="text"  placeholder="Subject">
+                                                  
+                                                  <br>
+                                                  <a (click)="onAddNewSubject()" style="width: 150px;" class="btn btn-outline-default btn-lg btn-round"><i class="fa fa-user"></i>Add</a>
+  
+                                               </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="isStudent()" >
+                                            <div [routerLink]="['/programming']" routerLinkActive="router-link-active"style="cursor: pointer;">
+                                                <div class="card " style="height:150px;border: solid rgb(245, 89, 61) 1px; border-radius: 40px;background-color:transparent;">
+                                                    <div class="info">
+                                                        <div class="icon icon-danger">
+                                                            <i class="nc-icon nc-atom"></i>
+                                                        </div>
+                                                        <div class="description">
+                                                            <h4 class="info-title">PROGRAMMING</h4>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                      
-                              <div  >
-                                      <div [routerLink]="['/home']" routerLinkActive="router-link-active"style="cursor: pointer;">
+                              <div *ngIf="isStudent()" >
+                                      <div [routerLink]="['/electrotehnics']" routerLinkActive="router-link-active"style="cursor: pointer;">
                                           <div class="card " style="height:150px;border: solid rgb(245, 89, 61) 1px; border-radius: 40px;background-color:transparent;">
                                               <div class="info">
                                                   <div class="icon icon-danger">
                                                       <i class="nc-icon nc-atom"></i>
                                                   </div>
                                                   <div class="description">
-                                                      <h4 class="info-title">ELEKTROTEHNIKA</h4>
+                                                      <h4 class="info-title">ELECTROTEHNICS</h4>
                                                       
                                                   </div>
                                               </div>
@@ -139,6 +165,7 @@
                                                                   (eventDragStart)=options.eventDragStart($event)
                                                                   [header]="options.header"
                                                                   [customButtons]="options.customButtons"
+                                                                  [eventLimit]="true"
                                                                   (dateClick)="options.dateClick($event)"
                                                                   (eventDrop)="options.eventDrop($event)"
                                                                   [plugins]="options.plugins"
@@ -159,98 +186,7 @@
            
 </div>
 </div>   
-<!-- 
 
-<div class="columnsContainer">
-
-        <div class="leftColumn">
-                <full-calendar style="height:500px;"
-                *ngIf="options"
-                #fullcalendar
-                [editable]="true"
-                [events]="eventsModel"
-                [header]="options.header"
-                [customButtons]="options.customButtons"
-                (dateClick)="options.dateClick($event)"
-                (eventDrop)="options.eventDrop($event)"
-                [plugins]="options.plugins"
-                (eventClick)="eventClick($event)"
-
-></full-calendar>
-        </div>
-                   
-
-        <div class="rightColumn">
-                <div >
-                        <div [routerLink]="['/home']" routerLinkActive="router-link-active"style="cursor: pointer;">
-                            <div class="card " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
-                                <div class="info">
-                                    <div class="icon icon-danger">
-                                        <i class="nc-icon nc-ruler-pencil"></i>
-                                    </div>
-                                    <div class="description">
-                                        <h4 class="info-title">MATEMATIKA</h4>
-                                       
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-        
-                <div >
-                        <div [routerLink]="['/home']" routerLinkActive="router-link-active"style="cursor: pointer;">
-                            <div class="card " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
-                                <div class="info">
-                                    <div class="icon icon-danger">
-                                        <i class="nc-icon nc-ruler-pencil"></i>
-                                    </div>
-                                    <div class="description">
-                                        <h4 class="info-title">MATEMATIKA</h4>
-                                       
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-        
-        </div>
-        <div >
-                <div [routerLink]="['/home']" routerLinkActive="router-link-active"style="cursor: pointer;">
-                    <div class="card " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
-                        <div class="info">
-                            <div class="icon icon-danger">
-                                <i class="nc-icon nc-ruler-pencil"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">MATEMATIKA</h4>
-                               
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        <div >
-                <div [routerLink]="['/home']" routerLinkActive="router-link-active"style="cursor: pointer;">
-                    <div class="card " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
-                        <div class="info">
-                            <div class="icon icon-danger">
-                                <i class="nc-icon nc-ruler-pencil"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">MATEMATIKA</h4>
-                               
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-</div> -->
 <button hidden id="radi" (click)="open()">dfds</button>
 <button hidden id="changeDate" (click)="changeDate()">chan</button>
 <button hidden id="dropable" (click)="dropable()">chan</button>

@@ -17,17 +17,24 @@ namespace PrivatniCasoviAPI.Controllers
         IContract proxy = null;
         [HttpPost]
         [Route("api/users/edit")]
-        public IHttpActionResult Edit(EditUserInfoBindingModel model)
+        public async System.Threading.Tasks.Task<IHttpActionResult> EditAsync(EditUserInfoBindingModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             model.Email = User.Identity.Name;
             Connect();
+            string type = "";
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviStudents"))
+                type = "PrivatniCasoviStudents";
+            else if(await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
+                type = "PrivatniCasoviTeachers";
+            else if(await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
+                type = "PrivatniCasoviSecretaries";
 
-            if (!proxy.EditUserInformations(model))
+
+            if (!proxy.EditUserInformations(model, type))
                 return BadRequest("Internal error");
-
             return Ok();
         }
 
@@ -36,7 +43,16 @@ namespace PrivatniCasoviAPI.Controllers
         public async System.Threading.Tasks.Task<EditUserInfoBindingModel> OnSingInAsync()
         {
             Connect();
-            EditUserInfoBindingModel retVal =  proxy.GetUserByEmail(User.Identity.Name);
+
+            string type = "";
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviStudents"))
+                type = "PrivatniCasoviStudents";
+            else if (await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
+                type = "PrivatniCasoviTeachers";
+            else if (await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
+                type = "PrivatniCasoviSecretaries";
+
+            EditUserInfoBindingModel retVal =  proxy.GetUserByEmail(User.Identity.Name,type);
             retVal.Username += "_" + await AuthorizationHelper.GetGroupName();
 
             return retVal;
@@ -58,5 +74,9 @@ namespace PrivatniCasoviAPI.Controllers
             }
 
         }
+
+
+
+
     }
 }

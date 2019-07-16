@@ -18,5 +18,7 @@ namespace Common.BindingModel
         public string Time { get; set; }
         [DataMember]
         public string Lesson { get; set; }
+        [DataMember]
+        public string NumOfStudents { get; set; }
     }
 }

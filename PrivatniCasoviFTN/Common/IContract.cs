@@ -14,15 +14,15 @@ namespace Common
     {
        
         [OperationContract]
-        bool EditUserInformations(EditUserInfoBindingModel bindingModel);
+        bool EditUserInformations(EditUserInfoBindingModel bindingModel, string type);
         [OperationContract]
-        EditUserInfoBindingModel GetUserByEmail(string email);
+        EditUserInfoBindingModel GetUserByEmail(string email, string type);
         [OperationContract]
         EditUserInfoBindingModel GetUserForEdit(string email);
         [OperationContract]
         List<PrivateClassBindingModel> GetPrivateClassesForUser(string email, string group);
         [OperationContract]
-        bool AcceptClass(string classId, string email);
+        int AcceptClass(string classId, string email);
         [OperationContract]
         bool TeacherDeleteClass(string classId);
         [OperationContract]
@@ -31,10 +31,27 @@ namespace Common
         [OperationContract]
         List<string> GetAllSubjects();
         [OperationContract]
-        bool AddClass(AddPrivateClassBindingModel model, string email);
+        bool StudentAddClass(AddPrivateClassBindingModel model, string email);
+
         [OperationContract]
-        bool UserDeclineClass(string email, string classId);
+        bool SecretaryAddClass(AddPrivateClassBindingModel model, string email);
+        [OperationContract]
+        bool StudentDeclineClass(string email, string classId);
+        [OperationContract]
+        bool TeacherDeclineClass(string email, string classId);
         [OperationContract]
         string UserChangeDate(string email, string classId, string date,out bool flag);
+        [OperationContract]
+        List<string> GetSubjectTeachers(string subject);
+        [OperationContract]
+        int AssignClass(string classId, string teacher);
+        [OperationContract]
+        List<string> GetNotTeacherSubjectsAsync(string email);
+        [OperationContract]
+        bool TeacherAddNewTeachingSubject(string email, string subject);
+        [OperationContract]
+        int AddNewSubject(string subject);
+        [OperationContract]
+        bool SecretaryDeclineClass(string classId);
     }
 }

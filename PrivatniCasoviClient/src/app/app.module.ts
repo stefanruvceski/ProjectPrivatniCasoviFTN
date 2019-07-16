@@ -22,6 +22,10 @@ import { MyComponentComponent } from './my-component/my-component.component';
 import { UserService } from './services/user.service';
 import { PrivateClassService } from './services/private-class.service';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { NouisliderModule } from 'ng2-nouislider';
+import { MathematicsComponent } from './mathematics/mathematics.component';
+import { ProgrammingComponent } from './programming/programming.component';
+import { ElectrotechnicsComponent } from './electrotechnics/electrotechnics.component';
 
 export function getAdalConfig() {
   return {
@@ -46,11 +50,16 @@ export function getAdalConfig() {
     NavbarComponent,
     FooterComponent,
     MyComponentComponent,
-    NgbdModalContent
+    NgbdModalContent,
+    MathematicsComponent,
+    ProgrammingComponent,
+    ElectrotechnicsComponent,
+    
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    NouisliderModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
     FormsModule,

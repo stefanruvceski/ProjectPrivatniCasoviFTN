@@ -1,6 +1,8 @@
 ﻿using Common.BindingModel;
 using Common.BindingModels;
+using Common.Database_Models;
 using Common.DataBase_Models;
+using Common.Utils;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -108,6 +110,14 @@ namespace Common
                         entities.ForEach(x => tableOperations.InsertOrReplace(x));
                     }
                     break;
+                case CLASSES.TEACHERSUBJECT:
+                    {
+                        List<TeacherSubject> entities = new List<TeacherSubject>();
+                        list.ForEach(x => entities.Add((TeacherSubject)x));
+
+                        entities.ForEach(x => tableOperations.InsertOrReplace(x));
+                    }
+                    break;
                 default:
                     break;
             }
@@ -145,6 +155,11 @@ namespace Common
             else if (_class.Equals(CLASSES.STUDENTCLASS))
             {
                 TableOperation add = TableOperation.InsertOrReplace((StudentClass)entity);
+                table.Execute(add);
+            }
+            else if (_class.Equals(CLASSES.TEACHERSUBJECT))
+            {
+                TableOperation add = TableOperation.InsertOrReplace((TeacherSubject)entity);
                 table.Execute(add);
             }
         }
@@ -185,6 +200,15 @@ namespace Common
             return retVal;
         }
 
+        public User GetUserById(string id)
+        {
+            IQueryable<User> requests = from g in table.CreateQuery<User>()
+                                        where g.PartitionKey == _class.ToString() && g.RowKey == id
+                                        select g;
+
+            return requests.ToList()[0];
+        }
+
         public CustomEntity GetOne(string id)
         {
             if (_class.Equals(CLASSES.SUBJECT))
@@ -222,20 +246,46 @@ namespace Common
             return null;
         }
 
-        public bool AcceptClass(string userId, string classId)
+        public List<int> GetTeacherSubjects(string teacherId)
+        {
+            IQueryable<int> requests = from g in table.CreateQuery<TeacherSubject>()
+                                       where g.PartitionKey == _class.ToString() && g.TeachertId == int.Parse(teacherId)
+                                       select g.SubjectId;
+
+            return requests.ToList();
+        }
+
+        public List<User> GetClassStudents(string classId)
+        {
+            IQueryable<int> requests = from g in table.CreateQuery<StudentClass>()
+                                       where g.PartitionKey == _class.ToString() && g.ClassId == int.Parse(classId)
+                                       select g.StudentId;
+
+            List<User> users = new List<User>();
+
+            requests.ToList().ForEach(x => users.Add(new TableHelper(CLASSES.USER.ToString()).GetUserById(x.ToString())));
+
+            return users;
+        }
+
+        public int AcceptClass(string userId, string classId)
         {
             if (_class.Equals(CLASSES.CLASS))
             {
+
                 PrivateClass privateClass = (PrivateClass)GetOne(classId);
                 privateClass.ClassStatus = CLASS_STATUS.ACCEPTED.ToString();
+                if (!new TableHelper(CLASSES.TEACHERSUBJECT.ToString()).GetTeacherSubjects(userId).Contains(privateClass.SubjectId))
+                    return -2;
+
                 TableOperation replace = TableOperation.Replace(privateClass);
                 table.Execute(replace);
 
                 TeacherClass teacherClass = new TeacherClass(int.Parse(userId), int.Parse(classId), -1, false);
                 new TableHelper(CLASSES.TEACHERCLASS.ToString()).AddOrReplace(teacherClass);
-                return true;
+                return 1;
             }
-            return false;
+            return -1;
         }
 
         public string GetUsetId(string email)
@@ -271,24 +321,24 @@ namespace Common
                                      select new PrivateClassBindingModel { Id = pc.RowKey, Subject = "", Teacher = "", Status = pc.ClassStatus.ToString(), StartDate = pc.Date.ToString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
                     var requests = from pc in table.CreateQuery<PrivateClass>().ToList()
                                    join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
-                                  
+
                                    select new PrivateClassBindingModel { Id = pc.RowKey, Subject = s.Name, Teacher = "No techer yet", Status = pc.ClassStatus.ToString(), StartDate = pc.Date.ToString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
 
-                    
+
                     Dictionary<string, PrivateClassBindingModel> dic = new Dictionary<string, PrivateClassBindingModel>();
-                    
+
 
                     var requests2 = from pc in table.CreateQuery<PrivateClass>().ToList()
-                                   join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
-                                   join tc in ttc.table.CreateQuery<TeacherClass>().ToList() on pc.RowKey equals tc.ClassId.ToString()
-                                   join t in tt.table.CreateQuery<User>().ToList() on tc.TeachertId.ToString() equals t.RowKey
-                                   
-                                   select new PrivateClassBindingModel { Id = pc.RowKey, Subject = s.Name, Teacher = t.Username, Status = pc.ClassStatus.ToString(), StartDate = pc.Date.ToString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
+                                    join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
+                                    join tc in ttc.table.CreateQuery<TeacherClass>().ToList() on pc.RowKey equals tc.ClassId.ToString()
+                                    join t in tt.table.CreateQuery<User>().ToList() on tc.TeachertId.ToString() equals t.RowKey
+                                    select new PrivateClassBindingModel { Id = pc.RowKey, Subject = s.Name, Teacher = t.Username, Status = pc.ClassStatus.ToString(), StartDate = pc.Date.ToString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
+
                     requests2.ToList().GroupBy(customer => customer.Id).Select(g => g.First()).ToList().ForEach(x => dic.Add(x.Id, x));
                     List<PrivateClassBindingModel> retVal = requests.ToList();
                     Dictionary<string, PrivateClassBindingModel> myDic = new Dictionary<string, PrivateClassBindingModel>();
                     myrequests.ToList().ForEach(x => myDic.Add(x.Id, x));
-                    for (int i = 0;i< retVal.Count;i++)
+                    for (int i = 0; i < retVal.Count; i++)
                     {
                         if (dic.ContainsKey(retVal[i].Id))
                             retVal[i].Teacher = dic[retVal[i].Id].Teacher;
@@ -303,25 +353,118 @@ namespace Common
                 }
                 else if (group == "PrivatniCasoviTeachers")
                 {
+                    var myrequests = from pc in table.CreateQuery<PrivateClass>().ToList()
+                                     join tc in ttc.table.CreateQuery<TeacherClass>().ToList() on pc.RowKey equals tc.ClassId.ToString()
+                                     where tc.TeachertId == int.Parse(id)
+                                     select new PrivateClassBindingModel { Id = pc.RowKey, Subject = "", Teacher = "", Status = pc.ClassStatus.ToString(), StartDate = pc.Date.ToString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
+
+
                     var requests = from pc in table.CreateQuery<PrivateClass>().ToList()
                                    join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
                                    where pc.ClassStatus == CLASS_STATUS.REQUESTED.ToString() || pc.ClassStatus == CLASS_STATUS.ACCEPTED.ToString()
                                    select new PrivateClassBindingModel { Id = pc.RowKey, Subject = s.Name, Teacher = "", Status = pc.ClassStatus.ToString(), StartDate = pc.Date.ToString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
 
-                    return requests.ToList().GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
+                    List<PrivateClassBindingModel> retVal = requests.ToList().GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
+                    Dictionary<string, PrivateClassBindingModel> myDic = new Dictionary<string, PrivateClassBindingModel>();
+                    myrequests.ToList().ForEach(x => myDic.Add(x.Id, x));
+                    for (int i = 0; i < retVal.Count; i++)
+                    {
+
+
+                        if (myDic.ContainsKey(retVal[i].Id))
+                            retVal[i].IsMine = "yes";
+                        else
+                            retVal[i].IsMine = "no";
+                    }
+                    return retVal.GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
                 }
                 else
                 {
-                    return null;
+                    var requests = from pc in table.CreateQuery<PrivateClass>().ToList()
+                                   join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
+
+                                   select new PrivateClassBindingModel { Id = pc.RowKey, Subject = s.Name, Teacher = "", Status = pc.ClassStatus.ToString(), StartDate = pc.Date.ToString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
+
+
+                    requests = requests.GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
+
+                    var requests2 = from pc in table.CreateQuery<PrivateClass>().ToList()
+                                    join s in ts.table.CreateQuery<Subject>().ToList() on pc.SubjectId.ToString() equals s.RowKey
+                                    join tc in ttc.table.CreateQuery<TeacherClass>().ToList() on pc.RowKey equals tc.ClassId.ToString()
+                                    join t in tt.table.CreateQuery<User>().ToList() on tc.TeachertId.ToString() equals t.RowKey
+                                    select new PrivateClassBindingModel { Id = pc.RowKey, Subject = s.Name, Teacher = t.Username, Status = pc.ClassStatus.ToString(), StartDate = pc.Date.ToString(), Lesson = pc.Lesson, NumberOfStudents = pc.NumberOfStudents.ToString() };
+
+                    Dictionary<string, PrivateClassBindingModel> dic = new Dictionary<string, PrivateClassBindingModel>();
+                    requests2.ToList().GroupBy(customer => customer.Id).Select(g => g.First()).ToList().ForEach(x => dic.Add(x.Id, x));
+                    List<PrivateClassBindingModel> retVal = requests.ToList();
+
+                    for (int i = 0; i < retVal.Count; i++)
+                    {
+                        if (dic.ContainsKey(retVal[i].Id))
+                            retVal[i].Teacher = dic[retVal[i].Id].Teacher;
+
+                    }
+                    return retVal.GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
                 }
             }
             return null;
+        }
+
+        public List<string> GetSubjectTeachers(string subject)
+        {
+            IQueryable<string> requests = from g in table.CreateQuery<Subject>()
+                                          where g.PartitionKey == _class.ToString() && g.Name == subject
+                                          select g.RowKey;
+
+            string subjectId = requests.ToList()[0];
+
+            IQueryable<int> requests2 = from g in new TableHelper(CLASSES.TEACHERSUBJECT.ToString()).table.CreateQuery<TeacherSubject>()
+                                        where g.PartitionKey == new TableHelper(CLASSES.TEACHERSUBJECT.ToString())._class.ToString() && g.SubjectId == int.Parse(subjectId)
+                                        select g.TeachertId;
+            List<string> retVal = new List<string>();
+            requests2.ToList().ForEach(x => retVal.Add(new TableHelper(CLASSES.USER.ToString()).GetUserById(x.ToString()).Username));
+
+            return retVal;
+
+
+        }
+        public List<string> GetSubjectTeachersEmail(string subject)
+        {
+            ;
+
+            IQueryable<int> requests2 = from g in new TableHelper(CLASSES.TEACHERSUBJECT.ToString()).table.CreateQuery<TeacherSubject>()
+                                        where g.PartitionKey == new TableHelper(CLASSES.TEACHERSUBJECT.ToString())._class.ToString() && g.SubjectId == int.Parse(subject)
+                                        select g.TeachertId;
+            List<string> retVal = new List<string>();
+            requests2.ToList().ForEach(x => retVal.Add(new TableHelper(CLASSES.USER.ToString()).GetUserById(x.ToString()).PrefferEmail));
+
+            return retVal;
+
+
+        }
+
+        public string GetIdByUsername(string username)
+        {
+            IQueryable<string> requests = from g in table.CreateQuery<User>()
+                                          where g.PartitionKey == _class.ToString() && g.Username == username
+                                          select g.RowKey;
+
+            return requests.ToList()[0];
         }
 
         private StudentClass GetStudentClass(string userId, string classId)
         {
             IQueryable<StudentClass> requests = from g in table.CreateQuery<StudentClass>()
                                                 where g.PartitionKey == _class.ToString() && g.StudentId == int.Parse(userId) && g.ClassId == int.Parse(classId)
+                                                select g;
+
+            return requests.ToList()[0];
+        }
+
+        private TeacherClass GetTeacherClass(string userId, string classId)
+        {
+            IQueryable<TeacherClass> requests = from g in table.CreateQuery<TeacherClass>()
+                                                where g.PartitionKey == _class.ToString() && g.TeachertId == int.Parse(userId) && g.ClassId == int.Parse(classId)
                                                 select g;
 
             return requests.ToList()[0];
@@ -335,17 +478,17 @@ namespace Common
 
             return requests.ToList().Count;
         }
-        public string UserChangeDate(string userId,string classId,DateTime dateTime)
+        public string UserChangeDate(string userId, string classId, DateTime dateTime)
         {
             string retval = $"success_{dateTime}";
             try
             {
                 PrivateClass privateClass = (PrivateClass)GetOne(classId);
-                if(privateClass.NumberOfStudents != 1)
+                if (privateClass.NumberOfStudents != 1)
                 {
                     return $"There are more students in this class,you cant move it_{privateClass.Date}";
                 }
-                if(new TableHelper(CLASSES.STUDENTCLASS.ToString()).GetStudentClassCount(userId, classId) != 1)
+                if (new TableHelper(CLASSES.STUDENTCLASS.ToString()).GetStudentClassCount(userId, classId) != 1)
                 {
                     return $"You are not in this class,you cant move it_{privateClass.Date}";
                 }
@@ -361,20 +504,78 @@ namespace Common
 
 
 
-                return retval;
+            return retval;
         }
-        public bool UserDeclineClass(string userId,string classId)
+        public int StudentDeclineClass(string userId, string classId)
         {
+            int retVal = 1;
             try
             {
                 PrivateClass privateClass = (PrivateClass)GetOne(classId);
                 privateClass.NumberOfStudents--;
                 if (privateClass.NumberOfStudents == 0)
-                    privateClass.ClassStatus = CLASS_STATUS.DECLINED.ToString();
+                {
+                    if (privateClass.ClassStatus == CLASS_STATUS.ACCEPTED.ToString())
+                    {
+                        privateClass.ClassStatus = CLASS_STATUS.DECLINED.ToString();
+                        retVal = -2;
+                    }
+                    else
+                    {
+                        privateClass.ClassStatus = CLASS_STATUS.DECLINED.ToString();
+                        retVal = 1;
+                    }
+
+                }
 
                 AddOrReplace(privateClass);
                 StudentClass studentClass = new TableHelper(CLASSES.STUDENTCLASS.ToString()).GetStudentClass(userId, classId);
                 new TableHelper(CLASSES.STUDENTCLASS.ToString()).Delete(studentClass);
+
+
+            }
+            catch
+            {
+                retVal = -1;
+            }
+            return retVal;
+        }
+
+        public User GetClassTeacher(string classId)
+        {
+            try
+            {
+
+
+                IQueryable<int> teacher = from g in table.CreateQuery<TeacherClass>()
+                                          where g.PartitionKey == _class.ToString() && g.ClassId == int.Parse(classId)
+                                          select g.TeachertId;
+
+                TableHelper users = new TableHelper(CLASSES.USER.ToString());
+
+                IQueryable<User> requests = from g in users.table.CreateQuery<User>()
+                                            where g.PartitionKey == users._class.ToString() && g.RowKey == teacher.ToList()[0].ToString()
+                                            select g;
+
+                return requests.ToList()[0];
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
+
+        public bool TeacherDeclineClass(string userId, string classId)
+        {
+            try
+            {
+                PrivateClass privateClass = (PrivateClass)GetOne(classId);
+                privateClass.ClassStatus = CLASS_STATUS.REQUESTED.ToString();
+
+                AddOrReplace(privateClass);
+                TeacherClass teacherClass = new TableHelper(CLASSES.TEACHERCLASS.ToString()).GetTeacherClass(userId, classId);
+                new TableHelper(CLASSES.TEACHERCLASS.ToString()).Delete(teacherClass);
 
                 return true;
             }
@@ -382,13 +583,64 @@ namespace Common
             {
                 return false;
             }
-
-
-
-            
         }
 
-        public int StudentJoinClass(string  userId, string classId)
+        public List<User> GetAllTeachers()
+        {
+            IQueryable<User> requests = from g in table.CreateQuery<User>()
+                                        where g.PartitionKey == _class.ToString() && g.Type == "PrivatniCasoviTeachers"
+                                        select g;
+
+            return requests.ToList();
+        }
+
+        public bool SecretaryDeclineClass(string classId)
+        {
+            try
+            {
+                PrivateClass  privateClass = (PrivateClass)new TableHelper(CLASSES.CLASS.ToString()).GetOne(classId);
+                privateClass.ClassStatus = CLASS_STATUS.DECLINED.ToString();
+                
+
+                if (privateClass.ClassStatus == CLASS_STATUS.ACCEPTED.ToString())
+                {
+                    User teacher = GetClassTeacher(classId);
+                    IQueryable<TeacherClass> requests = from g in table.CreateQuery<TeacherClass>()
+                                                        where g.PartitionKey == _class.ToString() && g.TeachertId == int.Parse(teacher.RowKey) && g.ClassId == int.Parse(classId)
+                                                        select g;
+
+                    Delete(requests.ToList()[0]);
+
+                    MailHandler.SendMail(teacher.PrefferEmail,"Secreatry DECLINED class",$"Secretary has DECLINED class {privateClass.Lesson} at {privateClass.Date}.");
+                }
+                TableHelper sc = new TableHelper(CLASSES.STUDENTCLASS.ToString());
+
+                List<User> students = sc.GetClassStudents(classId);
+
+                IQueryable<StudentClass> studentsreq = from g in sc.table.CreateQuery<StudentClass>()
+                                                       where g.PartitionKey == sc._class.ToString() && g.ClassId == int.Parse(classId)
+                                                       select g;
+
+                studentsreq.ToList().ForEach(x => {
+
+                    sc.Delete(x);
+                });
+
+                students.ForEach(x =>
+                {
+                    MailHandler.SendMail(x.PrefferEmail, "Secreatry DECLINED class", $"Secretary has DECLINED class {privateClass.Lesson} at {privateClass.Date}.");
+
+                });
+                new TableHelper(CLASSES.CLASS.ToString()).AddOrReplace(privateClass);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public int StudentJoinClass(string userId, string classId)
         {
             try
             {
@@ -438,17 +690,17 @@ namespace Common
             return requests.ToList()[0].Price;
         }
 
-        public bool AddClass(AddPrivateClassBindingModel model,PrivateClass privateClass, string userId)
+        public bool StudentAddClass(AddPrivateClassBindingModel model, PrivateClass privateClass, string userId)
         {
             try
             {
-               
+
                 privateClass.SubjectId = new TableHelper(CLASSES.SUBJECT.ToString()).GetSubjectId(model.Subject);
                 privateClass.Price = new TableHelper(CLASSES.PRICELIST.ToString()).GetPricelistId(privateClass.SubjectId);
 
                 AddOrReplace(privateClass);
 
-                StudentClass studentClass = new StudentClass(int.Parse(userId),int.Parse(privateClass.RowKey),-1,false);
+                StudentClass studentClass = new StudentClass(int.Parse(userId), int.Parse(privateClass.RowKey), -1, false);
                 new TableHelper(CLASSES.STUDENTCLASS.ToString()).AddOrReplace(studentClass);
 
 
@@ -459,17 +711,107 @@ namespace Common
                 return false;
             }
 
-          
+
+        }
+
+        public bool SecretaryAddClass(AddPrivateClassBindingModel model, PrivateClass privateClass)
+        {
+            try
+            {
+
+                privateClass.SubjectId = new TableHelper(CLASSES.SUBJECT.ToString()).GetSubjectId(model.Subject);
+                privateClass.Price = new TableHelper(CLASSES.PRICELIST.ToString()).GetPricelistId(privateClass.SubjectId);
+
+                AddOrReplace(privateClass);
+
+
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+
         }
 
         public List<string> GetAllSubjects()
         {
             var requests = from g in table.CreateQuery<Subject>()
-                          where g.PartitionKey == _class.ToString() 
-                          select g.Name;
+                           where g.PartitionKey == _class.ToString()
+                           select g.Name;
 
             return requests.ToList();
         }
+
+        public void CheckClassStatus()
+        {
+            IQueryable<PrivateClass> requests = from g in table.CreateQuery<PrivateClass>()
+                                                where g.PartitionKey == _class.ToString()
+                                                select g;
+
+            foreach (PrivateClass item in requests.ToList())
+            {
+                if (item.ClassStatus != CLASS_STATUS.ACCEPTED.ToString())
+                {
+                    if (DateTime.Now > (item.Date - new TimeSpan(24, 0, 0)))
+                    {
+                        TableHelper ts = new TableHelper(CLASSES.TEACHERSUBJECT.ToString());
+
+                        List<string> teachersEmail = ts.GetSubjectTeachersEmail(item.SubjectId.ToString());
+
+                        foreach (string email in teachersEmail)
+                        {
+                            MailHandler.SendMail(email, "Class expires in 12h!", $"Class {item.Lesson} at {item.Date} expires in 12h, accept it if you are available.");
+                        }
+                    }
+                    else if (DateTime.Now > (item.Date - new TimeSpan(12, 0, 0)))
+                    {
+                        item.ClassStatus = CLASS_STATUS.DECLINED.ToString();
+                        AddOrReplace(item);
+                        //posalji svim studentima mail
+
+                        TableHelper sc = new TableHelper(CLASSES.STUDENTCLASS.ToString());
+
+                        List<User> students = sc.GetClassStudents(item.RowKey);
+
+                        foreach (User user in students)
+                        {
+                            MailHandler.SendMail(user.PrefferEmail, "Class is DECLINED!", $"Dear {user.Username}, Class {item.Lesson} at {item.Date} is declined because we dont have teacher for that time, please choose other time,we are truly sorry.");
+                        }
+
+                    }
+                }
+            }
+        }
+
+        public List<string> GetNotTeacherSubjectsAsync(string userId)
+        {
+            TableHelper ts = new TableHelper(CLASSES.TEACHERSUBJECT.ToString());
+            TableHelper s = new TableHelper(CLASSES.SUBJECT.ToString());
+            IQueryable<int> requests = from g in ts.table.CreateQuery<TeacherSubject>()
+                                                where g.PartitionKey == ts._class.ToString() && g.TeachertId == int.Parse(userId)
+                                                  select g.SubjectId;
+
+            List<string> teaherSubjects = new List<string>();
+            List<string> retVal = new List<string>();
+            List<string> allSubjects = s.GetAllSubjects();
+
+            requests.ToList().ForEach(x =>
+            {
+                teaherSubjects.Add(((Subject)s.GetOne(x.ToString())).Name);
+            });
+
+            foreach (string item in allSubjects)
+            {
+                if (!teaherSubjects.Contains(item))
+                    retVal.Add(item);
+            }
+
+            return retVal;
+        }
+
         #endregion
     }
 }

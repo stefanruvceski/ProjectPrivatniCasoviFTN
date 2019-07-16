@@ -141,10 +141,7 @@ namespace Common.Utils
             }
         }
 
-        /// <summary>
-        /// A more efficient implementation that gets both group and role membership in one call
-        /// </summary>
-        /// <returns></returns>
+        
         public async Task<UserGroupsAndDirectoryRoles> GetCurrentUserGroupsAndRolesAsync()
         {
             UserGroupsAndDirectoryRoles userGroupsAndDirectoryRoles = new UserGroupsAndDirectoryRoles();
@@ -202,6 +199,8 @@ namespace Common.Utils
 
             return groups.Select(x => x.Id).ToList();
         }
+
+  
 
         private GraphServiceClient GetAuthenticatedClientForUser()
         {

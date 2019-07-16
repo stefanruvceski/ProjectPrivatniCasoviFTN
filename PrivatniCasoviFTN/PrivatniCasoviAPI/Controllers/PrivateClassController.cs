@@ -30,6 +30,10 @@ namespace PrivatniCasoviAPI.Controllers
             {
                 return proxy.GetPrivateClassesForUser(User.Identity.Name, "PrivatniCasoviTeachers");
             }
+            else if(await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
+            {
+                return proxy.GetPrivateClassesForUser(User.Identity.Name, "PrivatniCasoviSecretaries");
+            }
             return null;
         }
 
@@ -40,8 +44,20 @@ namespace PrivatniCasoviAPI.Controllers
             Connect();
             if (await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
             {
-                proxy.AcceptClass(id, User.Identity.Name);
-                return Ok();
+                int flag = proxy.AcceptClass(id, User.Identity.Name);
+
+                if (flag == -2)
+                {
+                    return BadRequest("You dont teach this subject.");
+                }
+                else if (flag == -1)
+                {
+                    return BadRequest("Inner error");
+                }
+                else
+                {
+                    return Ok();
+                }
             }
             else
             {
@@ -96,14 +112,21 @@ namespace PrivatniCasoviAPI.Controllers
         }
 
         [HttpPost]
-        [Route("api/privateclass/add")]
+        [Route("api/privateclass/addClass")]
 
         public  async Task<IHttpActionResult> AddClass(AddPrivateClassBindingModel model)
         {
             Connect();
-            if (!await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviStudents"))
             {
-                if(proxy.AddClass(model, User.Identity.Name))
+                if(proxy.StudentAddClass(model, User.Identity.Name))
+                    return Ok();
+                else
+                    return BadRequest("Inner error");
+            }
+            else if(await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
+            {
+                if (proxy.SecretaryAddClass(model, User.Identity.Name))
                     return Ok();
                 else
                     return BadRequest("Inner error");
@@ -115,19 +138,73 @@ namespace PrivatniCasoviAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/privateclass/userdeclineclass")]
+        [Route("api/privateclass/studentdeclineclass")]
         
-        public IHttpActionResult UserDeclineClass(string classId)
+        public async Task<IHttpActionResult> UserDeclineClassAsync(string classId)
         {
-            Connect();
-            if(proxy.UserDeclineClass(User.Identity.Name, classId))
+            if (!await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
             {
-                return Ok();
+                Connect();
+                if (proxy.StudentDeclineClass(User.Identity.Name, classId))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Inner error");
+                }
             }
             else
             {
-                return BadRequest("Inner error");
+                return BadRequest("Not Authorized.");
             }
+        }
+
+        [HttpGet]
+        [Route("api/privateclass/teacherdeclineclass")]
+
+        public async Task<IHttpActionResult> TeacherDeclineClassAsync(string classId)
+        {
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
+            { 
+                Connect();
+                if (proxy.TeacherDeclineClass(User.Identity.Name, classId))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Inner error");
+                }
+            }
+            else
+            {
+                return BadRequest("Not Authorized.");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/privateclass/secretarydeclineclass")]
+
+        public async Task<IHttpActionResult> SecretaryDeclineClassAsync(string classId)
+        {
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
+            {
+                Connect();
+                if (proxy.SecretaryDeclineClass(classId))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Inner error");
+                }
+            }
+            else
+            {
+                return BadRequest("Not Authorized.");
+            }
+
         }
         [HttpGet]
         [Route("api/privateclass/changedate")]
@@ -145,7 +222,36 @@ namespace PrivatniCasoviAPI.Controllers
                 return BadRequest(retVal);
             }
         }
+        
+        [HttpGet]
+        [Route("api/privateclass/assignClass")]
+        public async Task<IHttpActionResult> AssignClass(string classId,string teacher)
+        {
+            if(await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
+            {
+                Connect();
+                int flag = proxy.AssignClass(classId, teacher);
+                
+                if (flag == -2)
+                {
+                    return BadRequest("You dont teach this subject.");
+                }
+                else if (flag == -1)
+                {
+                    return BadRequest("Inner error");
+                }
+                else
+                {
+                    return Ok();
+                }
+            }
+            else
+            {
+                return BadRequest("Not Authorized.");
+            }
+        }
 
+       
         private void Connect()
         {
             if (proxy == null)

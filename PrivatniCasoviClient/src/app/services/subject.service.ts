@@ -13,10 +13,33 @@ export class SubjectService {
 
   getAllSubjects(){
     return this.http.get<Observable<string>>('http://localhost:52988/api/subject/getall').pipe(
-        catchError(this.handleError<Observable<string>>(`acceptClass `))
+        catchError(this.errorHandler)
       );
   }
 
+  getAllSubjectTeachers(subject:string){
+    return this.http.get<Observable<string>>('http://localhost:52988/api/subject/getsubjectteachers?subject='+subject).pipe(
+        catchError(this.errorHandler)
+      );
+  }
+  
+  addNewSubject(subject: string){
+    return this.http.get<Observable<string>>('http://localhost:52988/api/subject/addnewsubject?subject='+subject).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  teacherAddNewTeachingSubject(subject: string){
+    return this.http.get<Observable<string>>('http://localhost:52988/api/subject/teacheraddnewteachingsubject?subject='+subject).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  getNotTeacherSubjects(){
+    return this.http.get<Observable<string>>('http://localhost:52988/api/subject/getnotteachersubjects').pipe(
+        catchError(this.errorHandler)
+      );
+  }
   errorHandler(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred: ', error.error.message);
@@ -33,4 +56,5 @@ export class SubjectService {
       return of(result as T);
     };
   }
+
 }

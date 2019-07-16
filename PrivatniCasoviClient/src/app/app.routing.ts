@@ -10,12 +10,18 @@ import { LandingComponent } from './landing/landing.component';
 import { NucleoiconsComponent } from './components/nucleoicons/nucleoicons.component';
 import { AuthenticationGuard } from 'microsoft-adal-angular6';
 import { MyComponentComponent } from './my-component/my-component.component';
+import { MathematicsComponent } from './mathematics/mathematics.component';
+import { ElectrotechnicsComponent } from './electrotechnics/electrotechnics.component';
+import { ProgrammingComponent } from './programming/programming.component';
 
 const routes: Routes = [
     { path: 'home',             component: HomeComponent , canActivate: [AuthenticationGuard]},
     { path: 'my',             component: MyComponentComponent , canActivate: [AuthenticationGuard]},
     { path: 'user-profile',     component: ProfileComponent , canActivate: [AuthenticationGuard]},
     { path: 'signup',           component: SignupComponent , canActivate: [AuthenticationGuard]},
+    { path: 'mathematics',           component:  MathematicsComponent , canActivate: [AuthenticationGuard]},
+    { path: 'electrotehnics',           component:  ElectrotechnicsComponent , canActivate: [AuthenticationGuard]},
+    { path: 'programming',           component:  ProgrammingComponent , canActivate: [AuthenticationGuard]},
     { path: 'landing',          component: LandingComponent },
     { path: 'nucleoicons',      component: NucleoiconsComponent , canActivate: [AuthenticationGuard]},
     { path: '', redirectTo: 'landing', pathMatch: 'full' },

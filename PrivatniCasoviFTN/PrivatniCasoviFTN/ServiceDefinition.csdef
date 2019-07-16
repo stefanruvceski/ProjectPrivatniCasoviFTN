@@ -25,4 +25,10 @@
       <InputEndpoint name="InputRequest" protocol="tcp" port="11000" />
     </Endpoints>
   </WorkerRole>
+  <WorkerRole name="ClassStatusWorkerRole" vmsize="Standard_D1_v2">
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="DataConnectionString" />
+    </ConfigurationSettings>
+  </WorkerRole>
 </ServiceDefinition>

@@ -11,7 +11,7 @@ namespace Common.DataBase_Models
         static int cnt = 0;
         public User() { }
 
-        public User(string username, string firstName, string lastName, string address, string phone, string email,string prefferEmail, int firmId, string degreeOfEducation)
+        public User(string username, string firstName, string lastName, string address, string phone, string email,string prefferEmail, int firmId, string degreeOfEducation,string type)
         {
             if (cnt == 0)
             {
@@ -30,12 +30,15 @@ namespace Common.DataBase_Models
             DegreeOfEducation = degreeOfEducation;
             PartitionKey = CLASSES.USER.ToString();
             RowKey = (cnt++).ToString();
+            Type = Type;
+
         }
 
         public string Username { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
+        public string Type { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public string PrefferEmail { get; set; }

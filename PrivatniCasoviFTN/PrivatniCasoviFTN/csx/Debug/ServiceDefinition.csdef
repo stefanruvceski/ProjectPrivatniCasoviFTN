@@ -13,6 +13,17 @@
     </Endpoints>
     <Certificates />
   </WebRole>
+  <WorkerRole name="ClassStatusWorkerRole" vmsize="Standard_D1_v2">
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" sizeInMB="4096" cleanOnRoleRecycle="false" />
+    </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+    </ConfigurationSettings>
+    <Endpoints />
+    <Certificates />
+  </WorkerRole>
   <WorkerRole name="WorkerRole1" vmsize="Standard_D1_v2">
     <LocalResources>
       <LocalStorage name="DiagnosticStore" sizeInMB="4096" cleanOnRoleRecycle="false" />

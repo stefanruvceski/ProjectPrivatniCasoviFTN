@@ -1,7 +1,9 @@
 ﻿using Common;
 using Common.BindingModel;
 using Common.BindingModels;
+using Common.Database_Models;
 using Common.DataBase_Models;
+using Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,6 +23,7 @@ namespace WorkerRole1
         TableHelper tableHelper6 = new TableHelper(CLASSES.STUDENTCLASS.ToString());
         TableHelper tableHelper7 = new TableHelper(CLASSES.TEACHERCLASS.ToString());
         TableHelper tableHelper8 = new TableHelper(CLASSES.USER.ToString());
+        TableHelper tableHelper9 = new TableHelper(CLASSES.TEACHERSUBJECT.ToString());
 
         public JobServerProvider()
         {
@@ -67,6 +70,13 @@ namespace WorkerRole1
                 new PrivateClass("Kola",0,1500,DateTime.Now,3,1),
             };
 
+            List<CustomEntity> teacherSubjects = new List<CustomEntity>()
+            {
+                new TeacherSubject(1, 1),
+                new TeacherSubject(1, 2),
+                new TeacherSubject(1,3),
+            };
+
             List<CustomEntity> studentclasses = new List<CustomEntity>()
             {
                 new StudentClass(0,0,0,false),
@@ -76,7 +86,7 @@ namespace WorkerRole1
             //{
             //    new TeacherClass(1,0,1,false),
             //};
-
+            //  new TableHelper(CLASSES.TEACHERSUBJECT.ToString()).InitTable(teacherSubjects);
             //tableHelper.InitTable(subjects);
             //tableHelper2.InitTable(comments);
             //tableHelper3.InitTable(firms);
@@ -90,11 +100,11 @@ namespace WorkerRole1
 
         }
 
-        public bool EditUserInformations(EditUserInfoBindingModel bindingModel)
+        public bool EditUserInformations(EditUserInfoBindingModel bindingModel, string type)
         {
             try
             {
-                User model = new User(bindingModel.Username, bindingModel.FirstName, bindingModel.LastName, bindingModel.Address, bindingModel.Phone, bindingModel.Email, bindingModel.PrefferEmail, 0, bindingModel.Degree);
+                User model = new User(bindingModel.Username, bindingModel.FirstName, bindingModel.LastName, bindingModel.Address, bindingModel.Phone, bindingModel.Email, bindingModel.PrefferEmail, 0, bindingModel.Degree, type);
                 if (bindingModel.Id != "-1")
                     model.RowKey = bindingModel.Id;
                 User u = (User)tableHelper8.GetOne(bindingModel.Email);
@@ -111,13 +121,13 @@ namespace WorkerRole1
             }
         }
 
-        public EditUserInfoBindingModel GetUserByEmail(string email)
+        public EditUserInfoBindingModel GetUserByEmail(string email, string type)
         {
             User u = (User)tableHelper8.GetOne(email);
 
-            if(u.Email == null)
+            if (u.Email == null)
             {
-                u = new User(null, null, null, null, null, email,null, 0, null);
+                u = new User(null, null, null, null, null, email, null, 0, null, type);
                 tableHelper8.AddOrReplace(u);
             }
 
@@ -164,7 +174,7 @@ namespace WorkerRole1
         public List<PrivateClassBindingModel> GetPrivateClassesForUser(string email, string group)
         {
             List<PrivateClassBindingModel> retVal = new List<PrivateClassBindingModel>();
-            retVal =  tableHelper5.GetUsersClasses(tableHelper8.GetUsetId(email),group);
+            retVal = tableHelper5.GetUsersClasses(tableHelper8.GetUsetId(email), group);
 
             foreach (PrivateClassBindingModel item in retVal)
             {
@@ -178,8 +188,8 @@ namespace WorkerRole1
                     month = "0" + month;
 
                 item.StartDate = $"{dt.Year}-{month}-{day}T{dt.TimeOfDay.ToString()}";
-                item.EndDate = $"{dt.Year}-{month}-{day}T{(dt.TimeOfDay+ new TimeSpan(1,30,0)).ToString()}";
-                if(item.IsMine == "yes")
+                item.EndDate = $"{dt.Year}-{month}-{day}T{(dt.TimeOfDay + new TimeSpan(1, 30, 0)).ToString()}";
+                if (item.IsMine == "yes")
                 {
                     item.Color = "#f5d142";
                 }
@@ -187,7 +197,7 @@ namespace WorkerRole1
                 {
                     item.Color = "#288010";
                 }
-                else if(item.Status == CLASS_STATUS.REQUESTED.ToString())
+                else if (item.Status == CLASS_STATUS.REQUESTED.ToString())
                 {
                     item.Color = "#4287f5";
                 }
@@ -195,14 +205,43 @@ namespace WorkerRole1
                 {
                     item.Color = "#f54242";
                 }
+                if (item.Status == CLASS_STATUS.DECLINED.ToString())
+                {
+                    item.Color = "#f54242";
+                }
             }
-            
+
             return retVal;
         }
 
-        public bool AcceptClass(string classId, string email)
+        public int AcceptClass(string classId, string email)
         {
-            return tableHelper5.AcceptClass(tableHelper8.GetUsetId(email), classId);
+            int flag = tableHelper5.AcceptClass(tableHelper8.GetUsetId(email), classId);
+
+            if (flag == 1)
+            {
+                List<User> students = tableHelper6.GetClassStudents(classId);
+                User teacher = (User)tableHelper8.GetOne(email);
+                PrivateClass privateClass = (PrivateClass)tableHelper5.GetOne(classId);
+                Subject subject = (Subject)tableHelper.GetOne(privateClass.SubjectId.ToString());
+                string studentsUsername = "";
+                foreach (User item in students)
+                {
+                    studentsUsername += item.Username + ", ";
+                    if (item.PrefferEmail != null)
+                    {
+                        MailHandler.SendMail(item.PrefferEmail, "Class accepted", $"Your class has been accepted by {teacher.Username}.");
+                    }
+                }
+
+                if (teacher.PrefferEmail != null)
+                {
+                    MailHandler.SendMail(teacher.PrefferEmail, "Class accepted", $"You accepted class {subject.Name}\nLesson {privateClass.Lesson}\nDate {privateClass.Date}\nStudents: {studentsUsername}");
+                }
+
+            }
+
+            return flag;
         }
 
         public bool TeacherDeleteClass(string classId)
@@ -220,28 +259,92 @@ namespace WorkerRole1
             return tableHelper.GetAllSubjects();
         }
 
-        public bool AddClass(AddPrivateClassBindingModel model, string email)
+        public bool StudentAddClass(AddPrivateClassBindingModel model, string email)
         {
             //mesec/dan/godina
-            DateTime dt = new DateTime(int.Parse(model.Date.Split('/')[2]), int.Parse(model.Date.Split('/')[0]), int.Parse(model.Date.Split('/')[1]), int.Parse(model.Time.Split(':')[0]), int.Parse(model.Time.Split(':')[1]),0);
-            PrivateClass privateClass = new PrivateClass(model.Lesson,0,0,dt,0,1);
-            
-            return tableHelper5.AddClass(model,privateClass, tableHelper8.GetUsetId(email));
+            int hour = int.Parse(model.Time.Split(':')[0]);
+            if (hour == 22)
+                hour = 0;
+            else if (hour == 23)
+                hour = 1;
+            else
+                hour += 2;
+            DateTime dt = new DateTime(int.Parse(model.Date.Split('/')[2]), int.Parse(model.Date.Split('/')[0]), int.Parse(model.Date.Split('/')[1]), hour, int.Parse(model.Time.Split(':')[1]), 0);
+            PrivateClass privateClass = new PrivateClass(model.Lesson, 0, 0, dt, 0, 1);
+
+            return tableHelper5.StudentAddClass(model, privateClass, tableHelper8.GetUsetId(email));
         }
 
-        public bool UserDeclineClass(string email, string classId)
+        public bool SecretaryAddClass(AddPrivateClassBindingModel model, string email)
         {
-            return tableHelper5.UserDeclineClass(tableHelper8.GetUsetId(email), classId);
+            //mesec/dan/godina
+            DateTime dt = new DateTime(int.Parse(model.Date.Split('/')[2]), int.Parse(model.Date.Split('/')[0]), int.Parse(model.Date.Split('/')[1]), int.Parse(model.Time.Split(':')[0]), int.Parse(model.Time.Split(':')[1]), 0);
+            PrivateClass privateClass = new PrivateClass(model.Lesson, 0, 0, dt, 0, int.Parse(model.NumOfStudents));
+
+            return tableHelper5.SecretaryAddClass(model, privateClass);
         }
 
-        public string UserChangeDate(string email, string classId, string date,out bool flag)
+        public bool StudentDeclineClass(string email, string classId)
+        {
+            int flag = tableHelper5.StudentDeclineClass(tableHelper8.GetUsetId(email), classId);
+
+            if (flag == -1)
+            {
+                return false;
+            }
+            else
+            {
+                if (flag == -2)
+                {
+                    PrivateClass privateClass = (PrivateClass)tableHelper5.GetOne(classId);
+                    User teacher = tableHelper7.GetClassTeacher(classId);
+
+                    MailHandler.SendMail(teacher.PrefferEmail, "Class DECLINED by students", $"Class {privateClass.Lesson} at {privateClass.Date} has been DECLINED by students.");
+                }
+
+                return true;
+            }
+        }
+
+        public bool TeacherDeclineClass(string email, string classId)
+        {
+            if (tableHelper5.TeacherDeclineClass(tableHelper8.GetUsetId(email), classId))
+            {
+                PrivateClass privateClass = (PrivateClass)tableHelper5.GetOne(classId);
+                tableHelper6.GetClassStudents(classId).ForEach(x =>
+                {
+                    MailHandler.SendMail(x.PrefferEmail, "Class DECLINED by teacher", $"Class {privateClass.Lesson} at {privateClass.Date} has been DECLINED by teacher.");
+                });
+
+                return true;
+            }
+            return false;
+        }
+
+        public bool SecretaryDeclineClass(string classId)
+        {
+            try
+            {
+                tableHelper7.SecretaryDeclineClass(classId);
+
+
+                return true;
+            }
+            catch
+            {
+                return false;   
+            }
+
+        }
+
+        public string UserChangeDate(string email, string classId, string date, out bool flag)
         {
             string time = date.Split(',')[1];
             date = date.Split(',')[0];
-            
+
             DateTime dt = new DateTime(int.Parse(date.Split('/')[2]), int.Parse(date.Split('/')[0]), int.Parse(date.Split('/')[1]), int.Parse(time.Split(':')[0]), int.Parse(time.Split(':')[1]), 0);
 
-            string retVal =  tableHelper5.UserChangeDate(tableHelper8.GetUsetId(email), classId,dt);
+            string retVal = tableHelper5.UserChangeDate(tableHelper8.GetUsetId(email), classId, dt);
 
             DateTime dt2 = DateTime.Parse(retVal.Split('_')[1]);
             string day = dt2.Day.ToString();
@@ -255,7 +358,67 @@ namespace WorkerRole1
                 flag = true;
             else
                 flag = false;
-            return retVal.Split('_')[0]+ "_"+ $"{dt2.Year}-{month}-{day}T{dt2.TimeOfDay.ToString()}";
+            return retVal.Split('_')[0] + "_" + $"{dt2.Year}-{month}-{day}T{dt2.TimeOfDay.ToString()}";
+        }
+
+        public List<string> GetSubjectTeachers(string subject)
+        {
+            return tableHelper.GetSubjectTeachers(subject);
+        }
+
+        public int AssignClass(string classId, string teacher)
+        {
+            return tableHelper5.AcceptClass(tableHelper8.GetIdByUsername(teacher), classId);
+        }
+
+        public List<string> GetNotTeacherSubjectsAsync(string email)
+        {
+            User teacher = (User)tableHelper8.GetOne(email);
+
+            return tableHelper.GetNotTeacherSubjectsAsync(teacher.RowKey);
+        }
+
+        public bool TeacherAddNewTeachingSubject(string email, string subject)
+        {
+            try
+            {
+                User teacher = (User)tableHelper8.GetOne(email);
+
+                int subjectId = tableHelper.GetSubjectId(subject);
+
+                TeacherSubject teacherSubject = new TeacherSubject(int.Parse(teacher.RowKey), subjectId);
+
+
+                tableHelper9.AddOrReplace(teacherSubject);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public int AddNewSubject(string subject)
+        {
+            try
+            {
+                subject = subject.ToUpper();
+                if(!tableHelper.GetAllSubjects().Contains(subject)){
+                    Subject newSubject = new Subject(subject);
+                    tableHelper.AddOrReplace(newSubject);
+                    tableHelper8.GetAllTeachers().ForEach(x =>
+                    {
+                        MailHandler.SendMail(x.PrefferEmail, "New Subject added", $"New Subject {subject} has been added, if you want to teach it log in and assign it.");
+                    });
+                    return 1;
+                }
+                return -1;
+            }
+            catch
+            {
+                return -2;
+            }
         }
     }
 }

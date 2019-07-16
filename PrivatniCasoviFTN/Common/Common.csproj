@@ -118,6 +118,7 @@
     <Compile Include="Database_Model\StudentClass.cs" />
     <Compile Include="Database_Model\Subject.cs" />
     <Compile Include="Database_Model\TeacherClass.cs" />
+    <Compile Include="Database_Model\TeacherSubject.cs" />
     <Compile Include="Database_Model\User.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="IContract.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Utils\AuthorizationHelper.cs" />
     <Compile Include="Utils\ConfigHelper.cs" />
     <Compile Include="Utils\Globals.cs" />
+    <Compile Include="Utils\MailHandler.cs" />
     <Compile Include="Utils\MSGraphClient.cs" />
     <Compile Include="Utils\SubjectAttribute.cs" />
     <Compile Include="Utils\TokenHelper.cs" />

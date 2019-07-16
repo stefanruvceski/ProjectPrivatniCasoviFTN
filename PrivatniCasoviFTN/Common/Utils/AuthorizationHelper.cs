@@ -11,6 +11,7 @@ namespace Common.Utils
 {
     public static class AuthorizationHelper
     {
+      
         public static async Task<bool> IsInGroup(string role)
         {
             try
@@ -34,15 +35,23 @@ namespace Common.Utils
 
         public static async Task<string> GetGroupName()
         {
-            MSGraphClient msGraphClient = new MSGraphClient(ConfigHelper.Authority, new ADALTokenCache(Util.GetSignedInUsersObjectIdFromClaims()));
+            try
+            {
+                MSGraphClient msGraphClient = new MSGraphClient(ConfigHelper.Authority, new ADALTokenCache(Util.GetSignedInUsersObjectIdFromClaims()));
 
-            //User user = await msGraphClient.GetMeAsync();
-            UserGroupsAndDirectoryRoles userGroupsAndDirectoryRoles = await msGraphClient.GetCurrentUserGroupsAndRolesAsync();
+                //User user = await msGraphClient.GetMeAsync();
+                UserGroupsAndDirectoryRoles userGroupsAndDirectoryRoles = await msGraphClient.GetCurrentUserGroupsAndRolesAsync();
 
-            IList<Group> groups = await msGraphClient.GetCurrentUserGroupsAsync();
-            List<String> g = groups.ToList().Select(x => x.DisplayName).ToList();
+                IList<Group> groups = await msGraphClient.GetCurrentUserGroupsAsync();
+                List<String> g = groups.ToList().Select(x => x.DisplayName).ToList();
 
-            return g[0];
+                return g[0];
+            }
+            catch (AdalException)
+            {
+                // Return to error page.
+                return null;
+            }
         }
     }
 }

@@ -56,4 +56,21 @@
       <Import moduleName="Diagnostics" />
     </Imports>
   </WorkerRole>
+  <WorkerRole name="ClassStatusWorkerRole" vmsize="Standard_D1_v2">
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="DataConnectionString" />
+    </ConfigurationSettings>
+    <Contents>
+      <Content destination=".\">
+        <SourceDirectory path="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\rcf\Debug\ClassStatusWorkerRoleContent\" />
+      </Content>
+      <Content destination=".\">
+        <SourceDirectory path="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\ecf\ClassStatusWorkerRoleContent\" />
+      </Content>
+    </Contents>
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+  </WorkerRole>
 </ServiceDefinition>

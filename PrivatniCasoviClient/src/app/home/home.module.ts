@@ -9,6 +9,7 @@ import { HomeComponent, NgbdModalContent } from './home.component';
 
 import { ComponentsModule } from '../components/components.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { NouisliderModule } from 'ng2-nouislider';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
         BrowserModule,
         FormsModule,
         RouterModule,
+        NouisliderModule,
         FullCalendarModule,
         ComponentsModule,
     ],
