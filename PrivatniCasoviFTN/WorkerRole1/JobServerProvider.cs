@@ -146,7 +146,7 @@ namespace WorkerRole1
 
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
@@ -158,7 +158,7 @@ namespace WorkerRole1
 
             if (u == null)
             {
-                u = new User(null, null, null, null, null, email, null, 0, null, type,null);
+                u = new User(null, null, null, null, null, email, null, 0, null, type, null);
                 tableHelper8.AddOrReplace(u);
             }
 
@@ -379,7 +379,7 @@ namespace WorkerRole1
             }
             catch
             {
-                return false;   
+                return false;
             }
 
         }
@@ -451,7 +451,7 @@ namespace WorkerRole1
             try
             {
                 subject = subject.ToUpper();
-                if(!tableHelper.GetAllSubjects().Contains(subject)){
+                if (!tableHelper.GetAllSubjects().Contains(subject)) {
 
                     string type = "";
 
@@ -462,7 +462,7 @@ namespace WorkerRole1
                     else if (Dictionaries.Electrotehnics.ContainsKey(subject.ToUpper()))
                         type = Dictionaries.Electrotehnics[subject.ToUpper()];
 
-                    Subject newSubject = new Subject(subject,type);
+                    Subject newSubject = new Subject(subject, type, subject);
                     Pricelist pricelist = new Pricelist(1500, int.Parse(newSubject.RowKey), 0);
                     new TableHelper(CLASSES.PRICELIST.ToString()).AddOrReplace(pricelist);
                     tableHelper.AddOrReplace(newSubject);
@@ -488,7 +488,7 @@ namespace WorkerRole1
 
             mathSubjects.ForEach(x =>
             {
-                tableHelper9.GetMathTeacherBySubjectId(int.Parse(x)).ForEach(y => {
+                tableHelper9.GetTeachersBySubjectId(int.Parse(x)).ForEach(y => {
                     User u = tableHelper8.GetUserById(y.ToString());
                     string image = "";
                     try
@@ -507,13 +507,93 @@ namespace WorkerRole1
                         Image = image
                     });
                 });
-               
-                
+
+
             });
 
-           
+
 
             return retVal.GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
+        }
+
+        public SubjectBindingModel GetSubjectByName(string name)
+        {
+            SubjectBindingModel retVal = new SubjectBindingModel();
+            retVal.Teachers = new List<SubjectTeacherBindingModel>();
+            try
+            {
+                Subject subject = tableHelper.GetSubjectByName(name);
+
+
+                retVal.Name = subject.Name;
+                retVal.Details = subject.Details;
+                tableHelper9.GetTeachersBySubjectId(int.Parse(subject.RowKey)).ForEach(x =>
+                {
+                    User u = tableHelper8.GetUserById(x.ToString());
+                    string image = "";
+                    try
+                    {
+                        image = blobHelper.DownloadStringFromBlob(u.Image);
+                    }
+                    catch { }
+
+                    retVal.Teachers.Add(new SubjectTeacherBindingModel()
+                    {
+                        FullName = u.FirstName + " " + u.LastName,
+                        Email = u.Email,
+                        Image = image
+                    });
+                });
+            }
+            catch { }
+            return retVal;
+        }
+
+        public TeacherSubjectBindingModel GetTeacherSubjectsAsync(string teacherId)
+        {
+            TeacherSubjectBindingModel retVal = new TeacherSubjectBindingModel() { Subjects = new List<SubjectByType>() };
+
+            SubjectByType mathematics = new SubjectByType() { Subjects = new List<SubjectTeach>() ,Name = "MATHEMATICS" };
+            SubjectByType electrotehnics = new SubjectByType() { Subjects = new List<SubjectTeach>(),Name= "ELECTROTEHNICS" };
+            SubjectByType programming = new SubjectByType() { Subjects = new List<SubjectTeach>(),Name= "PROGRAMMING" };
+
+
+            tableHelper.GetTeacherSubjectsById(teacherId).ForEach(x => {
+                if(x.Type == "MATHEMATICS")
+                    mathematics.Subjects.Add(new SubjectTeach()
+                    {
+                         Name = x.Name,
+                         Type = x.Type,
+                         Details = x.Details
+
+                    });
+                else if (x.Type == "ELECTROTEHNICS")
+                    electrotehnics.Subjects.Add(new SubjectTeach()
+                    {
+                        Name = x.Name,
+                        Type = x.Type,
+                        Details = x.Details
+
+                    });
+                else if (x.Type == "PROGRAMMING")
+                    programming.Subjects.Add(new SubjectTeach()
+                    {
+                        Name = x.Name,
+                        Type = x.Type,
+                        Details = x.Details
+
+                    });
+
+            });
+
+            if (mathematics.Subjects.Count != 0)
+                retVal.Subjects.Add(mathematics);
+            if (electrotehnics.Subjects.Count != 0)
+                retVal.Subjects.Add(electrotehnics);
+            if (programming.Subjects.Count != 0)
+                retVal.Subjects.Add(programming);
+
+            return retVal;
         }
     }
 }

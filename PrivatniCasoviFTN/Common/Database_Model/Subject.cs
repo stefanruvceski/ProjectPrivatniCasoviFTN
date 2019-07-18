@@ -9,7 +9,7 @@ namespace Common.DataBase_Models
     {
         static int cnt = 0;
         public Subject() { }
-        public Subject(string name,string type)
+        public Subject(string name,string type, string details)
         {
             if(cnt == 0)
             {
@@ -17,6 +17,7 @@ namespace Common.DataBase_Models
             }
             Name = name;
             Type = type;
+            Details = details;
             PartitionKey = CLASSES.SUBJECT.ToString();
             RowKey = (cnt++).ToString();
            
@@ -24,5 +25,6 @@ namespace Common.DataBase_Models
         public string Name { get; set; }
 
         public string Type { get; set; }
+        public string Details { get; set; }
     }
 }

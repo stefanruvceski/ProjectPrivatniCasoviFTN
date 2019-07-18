@@ -1,6 +1,7 @@
 <div class="page-header" data-parallax="true" style="background-image: url('./assets/img/daniel-olahh.jpg');">
   <div class="filter"></div>
-  <div class="container">
+  <div *ngIf="mathTeachers == null"  style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader" >  </div>
+  <div *ngIf="mathTeachers != null" class="container">
       <div class="motto text-center">
         <div class="columnsContainer">
             <h2 class="center">MATHEMATICS</h2>
@@ -8,7 +9,7 @@
             <div class="row" name ="subjects" >
                 <div class="col">
                   <div >
-                      <div>
+                      <div (click)="onSubjectClick('ALGEBRA?https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/3D_coordinate_system.svg/1200px-3D_coordinate_system.svg.png')">
                           <div class=" card teacherDiv" >
                               <div class="info center text-center">
                                   <h4 class="images-title">ALGEBRA</h4>
@@ -22,7 +23,7 @@
                 </div>
                 <div class="col">
                     <div >
-                        <div>
+                        <div (click)="onSubjectClick('ANALYSIS 1?https://i.imgur.com/BeFDdXm.png')">
                             <div class=" card teacherDiv">
                                 <div class="info center text-center">
                                     <h4 class="images-title">ANALYSIS 1</h4>
@@ -36,7 +37,7 @@
                   </div>
                   <div class="col">
                       <div >
-                          <div>
+                          <div (click)="onSubjectClick('DISCRETE MATH?https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Independent_set_graph.svg/220px-Independent_set_graph.svg.png')"style="cursor: pointer;">
                               <div class=" card teacherDiv" >
                                   <div class="info center text-center">
                                       <h4 class="images-title">DISCRETE MATH</h4>
@@ -50,7 +51,7 @@
                     </div>
                     <div class="col">
                         <div >
-                            <div>
+                            <div (click)="onSubjectClick('ANALYSIS 2?https://cdn1.iconfinder.com/data/icons/dotted-charts/512/sine_plot-2-512.png')">
                                 <div class=" card teacherDiv" >
                                     <div class="info center text-center">
                                         <h4 class="images-title">ANALYSIS 2</h4>
@@ -67,7 +68,7 @@
           <div class="row" name="teachers">
             <div class="col-xl-3" *ngFor="let teacher of mathTeachers">
               <div >
-                  <div>
+                  <div (click)="onTeacherClick(teacher)">
                       <div class="center card teacherDiv" >
                           <div class="info center text-center">
                               <h4 class="images-title">{{teacher.FirstName}} {{teacher.LastName}}</h4>

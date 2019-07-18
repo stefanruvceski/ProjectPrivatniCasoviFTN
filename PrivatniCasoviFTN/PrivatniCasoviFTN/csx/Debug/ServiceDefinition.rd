@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PrivatniCasoviFTN" generation="1" functional="0" release="0" Id="9dec7b29-3f04-4fba-92eb-17dbe07d5900" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PrivatniCasoviFTN" generation="1" functional="0" release="0" Id="0783102c-6db1-48eb-a94c-b1bce1f4fb99" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="PrivatniCasoviFTNGroup" generation="1" functional="0" release="0">
       <componentports>
@@ -196,14 +196,14 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="786288eb-6d6c-4521-b855-78374b585ac1" ref="Microsoft.RedDog.Contract\ServiceContract\PrivatniCasoviFTNContract@ServiceDefinition">
+    <implementation Id="a458196a-b5c5-4994-9ea1-549e7835347f" ref="Microsoft.RedDog.Contract\ServiceContract\PrivatniCasoviFTNContract@ServiceDefinition">
       <interfacereferences>
-        <interfaceReference Id="53e1c46d-ac92-48ff-98a4-98ab451a1ca3" ref="Microsoft.RedDog.Contract\Interface\PrivatniCasoviAPI:Endpoint1@ServiceDefinition">
+        <interfaceReference Id="16592e57-bdf5-42a8-96a0-25d1b965e071" ref="Microsoft.RedDog.Contract\Interface\PrivatniCasoviAPI:Endpoint1@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/PrivatniCasoviAPI:Endpoint1" />
           </inPort>
         </interfaceReference>
-        <interfaceReference Id="27511187-941d-4a0d-b905-0b7d0d332ab1" ref="Microsoft.RedDog.Contract\Interface\WorkerRole1:InputRequest@ServiceDefinition">
+        <interfaceReference Id="a63be776-33eb-410c-b72d-f01857f06441" ref="Microsoft.RedDog.Contract\Interface\WorkerRole1:InputRequest@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1:InputRequest" />
           </inPort>

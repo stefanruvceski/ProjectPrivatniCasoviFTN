@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
     private sidebarVisible: boolean;
     username: string;
     image:string;
+    
     constructor(public location: Location, private element: ElementRef, private userService: UserService,
         private adalSvc: MsAdalAngular6Service) {
         this.sidebarVisible = false;

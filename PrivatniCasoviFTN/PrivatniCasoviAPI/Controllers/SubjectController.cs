@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.BindingModel;
 using Common.Utils;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,14 @@ namespace PrivatniCasoviAPI.Controllers
         {
             Connect();
             return proxy.GetAllSubjects();
+        }
+
+        [HttpGet]
+        [Route("api/subject/getsubjectbyname")]
+        public SubjectBindingModel GetSubjectByName(string name)
+        {
+            Connect();
+            return proxy.GetSubjectByName(name);
         }
 
         [HttpGet]
@@ -50,6 +59,22 @@ namespace PrivatniCasoviAPI.Controllers
 
             return retVal;
         }
+
+
+
+        [HttpGet]
+        [Route("api/subject/getteachersubjects")]
+        public TeacherSubjectBindingModel GetTeacherSubjects(string id)
+        {
+            TeacherSubjectBindingModel retVal = new TeacherSubjectBindingModel();
+
+            Connect();
+            retVal = proxy.GetTeacherSubjectsAsync(id);
+
+
+            return retVal;
+        }
+
         [HttpGet]
         [Route("api/subject/teacheraddnewteachingsubject")]
         public async Task<IHttpActionResult> TeacherAddNewTeachingSubjectAsync(string subject)

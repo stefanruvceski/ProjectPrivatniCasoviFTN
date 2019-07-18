@@ -1,7 +1,9 @@
 
-<div class="page-header" data-parallax="true" style="background-image: url('./assets/img/daniel-olahh.jpg');">
+
+<div  class="page-header" data-parallax="true" style="background-image: url('./assets/img/daniel-olahh.jpg');">
   <div class="filter"></div>
-  <div class="container">
+  <div *ngIf="eventsModel == null"  style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader" >  </div>
+  <div *ngIf="eventsModel != null" class="container">
       <div class="motto text-center">
             <br><br><br>
       <div class="columnsContainer">

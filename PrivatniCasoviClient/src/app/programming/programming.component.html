@@ -1,8 +1,9 @@
 
 <div class="page-header" data-parallax="true" style="background-image: url('./assets/img/daniel-olahh.jpg');">
   <div class="filter"></div>
-    
-  <div class="container">
+  <div *ngIf="progTeachers == null"  style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader" >  </div>
+  
+  <div *ngIf="progTeachers != null" class="container">
       <div class="motto text-center">
             <div class="columnsContainer">
                     <h2 class="center">PROGRAMMING</h2>
@@ -10,7 +11,7 @@
                     <div class="row" name ="subjects" >
                             <div class="col">
                               <div >
-                                  <div>
+                                  <div (click)="onSubjectClick('PJISP?https://i.imgur.com/cK7OzPP.png')">
                                       <div class=" card teacherDiv" >
                                           <div class="info center text-center">
                                               <h4 class="images-title">PJISP</h4>
@@ -24,7 +25,7 @@
                             </div>
                             <div class="col">
                                     <div >
-                                        <div>
+                                        <div (click)="onSubjectClick('AR?https://cdn.iconscout.com/icon/premium/png-256-thumb/binary-13-338094.png')">
                                             <div class=" card teacherDiv" >
                                                 <div class="info center text-center">
                                                     <h4 class="images-title">AR</h4>
@@ -38,7 +39,7 @@
                                   </div>
                                   <div class="col">
                                         <div >
-                                            <div>
+                                            <div (click)="onSubjectClick('OP?https://www.softwarepublicocolombia.gov.co/sites/default/files/node/project_application/field_image/LOGO2.png')">
                                                 <div class=" card teacherDiv" >
                                                     <div class="info center text-center">
                                                         <h4 class="images-title">OP</h4>
@@ -52,7 +53,7 @@
                                       </div>
                               <div class="col">
                                   <div >
-                                      <div>
+                                      <div (click)="onSubjectClick('ADS?https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png')">
                                           <div class=" card teacherDiv" >
                                               <div class="info center text-center">
                                                   <h4 class="images-title">ADS</h4>
@@ -66,7 +67,7 @@
                                 </div>
                                 <div class="col">
                                     <div >
-                                        <div>
+                                        <div (click)="onSubjectClick('OS?https://upload.wikimedia.org/wikipedia/commons/a/a5/Multithreaded_process.svg')">
                                             <div class=" card teacherDiv" >
                                                 <div class="info center text-center">
                                                     <h4 class="images-title">OS</h4>
@@ -82,7 +83,7 @@
                       <div class="row" name ="subjects" >
                             <div class="col">
                               <div >
-                                  <div>
+                                  <div (click)="onSubjectClick('PP?https://previews.123rf.com/images/coolvectorstock/coolvectorstock1811/coolvectorstock181113918/111820968-compiler-icon-compiler-linear-symbol-design-from-programming-collection-simple-outline-element-vecto.jpg')">
                                       <div class=" card teacherDiv" >
                                           <div class="info center text-center">
                                               <h4 class="images-title">PP</h4>
@@ -96,7 +97,7 @@
                             </div>
                             <div class="col">
                                     <div >
-                                        <div>
+                                        <div (click)="onSubjectClick('HCI?https://cdn0.iconfinder.com/data/icons/artificial-intelligence-butterscotch-vol-2/256/Human-Computer_Interaction-512.png')">
                                             <div class=" card teacherDiv" >
                                                 <div class="info center text-center">
                                                     <h4 class="images-title">HCI</h4>
@@ -110,7 +111,7 @@
                                   </div>
                                   <div class="col">
                                         <div >
-                                            <div>
+                                            <div (click)="onSubjectClick('CLOUD?https://runimp.com/assets/images/logos/Azure.png')">
                                                 <div class=" card teacherDiv" >
                                                     <div class="info center text-center">
                                                         <h4 class="images-title">CLOUD</h4>
@@ -124,7 +125,7 @@
                                       </div>
                               <div class="col">
                                   <div >
-                                      <div>
+                                      <div (click)="onSubjectClick('RVA?http://astah.net/tutorial/images/icon_class.png')">
                                           <div class=" card teacherDiv" >
                                               <div class="info center text-center">
                                                   <h4 class="images-title">RVA</h4>
@@ -138,10 +139,10 @@
                                 </div>
                                 <div class="col">
                                     <div >
-                                        <div>
+                                        <div (click)="onSubjectClick('WEB 1?https://icons-for-free.com/iconfiles/png/512/develop+html+language+layout+markup+programming+icon-1320165729268863150.png')">
                                             <div class=" card teacherDiv" >
                                                 <div class="info center text-center">
-                                                    <h4 class="images-title">WEB</h4>
+                                                    <h4 class="images-title">WEB 1</h4>
                                                     <img src="https://icons-for-free.com/iconfiles/png/512/develop+html+language+layout+markup+programming+icon-1320165729268863150.png" style="width: 150px;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
                                                    
                                                         
@@ -155,7 +156,7 @@
                   <div class="row" name="teachers">
                     <div class="col-xl-3" *ngFor="let teacher of progTeachers">
                       <div >
-                          <div>
+                            <div (click)="onTeacherClick(teacher)">
                               <div class="center card teacherDiv" >
                                   <div class="info center text-center">
                                       <h4 class="images-title">{{teacher.FirstName}} {{teacher.LastName}}</h4>

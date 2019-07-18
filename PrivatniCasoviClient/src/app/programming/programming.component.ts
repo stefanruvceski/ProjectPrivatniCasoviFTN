@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'app/services/user.service';
 import { Observable } from 'rxjs';
 import { User } from 'app/Model/User';
+import { Router } from '@angular/router';
+import { DataService } from 'app/services/data.service';
 
 @Component({
   selector: 'app-programming',
@@ -9,11 +11,12 @@ import { User } from 'app/Model/User';
   styleUrls: ['./programming.component.scss']
 })
 export class ProgrammingComponent implements OnInit {
-
-  constructor(private userService: UserService) { }
+  message: string;
+  constructor(private route: Router, private userService: UserService,private dataService: DataService) { }
   progTeachers: Observable<User>;
   ngOnInit() {
     this.getAllProgTeachers();
+    this.dataService.currentMessage.subscribe(data => this.message = data);
   }
 
   getAllProgTeachers(){
@@ -23,4 +26,14 @@ export class ProgrammingComponent implements OnInit {
     });
   }
 
+  onSubjectClick(subject: string){
+    
+    this.dataService.changeMessage(subject);
+    this.route.navigate(['/subject-details']);
+  }
+
+  onTeacherClick(teacher: User){
+    this.dataService.changeUser(teacher);
+    this.route.navigate(['/profile-details']);
+  }
 }

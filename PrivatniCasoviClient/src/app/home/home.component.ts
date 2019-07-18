@@ -653,26 +653,7 @@ export class HomeComponent implements OnInit {
     static eventDrop: any;
     changeDate(){
       if(HomeComponent.eventDrop.event.id.split('_')[5] == 'no'){
-      // let temp = Array<any>();
-      // let varr:any;
-      //   this.eventsModel.forEach(element => {
-       
-      //       if(element.id== HomeComponent.eventDrop.event.id){
-              
-             
-      //         element.start = this.convertDateTime( HomeComponent.oldStart);
-      //         element.end =  this.convertDateTime( HomeComponent.oldEnd);
-      //         console.log(element.start );
-      //        varr = element;
-      //       }
-      //       else{
-      //         temp.push(element);
-      //       }
-           
-      //   });
-      //   temp.push(varr);
-      //   console.log(this.eventsModel);
-      //   this.eventsModel = temp;
+
        this.eventsModel = [{}];
       this.updateEvents();
      

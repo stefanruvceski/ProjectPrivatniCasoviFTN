@@ -851,7 +851,7 @@ namespace Common
             return requests.ToList();
         }
 
-        public List<int> GetMathTeacherBySubjectId(int subjectId)
+        public List<int> GetTeachersBySubjectId(int subjectId)
         {
             var requests = from g in table.CreateQuery<TeacherSubject>()
                            where g.PartitionKey == _class.ToString() && g.SubjectId == subjectId
@@ -909,23 +909,61 @@ namespace Common
                                                 where g.PartitionKey == ts._class.ToString() && g.TeachertId == int.Parse(userId)
                                                   select g.SubjectId;
 
-            List<string> teaherSubjects = new List<string>();
+            List<string> teacherSubjects = new List<string>();
             List<string> retVal = new List<string>();
             List<string> allSubjects = s.GetAllSubjects();
             try
             {
                 requests.ToList().ForEach(x =>
                 {
-                    teaherSubjects.Add(((Subject)s.GetOne(x.ToString())).Name);
+                    teacherSubjects.Add(((Subject)s.GetOne(x.ToString())).Name);
                 });
             }
             catch { }
             foreach (string item in allSubjects)
             {
-                if (!teaherSubjects.Contains(item))
+                if (!teacherSubjects.Contains(item))
                     retVal.Add(item);
             }
             return retVal;
+        }
+
+
+        public List<Subject> GetTeacherSubjectsById(string teacherId)
+        {
+            TableHelper ts = new TableHelper(CLASSES.TEACHERSUBJECT.ToString());
+            TableHelper s = new TableHelper(CLASSES.SUBJECT.ToString());
+            IQueryable<int> requests = from g in ts.table.CreateQuery<TeacherSubject>()
+                                       where g.PartitionKey == ts._class.ToString() && g.TeachertId == int.Parse(teacherId)
+                                       select g.SubjectId;
+
+            List<Subject> teacherSubjects = new List<Subject>();
+            try
+            {
+                requests.ToList().ForEach(x =>
+                {
+                    teacherSubjects.Add(((Subject)s.GetOne(x.ToString())));
+                });
+            }
+            catch { }
+
+            return teacherSubjects;
+        }
+
+        public Subject GetSubjectByName(string name)
+        {
+            try
+            {
+                var requests = from g in table.CreateQuery<Subject>()
+                               where g.PartitionKey == _class.ToString() && g.Name == name
+                               select g;
+
+                return requests.ToList()[0];
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         #endregion

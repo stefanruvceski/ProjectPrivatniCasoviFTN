@@ -26,6 +26,9 @@ import { NouisliderModule } from 'ng2-nouislider';
 import { MathematicsComponent } from './mathematics/mathematics.component';
 import { ProgrammingComponent } from './programming/programming.component';
 import { ElectrotechnicsComponent } from './electrotechnics/electrotechnics.component';
+import { SubjectDetailsComponent } from './subject-details/subject-details.component';
+import { DataService } from './services/data.service';
+import { ProfileDetailsComponent } from './profile-details/profile-details.component';
 
 export function getAdalConfig() {
   return {
@@ -54,6 +57,8 @@ export function getAdalConfig() {
     MathematicsComponent,
     ProgrammingComponent,
     ElectrotechnicsComponent,
+    SubjectDetailsComponent,
+    ProfileDetailsComponent,
     
   ],
   imports: [
@@ -71,7 +76,7 @@ export function getAdalConfig() {
     MsAdalAngular6Module.forRoot(getAdalConfig),
   ],
   providers: [AuthenticationGuard, {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-              TestService, UserService, PrivateClassService],
+              TestService, DataService , UserService, PrivateClassService],
   bootstrap: [AppComponent],
   entryComponents: [NgbdModalContent],
 })

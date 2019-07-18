@@ -57,5 +57,10 @@ namespace Common
 
         [OperationContract]
         List<EditUserInfoBindingModel> GetAllMathTeachers(string type);
+
+        [OperationContract]
+        SubjectBindingModel GetSubjectByName(string name);
+        [OperationContract]
+        TeacherSubjectBindingModel GetTeacherSubjectsAsync(string teacherId);
     }
 }

@@ -1,0 +1,78 @@
+
+
+
+<div *ngIf="subject == null" class="wrapper" >
+    <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('https://wallpaperplay.com/walls/full/6/6/2/99686.jpg');">
+        <div class="filter"></div>
+    </div>
+    <div class="section profile-content" style="background-color: black;color:white;">
+        <div class="container">
+            <div class="owner">
+                <div class="avatar">
+                    <div style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader" *ngIf="subject == null">  </div>
+                </div>
+               
+            </div>
+           
+            <br/> <br/>  <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+            
+        </div>
+    </div>
+  </div>
+
+
+
+
+<div *ngIf="subject != null" class="wrapper" >
+  <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('https://www.pixelstalk.net/wp-content/uploads/2016/05/Math-Mathematics-Formula-Wallpaper-for-PC.jpg');">
+      <div class="filter"></div>
+  </div>
+  <div class="section profile-content" style="background-color: black;color:white;">
+      <div class="container">
+          <div class="owner">
+              <div class="avatar">
+                  <img src="{{message.split('?')[1]}}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+              </div>
+              <div class="name">
+                  <h4 class="title" style="color: white;">{{subject.Name}}<br /></h4>
+                  
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6 ml-auto mr-auto text-center">
+                  <p>{{subject.Details}}</p>
+                  <br />
+              </div>
+          </div>
+          <br/>
+          <div class="nav-tabs-navigation"> 
+                  <ngb-tabset [justify]="'center'">
+                      <ngb-tab style="color:white; "title="Teachers">
+                          <ng-template ngbTabContent >
+                              <div class="row following" id="follows">
+                                  <div class="col-md-6 ml-auto mr-auto">
+                                      <ul class="list-unstyled follows">
+                                          <li *ngFor="let teacher of subject.Teachers">
+                                              <div class="row">
+                                                  <div class="col-md-2 col-sm-2 ml-auto mr-auto">
+                                                      <img [src]="teacher.Image" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                  </div>
+                                                  <div class="col-md-7 col-sm-4 ml-auto">
+                                                      <h6>{{teacher.FullName}}<br/><small>{{teacher.Email}}</small></h6>
+                                                  </div>
+                                                  
+                                              </div>
+                                              <hr />
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
+                          </ng-template>
+                      </ngb-tab>
+                    
+                  </ngb-tabset>
+            
+          </div>
+      </div>
+  </div>
+</div>

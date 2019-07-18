@@ -1,0 +1,81 @@
+
+
+
+<div *ngIf="subjects == null" class="wrapper" >
+    <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('https://wallpaperplay.com/walls/full/6/6/2/99686.jpg');">
+        <div class="filter"></div>
+    </div>
+    <div class="section profile-content" style="background-color: black;color:white;">
+        <div class="container">
+            <div class="owner">
+                <div class="avatar">
+                    <div style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader" *ngIf="subject == null">  </div>
+                </div>
+               
+            </div>
+           
+            <br/> <br/>  <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+            
+        </div>
+    </div>
+  </div>
+
+
+
+
+<div *ngIf="subjects != null" class="wrapper" >
+  <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('./assets/img/daniel-olahh.jpg');">
+      <div class="filter"></div>
+  </div>
+  <div class="section profile-content" style="background-color: black;color:white;">
+      <div class="container">
+          <div class="owner">
+              <div class="avatar">
+                  <img src="{{user.Image}}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+              </div>
+              <div class="name">
+                  <h4 class="title" style="color: white;">{{user.FirstName}} {{user.LastName}}<br /></h4>
+                  
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6 ml-auto mr-auto text-center">
+                  <p>{{user.Username}}</p>
+                  <p>{{user.Email}}</p>
+                  <p>{{user.Phone}}</p>
+                  <br />
+              </div>
+          </div>
+          <br/>
+          <div class="nav-tabs-navigation"> 
+              <div class="nav-tabs-wrapper">
+                  <ngb-tabset  [justify]="'center'">
+                      <ngb-tab *ngFor="let type of subjects.Subjects" style="color:white; "title="{{type.Name}}">
+                          <ng-template  ngbTabContent >
+                              <div class="row following" id="follows">
+                                  <div class="col-md-6 ml-auto mr-auto">
+                                      <ul class="list-unstyled follows">
+                                          <li *ngFor="let subjectt of type.Subjects">
+                                              <div class="row">
+                                                  <div class="col-md-2 col-sm-2 ml-auto mr-auto">
+                                                      <h5>{{subjectt.Name}}</h5>
+                                                  </div>
+                                                  <div class="col-md-7 col-sm-4 ml-auto">
+                                                      <h6>{{subjectt.Type}}<br/><small>{{subjectt.Details}}</small></h6>
+                                                  </div>
+                                                  
+                                              </div>
+                                              <hr />
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
+                          </ng-template>
+                      </ngb-tab>
+                    
+                  </ngb-tabset>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -13,6 +13,8 @@ import { MyComponentComponent } from './my-component/my-component.component';
 import { MathematicsComponent } from './mathematics/mathematics.component';
 import { ElectrotechnicsComponent } from './electrotechnics/electrotechnics.component';
 import { ProgrammingComponent } from './programming/programming.component';
+import { SubjectDetailsComponent } from './subject-details/subject-details.component';
+import { ProfileDetailsComponent } from './profile-details/profile-details.component';
 
 const routes: Routes = [
     { path: 'home',             component: HomeComponent , canActivate: [AuthenticationGuard]},
@@ -22,6 +24,8 @@ const routes: Routes = [
     { path: 'mathematics',           component:  MathematicsComponent , canActivate: [AuthenticationGuard]},
     { path: 'electrotehnics',           component:  ElectrotechnicsComponent , canActivate: [AuthenticationGuard]},
     { path: 'programming',           component:  ProgrammingComponent , canActivate: [AuthenticationGuard]},
+    { path: 'subject-details',           component:  SubjectDetailsComponent , canActivate: [AuthenticationGuard]},
+    { path: 'profile-details',           component:  ProfileDetailsComponent , canActivate: [AuthenticationGuard]},
     { path: 'landing',          component: LandingComponent },
     { path: 'nucleoicons',      component: NucleoiconsComponent , canActivate: [AuthenticationGuard]},
     { path: '', redirectTo: 'landing', pathMatch: 'full' },
