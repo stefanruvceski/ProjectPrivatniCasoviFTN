@@ -4,6 +4,7 @@ using Common.BindingModels;
 using Common.Database_Models;
 using Common.DataBase_Models;
 using Common.Utils;
+using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -65,22 +66,22 @@ namespace WorkerRole1
             ////     new User("milicap","Milica","Pranjkic","Narodnog Fronta 45","063123123","milicapranjkic@privatnicasovi.onmicrosoft.com","milicapranjkic@privatnicasovi.onmicrosoft.com",0,"srednja skola"),
             ////};
 
-            List<CustomEntity> classes = new List<CustomEntity>()
-            {
-                new PrivateClass("Kola",0,1500,DateTime.Now,3,1),
-            };
+            //List<CustomEntity> classes = new List<CustomEntity>()
+            //{
+            //    new PrivateClass("Kola",0,1500,DateTime.Now,3,1),
+            //};
 
-            List<CustomEntity> teacherSubjects = new List<CustomEntity>()
-            {
-                new TeacherSubject(1, 1),
-                new TeacherSubject(1, 2),
-                new TeacherSubject(1,3),
-            };
+            //List<CustomEntity> teacherSubjects = new List<CustomEntity>()
+            //{
+            //    new TeacherSubject(1, 1),
+            //    new TeacherSubject(1, 2),
+            //    new TeacherSubject(1,3),
+            //};
 
-            List<CustomEntity> studentclasses = new List<CustomEntity>()
-            {
-                new StudentClass(0,0,0,false),
-            };
+            //List<CustomEntity> studentclasses = new List<CustomEntity>()
+            //{
+            //    new StudentClass(0,0,0,false),
+            //};
 
             //List<CustomEntity> teacherClasses = new List<CustomEntity>()
             //{
@@ -99,23 +100,53 @@ namespace WorkerRole1
 
 
         }
-
+        BlobHelper blobHelper = new BlobHelper("userimages");
         public bool EditUserInformations(EditUserInfoBindingModel bindingModel, string type)
         {
+            User model = new User();
             try
             {
-                User model = new User(bindingModel.Username, bindingModel.FirstName, bindingModel.LastName, bindingModel.Address, bindingModel.Phone, bindingModel.Email, bindingModel.PrefferEmail, 0, bindingModel.Degree, type);
                 if (bindingModel.Id != "-1")
                     model.RowKey = bindingModel.Id;
+
                 User u = (User)tableHelper8.GetOne(bindingModel.Email);
                 if (u.RowKey != null)
                     model.RowKey = u.RowKey;
+
+                if (!String.IsNullOrWhiteSpace(bindingModel.Image))
+                {
+                    if (model.RowKey != null)
+                    {
+                        CloudBlockBlob cloudBlockBlob = blobHelper.UploadStringToBlob(model.RowKey, bindingModel.Image);
+
+
+                        model = new User(bindingModel.Username, bindingModel.FirstName, bindingModel.LastName, bindingModel.Address, bindingModel.Phone, bindingModel.Email, bindingModel.PrefferEmail, 0, bindingModel.Degree, type, cloudBlockBlob.Name);
+                    }
+                    else
+                    {
+                        model = new User(bindingModel.Username, bindingModel.FirstName, bindingModel.LastName, bindingModel.Address, bindingModel.Phone, bindingModel.Email, bindingModel.PrefferEmail, 0, bindingModel.Degree, type, "-1");
+
+                        CloudBlockBlob cloudBlockBlob = blobHelper.UploadStringToBlob(model.RowKey, bindingModel.Image);
+
+                        model.Image = cloudBlockBlob.Name;
+
+                    }
+                }
+                else
+                {
+                    model = new User(bindingModel.Username, bindingModel.FirstName, bindingModel.LastName, bindingModel.Address, bindingModel.Phone, bindingModel.Email, bindingModel.PrefferEmail, 0, bindingModel.Degree, type, bindingModel.Image);
+                }
+                if (bindingModel.Id != "-1")
+                    model.RowKey = bindingModel.Id;
+                if (u.RowKey != null)
+                    model.RowKey = u.RowKey;
+
 
                 tableHelper8.AddOrReplace(model);
 
                 return true;
             }
-            catch
+            catch(Exception e)
             {
                 return false;
             }
@@ -125,9 +156,9 @@ namespace WorkerRole1
         {
             User u = (User)tableHelper8.GetOne(email);
 
-            if (u.Email == null)
+            if (u == null)
             {
-                u = new User(null, null, null, null, null, email, null, 0, null, type);
+                u = new User(null, null, null, null, null, email, null, 0, null, type,null);
                 tableHelper8.AddOrReplace(u);
             }
 
@@ -137,6 +168,12 @@ namespace WorkerRole1
             }
             else
             {
+                string image = "";
+                try
+                {
+                    image = blobHelper.DownloadStringFromBlob(u.Image);
+                }
+                catch { }
                 return new EditUserInfoBindingModel()
                 {
                     Id = u.RowKey,
@@ -147,7 +184,8 @@ namespace WorkerRole1
                     Address = u.Address,
                     Phone = u.Phone,
                     PrefferEmail = u.PrefferEmail,
-                    Degree = u.DegreeOfEducation
+                    Degree = u.DegreeOfEducation,
+                    Image = image
                 };
             }
 
@@ -156,6 +194,14 @@ namespace WorkerRole1
         public EditUserInfoBindingModel GetUserForEdit(string email)
         {
             User u = (User)tableHelper8.GetOne(email);
+
+            string image = "";
+
+            try
+            {
+                image = blobHelper.DownloadStringFromBlob(u.Image);
+            }
+            catch { }
 
             return new EditUserInfoBindingModel()
             {
@@ -167,7 +213,8 @@ namespace WorkerRole1
                 Address = u.Address,
                 Phone = u.Phone,
                 PrefferEmail = u.PrefferEmail,
-                Degree = u.DegreeOfEducation
+                Degree = u.DegreeOfEducation,
+                Image = image
             };
         }
 
@@ -405,7 +452,19 @@ namespace WorkerRole1
             {
                 subject = subject.ToUpper();
                 if(!tableHelper.GetAllSubjects().Contains(subject)){
-                    Subject newSubject = new Subject(subject);
+
+                    string type = "";
+
+                    if (Dictionaries.Programming.ContainsKey(subject.ToUpper()))
+                        type = Dictionaries.Programming[subject.ToUpper()];
+                    else if (Dictionaries.Mathematics.ContainsKey(subject.ToUpper()))
+                        type = Dictionaries.Mathematics[subject.ToUpper()];
+                    else if (Dictionaries.Electrotehnics.ContainsKey(subject.ToUpper()))
+                        type = Dictionaries.Electrotehnics[subject.ToUpper()];
+
+                    Subject newSubject = new Subject(subject,type);
+                    Pricelist pricelist = new Pricelist(1500, int.Parse(newSubject.RowKey), 0);
+                    new TableHelper(CLASSES.PRICELIST.ToString()).AddOrReplace(pricelist);
                     tableHelper.AddOrReplace(newSubject);
                     tableHelper8.GetAllTeachers().ForEach(x =>
                     {
@@ -419,6 +478,42 @@ namespace WorkerRole1
             {
                 return -2;
             }
+        }
+
+        public List<EditUserInfoBindingModel> GetAllMathTeachers(string type)
+        {
+            List<EditUserInfoBindingModel> retVal = new List<EditUserInfoBindingModel>();
+
+            List<string> mathSubjects = tableHelper.GetTypeSubjects(type);
+
+            mathSubjects.ForEach(x =>
+            {
+                tableHelper9.GetMathTeacherBySubjectId(int.Parse(x)).ForEach(y => {
+                    User u = tableHelper8.GetUserById(y.ToString());
+                    string image = "";
+                    try
+                    {
+                        image = blobHelper.DownloadStringFromBlob(u.Image);
+                    }
+                    catch { }
+                    retVal.Add(new EditUserInfoBindingModel()
+                    {
+                        Id = u.RowKey,
+                        Username = u.Username,
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        PrefferEmail = u.PrefferEmail,
+                        Image = image
+                    });
+                });
+               
+                
+            });
+
+           
+
+            return retVal.GroupBy(customer => customer.Id).Select(g => g.First()).ToList();
         }
     }
 }

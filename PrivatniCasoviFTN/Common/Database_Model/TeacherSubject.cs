@@ -18,7 +18,7 @@ namespace Common.Database_Models
         {
             if (cnt == 0)
             {
-                cnt = new TableHelper(CLASSES.TEACHERCLASS.ToString()).GetCount();
+                cnt = new TableHelper(CLASSES.TEACHERSUBJECT.ToString()).GetCount();
             }
             TeachertId = teacherId;
             SubjectId = subjectId;

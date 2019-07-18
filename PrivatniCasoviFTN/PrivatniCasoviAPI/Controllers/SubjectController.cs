@@ -94,7 +94,11 @@ namespace PrivatniCasoviAPI.Controllers
         {
             if (proxy == null)
             {
-                ChannelFactory<IContract> factory = new ChannelFactory<IContract>(new NetTcpBinding(), new EndpointAddress($"net.tcp://localhost:11000/InputRequest"));
+                NetTcpBinding netTcpBinding = new NetTcpBinding();
+                netTcpBinding.MaxBufferSize = int.MaxValue;
+                netTcpBinding.MaxReceivedMessageSize = int.MaxValue;
+                netTcpBinding.MaxBufferPoolSize = int.MaxValue;
+                ChannelFactory<IContract> factory = new ChannelFactory<IContract>(netTcpBinding, new EndpointAddress($"net.tcp://localhost:11000/InputRequest"));
                 proxy = factory.CreateChannel();
             }
 

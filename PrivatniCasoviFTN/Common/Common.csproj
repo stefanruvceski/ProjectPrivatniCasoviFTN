@@ -110,6 +110,7 @@
     <Compile Include="BindingModel\AddPrivateClassBindingModel.cs" />
     <Compile Include="BindingModel\EditUserInfoBindingModel.cs" />
     <Compile Include="BindingModel\PrivateClassBindingModel.cs" />
+    <Compile Include="BlobHelper.cs" />
     <Compile Include="Database_Model\Comment.cs" />
     <Compile Include="Database_Model\CustomEntity.cs" />
     <Compile Include="Database_Model\Firm.cs" />

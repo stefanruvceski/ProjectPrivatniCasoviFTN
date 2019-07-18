@@ -53,5 +53,9 @@ namespace Common
         int AddNewSubject(string subject);
         [OperationContract]
         bool SecretaryDeclineClass(string classId);
+
+
+        [OperationContract]
+        List<EditUserInfoBindingModel> GetAllMathTeachers(string type);
     }
 }

@@ -5,15 +5,15 @@
         <div class="columnsContainer">
             <h2 class="center">MATHEMATICS</h2>
             <br><br><br>
-            <div class="row">
+            <div class="row" name ="subjects" >
                 <div class="col">
                   <div >
                       <div>
                           <div class=" card teacherDiv" >
                               <div class="info center text-center">
                                   <h4 class="images-title">ALGEBRA</h4>
-                                  <img src="assets/img/faces/joe-gardner-2.jpg" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
-                                  <p class="text-center">Joe Gardner</p>
+                                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/3D_coordinate_system.svg/1200px-3D_coordinate_system.svg.png" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
+                                 
                                       
                               </div>
                           </div>
@@ -25,9 +25,9 @@
                         <div>
                             <div class=" card teacherDiv">
                                 <div class="info center text-center">
-                                    <h4 class="images-title">ANALIZA</h4>
-                                    <img src="assets/img/faces/joe-gardner-2.jpg" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
-                                    <p class="text-center">Joe Gardner</p>
+                                    <h4 class="images-title">ANALYSIS 1</h4>
+                                    <img src="https://i.imgur.com/BeFDdXm.png" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
+                                  
                                         
                                 </div>
                             </div>
@@ -39,9 +39,9 @@
                           <div>
                               <div class=" card teacherDiv" >
                                   <div class="info center text-center">
-                                      <h4 class="images-title">DISKRETNA MATEMATIKA</h4>
-                                      <img src="assets/img/faces/joe-gardner-2.jpg" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
-                                      <p class="text-center">Joe Gardner</p>
+                                      <h4 class="images-title">DISCRETE MATH</h4>
+                                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Independent_set_graph.svg/220px-Independent_set_graph.svg.png" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
+                                     
                                           
                                   </div>
                               </div>
@@ -53,9 +53,9 @@
                             <div>
                                 <div class=" card teacherDiv" >
                                     <div class="info center text-center">
-                                        <h4 class="images-title">ANALIZA 2</h4>
-                                        <img src="assets/img/faces/joe-gardner-2.jpg" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
-                                        <p class="text-center">Joe Gardner</p>
+                                        <h4 class="images-title">ANALYSIS 2</h4>
+                                        <img src="https://cdn1.iconfinder.com/data/icons/dotted-charts/512/sine_plot-2-512.png" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
+                                      
                                             
                                     </div>
                                 </div>
@@ -64,78 +64,22 @@
                       </div>
               </div>
               <hr>
-          <div class="row">
-            <div class="col">
+          <div class="row" name="teachers">
+            <div class="col-xl-3" *ngFor="let teacher of mathTeachers">
               <div >
                   <div>
-                      <div class=" card teacherDiv" >
+                      <div class="center card teacherDiv" >
                           <div class="info center text-center">
-                              <h4 class="images-title">Circle Image</h4>
-                              <img src="assets/img/faces/joe-gardner-2.jpg" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
-                              <p class="text-center">Joe Gardner</p>
-                                  
+                              <h4 class="images-title">{{teacher.FirstName}} {{teacher.LastName}}</h4>
+                              <img [src]="teacher.Image" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
+                              <br>
+                              <p class="text-center">{{teacher.Email}}</p>    
                           </div>
                       </div>
                   </div>
               </div>
             </div>
-            <div class="col">
-                <div >
-                    <div>
-                        <div class=" card teacherDiv" >
-                            <div class="info center text-center">
-                                <h4 class="images-title">Circle Image</h4>
-                                <img src="assets/img/faces/joe-gardner-2.jpg" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
-                                <p class="text-center">Joe Gardner</p>
-                                    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
-              
-            <div class="col">
-                <div >
-                    <div>
-                        <div class=" card teacherDiv" >
-                            <div class="info center text-center">
-                                <h4 class="images-title">Circle Image</h4>
-                                <img src="assets/img/faces/joe-gardner-2.jpg" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
-                                <p class="text-center">Joe Gardner</p>
-                                    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
-              <div class="col">
-                  <div >
-                      <div>
-                          <div class=" card teacherDiv">
-                              <div class="info center text-center">
-                                  <h4 class="images-title">Circle Image</h4>
-                                  <img src="assets/img/faces/joe-gardner-2.jpg" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
-                                  <p class="text-center">Joe Gardner</p>
-                                      
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-                <div class="col">
-                    <div >
-                        <div>
-                            <div class=" card teacherDiv" >
-                                <div class="info center text-center">
-                                    <h4 class="images-title">Circle Image</h4>
-                                    <img src="assets/img/faces/joe-gardner-2.jpg" style="width: 50;" class="img-circle img-no-padding img-responsive" alt="Rounded Image">
-                                    <p class="text-center">Joe Gardner</p>
-                                        
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
+           
           </div>
          
         </div> 

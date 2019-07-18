@@ -73,6 +73,15 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
                 <input type="text" id="inputDegree" formControlName="degree" class="form-control" placeholder="Degree of Education" >
               </div>
               <br><br>
+              <div *ngIf="isSelected()" class="form-label-group" style="padding:0px 50px 0px 50px;">
+              <img  [src]="user.Image" style="width:50;height:150px;" class=" center img-circle img-no-padding img-responsive" alt="Rounded Image">
+              </div>
+              <div *ngIf="!isSelected()" class="form-label-group" style="padding:0px 50px 0px 50px;">
+                 <input style="display: none" type="file" (change)="onFileChanged($event)"  #fileInput>
+                <button type="button" class="btn btn-lg btn-outline-danger btn-block btn-round text-uppercase font-weight-bold mb-2"  (click)="fileInput.click()">Select Image</button>
+             </div>
+
+              <br><br>
               <button class="btn btn-lg btn-outline-danger btn-block btn-round text-uppercase font-weight-bold mb-2" [disabled]="profileForm.invalid"  type="submit">Send informations</button>
             </form>
             <div *ngIf="!name.isEvent && info !=''">
@@ -191,7 +200,7 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
     `
 })
 export class NgbdModalContent {
-    user: User;
+    user= new User("","","","","","","","","","");
     simpleSlider  = 1;
     name: any;
     ctrl = new FormControl('', (control: FormControl) => {
@@ -250,7 +259,27 @@ export class NgbdModalContent {
                   }
                   this.privateClass = new  AddPrivateClass("","","","","");
     }
+    selectedFile: string;
+    onFileChanged(event) {
+      
 
+      if (event.target.files && event.target.files[0]) {
+
+        const file = event.target.files[0];
+
+        const reader = new FileReader();
+        reader.onload = e => {this.user.Image = reader.result.toString(); console.log(this.user.Image); };
+
+        reader.readAsDataURL(file);
+        // this.user.Document = file;
+      }
+    }
+    isSelected(){
+      if(this.user.Image == ""){
+        return false;
+      }
+      return true;
+    }
     onSubmit() {
       const u = new User('-1', this.profileForm.controls.username.value,
       this.profileForm.controls.firstName.value,
@@ -259,7 +288,7 @@ export class NgbdModalContent {
       this.profileForm.controls.phone.value,
       this.profileForm.controls.email.value,
        this.profileForm.controls.email.value,
-      this.profileForm.controls.degree.value);
+      this.profileForm.controls.degree.value,this.user.Image);
       localStorage.getItem
   this.userService.editUserInformations(u).subscribe(data => {
           alert('Success');
@@ -442,12 +471,13 @@ export class HomeComponent implements OnInit {
                 this.open();
             }
           console.log(HomeComponent.class);
+          if(this.isTeacher()){
+            this.getNotTeacherSubjects();
+          }
+  
+          this.getUserClasses();
         });
-        if(this.isTeacher()){
-          this.getNotTeacherSubjects();
-        }
-
-        this.getUserClasses();
+       
     }
     getNotTeacherSubjects(){
       this.subjectService.getNotTeacherSubjects().subscribe(data =>{

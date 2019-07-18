@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
     username: string;
+    image:string;
     constructor(public location: Location, private element: ElementRef, private userService: UserService,
         private adalSvc: MsAdalAngular6Service) {
         this.sidebarVisible = false;
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
         this.userService.username.subscribe ((newUsername) => {this.username = newUsername;  });
+        this.userService.image.subscribe ((newImage) => {this.image = newImage;  });
     }
 
     logout() {

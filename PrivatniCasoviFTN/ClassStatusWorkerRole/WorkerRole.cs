@@ -65,7 +65,7 @@ namespace ClassStatusWorkerRole
             while (!cancellationToken.IsCancellationRequested)
             {
                 Trace.TraceInformation("Working");
-                await Task.Delay(10000); //10sec
+                await Task.Delay(new TimeSpan(1,0,0)); //10sec
 
 
                  tableHelper.CheckClassStatus();

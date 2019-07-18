@@ -31,5 +31,8 @@ namespace Common.BindingModels
         [DataMember]
         public string Degree { get; set; }
 
+        [DataMember]
+        public string Image { get; set; }
+
     }
 }

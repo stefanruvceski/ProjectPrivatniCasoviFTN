@@ -8,5 +8,6 @@ export class User {
                 public Phone: string,
                 public PrefferEmail: string,
                 public Email: string,
-                public Degree: string) {}
+                public Degree: string,
+                public Image: string) {}
 }

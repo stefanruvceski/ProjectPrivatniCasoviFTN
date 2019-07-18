@@ -162,6 +162,11 @@ namespace Common
                 TableOperation add = TableOperation.InsertOrReplace((TeacherSubject)entity);
                 table.Execute(add);
             }
+            else if (_class.Equals(CLASSES.PRICELIST))
+            {
+                TableOperation add = TableOperation.InsertOrReplace((Pricelist)entity);
+                table.Execute(add);
+            }
         }
 
         public void Delete(CustomEntity entity)
@@ -194,8 +199,93 @@ namespace Common
                                                where g.PartitionKey == _class.ToString()
                                                select g;
 
-                retVal = requests.ToList().Count();
+                try
+                {
+                    retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+                }
+                catch { }
             }
+            else if (_class.Equals(CLASSES.USER))
+            {
+                IQueryable<User> requests = from g in table.CreateQuery<User>()
+                                               where g.PartitionKey == _class.ToString()
+                                               select g;
+
+                try
+                {
+                    retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+                }
+                catch { }
+
+            }
+            else if (_class.Equals(CLASSES.PRICELIST))
+            {
+                IQueryable<Pricelist> requests = from g in table.CreateQuery<Pricelist>()
+                                            where g.PartitionKey == _class.ToString()
+                                            select g;
+
+                try
+                {
+                    retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+                }
+                catch { }
+            }
+            else if (_class.Equals(CLASSES.CLASS))
+            {
+                IQueryable<PrivateClass> requests = from g in table.CreateQuery<PrivateClass>()
+                                                 where g.PartitionKey == _class.ToString()
+                                                 select g;
+
+                retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+            }
+            else if (_class.Equals(CLASSES.TEACHERCLASS))
+            {
+                IQueryable<TeacherClass> requests = from g in table.CreateQuery<TeacherClass>()
+                                                    where g.PartitionKey == _class.ToString()
+                                                    select g;
+                try
+                {
+                    retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+                }
+                catch { }
+            }
+            else if (_class.Equals(CLASSES.STUDENTCLASS))
+            {
+                IQueryable<StudentClass> requests = from g in table.CreateQuery<StudentClass>()
+                                                    where g.PartitionKey == _class.ToString()
+                                                    select g;
+
+                try
+                {
+                    retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+                }
+                catch { }
+            }
+            else if (_class.Equals(CLASSES.TEACHERSUBJECT))
+            {
+                IQueryable<TeacherSubject> requests = from g in table.CreateQuery<TeacherSubject>()
+                                                    where g.PartitionKey == _class.ToString()
+                                                    select g;
+
+                try
+                {
+                    retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+                }
+                catch { }
+            }
+            else if (_class.Equals(CLASSES.COMMENT))
+            {
+                IQueryable<Comment> requests = from g in table.CreateQuery<Comment>()
+                                                      where g.PartitionKey == _class.ToString()
+                                                      select g;
+
+                try
+                {
+                    retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+                }
+                catch { }
+            }
+
 
             return retVal;
         }
@@ -290,11 +380,18 @@ namespace Common
 
         public string GetUsetId(string email)
         {
-            var request = from g in table.CreateQuery<User>()
-                          where g.PartitionKey == _class.ToString() && g.Email == email
-                          select g.RowKey;
+            try
+            {
+                var request = from g in table.CreateQuery<User>()
+                              where g.PartitionKey == _class.ToString() && g.Email == email
+                              select g.RowKey;
 
-            return request.ToList()[0].ToString();
+                return request.ToList()[0].ToString();
+            }
+            catch
+            {
+                return null;
+            }
         }
         public bool TeacherDeleteClass(string classId)
         {
@@ -745,6 +842,24 @@ namespace Common
             return requests.ToList();
         }
 
+        public List<string> GetTypeSubjects(string type)
+        {
+            var requests = from g in table.CreateQuery<Subject>()
+                           where g.PartitionKey == _class.ToString() && g.Type == type
+                           select g.RowKey;
+
+            return requests.ToList();
+        }
+
+        public List<int> GetMathTeacherBySubjectId(int subjectId)
+        {
+            var requests = from g in table.CreateQuery<TeacherSubject>()
+                           where g.PartitionKey == _class.ToString() && g.SubjectId == subjectId
+                           select g.TeachertId;
+
+            return requests.ToList();
+        }
+
         public void CheckClassStatus()
         {
             IQueryable<PrivateClass> requests = from g in table.CreateQuery<PrivateClass>()
@@ -797,18 +912,19 @@ namespace Common
             List<string> teaherSubjects = new List<string>();
             List<string> retVal = new List<string>();
             List<string> allSubjects = s.GetAllSubjects();
-
-            requests.ToList().ForEach(x =>
+            try
             {
-                teaherSubjects.Add(((Subject)s.GetOne(x.ToString())).Name);
-            });
-
+                requests.ToList().ForEach(x =>
+                {
+                    teaherSubjects.Add(((Subject)s.GetOne(x.ToString())).Name);
+                });
+            }
+            catch { }
             foreach (string item in allSubjects)
             {
                 if (!teaherSubjects.Contains(item))
                     retVal.Add(item);
             }
-
             return retVal;
         }
 

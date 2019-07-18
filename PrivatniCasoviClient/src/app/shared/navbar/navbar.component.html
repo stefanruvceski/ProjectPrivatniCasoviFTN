@@ -6,6 +6,7 @@
 
 <div class="container">
     <div class="navbar-translate">
+            <img *ngIf="image != '' && image != null" [src] = "image" style=" border-radius: 50%;width:30px;height: 30px;"/>
         <a class="navbar-brand" href="home">Privatni Casovi FTN</a>
         <button class="navbar-toggler navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation" (click)="sidebarToggle()">
             <span class="navbar-toggler-bar"></span>
@@ -33,11 +34,7 @@
             
             <li class="nav-item" >
                     <a *ngIf="!IsLanding()" class="nav-link" href="#" (click)="logout()" > <i class="fa fa-sign-out"></i><sub> logout {{username}}</sub></a>
-                    <!-- <a class="nav-link" href="#" (click)="onClickLogout($event)"> <i class="fas fa-sign-in-alt"></i><sub> logout {{username}}</sub></a> -->
-
-
-
-
+                    
                 </li>
         </ul>
     </div>

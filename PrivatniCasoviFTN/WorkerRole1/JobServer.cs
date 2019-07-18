@@ -15,13 +15,22 @@ namespace WorkerRole1
         ServiceHost sh;
         string name = "InputRequest";
         RoleInstanceEndpoint endpoint;
+
+
+        
+        
+
         public JobServer()
         {
+            NetTcpBinding netTcpBinding = new NetTcpBinding();
+            netTcpBinding.MaxBufferSize = int.MaxValue;
+            netTcpBinding.MaxReceivedMessageSize = int.MaxValue;
+            netTcpBinding.MaxBufferPoolSize = int.MaxValue;
             endpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints[name];
 
             sh = new ServiceHost(typeof(JobServerProvider));
 
-            sh.AddServiceEndpoint(typeof(IContract), new NetTcpBinding(), $"net.tcp://{endpoint.IPEndpoint}/{name}");
+            sh.AddServiceEndpoint(typeof(IContract), netTcpBinding, $"net.tcp://{endpoint.IPEndpoint}/{name}");
         }
 
         public void Open()

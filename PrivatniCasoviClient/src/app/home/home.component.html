@@ -1,5 +1,5 @@
 
-<div class="page-header" data-parallax="true" >
+<div class="page-header" data-parallax="true" style="background-image: url('./assets/img/daniel-olahh.jpg');">
   <div class="filter"></div>
   <div class="container">
       <div class="motto text-center">
@@ -18,7 +18,7 @@
                                                  <h6 style="border-radius: 5px; margin-left: 10px;margin-right: 10px; background-color: #4287f5;color:white">REQUESTED</h6>
                                                  <h6 style="border-radius: 5px; margin-left: 10px;margin-right: 10px; background-color: #288010;color:white">ACCEPTED</h6>
                                                  <h6 style="border-radius: 5px; margin-left: 10px;margin-right: 10px; background-color: #f54242;color:white">DECLINED</h6>
-                                                 
+                                             
                                               </div>
                                           </div>
                                       </div>
@@ -45,15 +45,15 @@
                                           <div class="card " style="height:150px;border: solid #F5593D 1px; border-radius: 40px;background-color:transparent;">
                                             <div class="info center text-center">
                                                  
-                                                <h5 style=" color:white">TEACH SUBJECT</h5>
+                                              <br>
                                                
-                                                <select style="width:10em;border-radius: 5px;text-align: center;margin-bottom: 10px;" size="2" >
+                                                <select style="width:10em;border-radius: 5px;text-align: center;margin-bottom: 10px;" size="3" >
                                                     <option *ngFor="let subject of notTeacherSubjects" (click)="onchangeSubject($event.target.innerText)">{{subject}} </option>
                                                  
                                                     
                                                 </select>
                                                 <br>
-                                                <a (click)="onTeachSubject()" style="width: 150px;" class="btn btn-outline-default btn-lg btn-round"><i class="fa fa-user"></i>Teach</a>
+                                                <a (click)="onTeachSubject()" style="color:white;width: 150px;" class="btn btn-outline-default btn-lg btn-round"><i class="fa fa-user"></i>Teach</a>
 
                                              </div>
                                           </div>

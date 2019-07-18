@@ -31,10 +31,16 @@ namespace PrivatniCasoviAPI.Controllers
                 type = "PrivatniCasoviTeachers";
             else if(await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
                 type = "PrivatniCasoviSecretaries";
+            try
+            {
 
+                if (!proxy.EditUserInformations(model, type))
+                    return BadRequest("Internal error");
+            }
+            catch(Exception e)
+            {
 
-            if (!proxy.EditUserInformations(model, type))
-                return BadRequest("Internal error");
+            }
             return Ok();
         }
 
@@ -65,11 +71,23 @@ namespace PrivatniCasoviAPI.Controllers
             Connect();
             return proxy.GetUserForEdit(User.Identity.Name);
         }
+
+        [HttpGet]
+        [Route("api/users/getallteachers")]
+        public List<EditUserInfoBindingModel> GetAllMathTeachers(string type)
+        {
+            Connect();
+            return proxy.GetAllMathTeachers(type);
+        }
         private void Connect()
         {
             if (proxy == null)
             {
-                ChannelFactory<IContract> factory = new ChannelFactory<IContract>(new NetTcpBinding(), new EndpointAddress($"net.tcp://localhost:11000/InputRequest"));
+                NetTcpBinding netTcpBinding = new NetTcpBinding();
+                netTcpBinding.MaxBufferSize = int.MaxValue;
+                netTcpBinding.MaxReceivedMessageSize = int.MaxValue;
+                netTcpBinding.MaxBufferPoolSize = int.MaxValue;
+                ChannelFactory<IContract> factory = new ChannelFactory<IContract>(netTcpBinding, new EndpointAddress($"net.tcp://localhost:11000/InputRequest"));
                 proxy = factory.CreateChannel();
             }
 
