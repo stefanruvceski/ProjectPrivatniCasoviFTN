@@ -1,6 +1,6 @@
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Starting DiagnosticPlugin.exe DiagnosticPlugin-ShutdownEvent DiagnosticPlugin-TotalShutdownEvent -wadVer1v5
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:26:07] Failed to save IIS Directory state
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:26:07] System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {2B72133B-3F5B-4602-8952-803546CE3344} failed due to the following error: 80040154 Class not registered (Exception from HRESULT: 0x80040154 (REGDB_E_CLASSNOTREG)).
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Starting DiagnosticPlugin.exe DiagnosticPlugin-ShutdownEvent DiagnosticPlugin-TotalShutdownEvent -wadVer1v5
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:00:03 PM] Failed to save IIS Directory state
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:00:03 PM] System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {2B72133B-3F5B-4602-8952-803546CE3344} failed due to the following error: 80040154 Class not registered (Exception from HRESULT: 0x80040154 (REGDB_E_CLASSNOTREG)).
    at System.Runtime.Remoting.RemotingServices.AllocateUninitializedObject(RuntimeType objectType)
    at System.Runtime.Remoting.Activation.ActivationServices.CreateInstance(RuntimeType serverType)
    at System.Runtime.Remoting.Activation.ActivationServices.IsCurrentContextOK(RuntimeType serverType, Object[] props, Boolean bNewObj)
@@ -13,18 +13,18 @@ DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:26:07] System.Runtime.InteropSe
    at Microsoft.Web.Administration.ServerManager.get_SitesSection()
    at Microsoft.Web.Administration.ServerManager.get_Sites()
    at Microsoft.Azure.Plugins.Plugin.DiagnosticsPluginManager.SaveIISDirectoryState()
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Starting DiagnosticsPlugin
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Emulator config file set to C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] DiagnosticsStoreRootPath set to: C:\Users\Stefan\AppData\Local\dftmp\Resources\4c01ee2e-2bfe-43e3-ad2f-6b15c5a53ab6
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Loading config file: C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Config file to read: C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Checking VM Type
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Emulator config file set to C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Extension set to Emulator Mode
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Reading XML configuration file
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Bypassing private config decryption
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] WadCfg is provided in initial configuration. Using that to initialize Diagnostics.
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] <PublicConfig xmlns="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration">
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Starting DiagnosticsPlugin
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Emulator config file set to C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] DiagnosticsStoreRootPath set to: C:\Users\Stefan\AppData\Local\dftmp\Resources\4ef08706-8955-440f-97cd-eab1421062a0
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Loading config file: C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Config file to read: C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Checking VM Type
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Emulator config file set to C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Extension set to Emulator Mode
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Reading XML configuration file
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Bypassing private config decryption
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] WadCfg is provided in initial configuration. Using that to initialize Diagnostics.
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] <PublicConfig xmlns="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration">
   <WadCfg>
     <DiagnosticMonitorConfiguration overallQuotaInMB="4096">
       <DiagnosticInfrastructureLogs scheduledTransferLogLevelFilter="Error" />
@@ -56,13 +56,13 @@ DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] <PublicConfig xmln
   </WadCfg>
   <StorageAccount>devstoreaccount1</StorageAccount>
 </PublicConfig>
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Private setting is loaded
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Is config json/xml loaded
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Checking if configuration needs to be fetched from the storage account and doing so if needed.
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Successfully created checkpoint file C:\Users\Stefan\AppData\Local\dftmp\Resources\4c01ee2e-2bfe-43e3-ad2f-6b15c5a53ab6\WAD0105\Configuration\Checkpoint.txt
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Will use local resource directory C:\Users\Stefan\AppData\Local\dftmp\Resources\4c01ee2e-2bfe-43e3-ad2f-6b15c5a53ab6\WAD0105
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:07] Will use endpoint https://core.windows.net for storage.
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:08] Exception in creating the ServerManager; is IIS installed?
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Private setting is loaded
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Is config json/xml loaded
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Checking if configuration needs to be fetched from the storage account and doing so if needed.
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Successfully created checkpoint file C:\Users\Stefan\AppData\Local\dftmp\Resources\4ef08706-8955-440f-97cd-eab1421062a0\WAD0105\Configuration\Checkpoint.txt
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Will use local resource directory C:\Users\Stefan\AppData\Local\dftmp\Resources\4ef08706-8955-440f-97cd-eab1421062a0\WAD0105
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:03 PM] Will use endpoint https://core.windows.net for storage.
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:04 PM] Exception in creating the ServerManager; is IIS installed?
  Error:System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {2B72133B-3F5B-4602-8952-803546CE3344} failed due to the following error: 80040154 Class not registered (Exception from HRESULT: 0x80040154 (REGDB_E_CLASSNOTREG)).
    at System.Runtime.Remoting.RemotingServices.AllocateUninitializedObject(RuntimeType objectType)
    at System.Runtime.Remoting.Activation.ActivationServices.CreateInstance(RuntimeType serverType)
@@ -76,127 +76,83 @@ DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:08] Exception in creat
    at Microsoft.Web.Administration.ServerManager.get_SitesSection()
    at Microsoft.Web.Administration.ServerManager.get_Sites()
    at Microsoft.Azure.Plugins.Plugin.WadConfigProcessor.AddDirectories(EventsType mdsEvents, Directories wadDirectories)
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:08] Running in emulator mode, crash dumps not enabled
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:08] Checking to see if Application Insights extension needs to be configured.
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:26:08] In emulator mode and using devstore updating XStoreAccount info, command line args: -LocalPath "C:\Users\Stefan\AppData\Local\dftmp\Resources\4c01ee2e-2bfe-43e3-ad2f-6b15c5a53ab6\WAD0105"  -ConfigFile "C:\Users\Stefan\AppData\Local\dftmp\Resources\4c01ee2e-2bfe-43e3-ad2f-6b15c5a53ab6\WAD0105\Configuration\MaConfig.xml" -ShutDownEvent WADDM-ShutDown-4531a2452aba4f198864862ff5c2c6ce  -TotalShutDownEvent WADDM-TotalShutDown-4531a2452aba4f198864862ff5c2c6ce -InitializedEvent WADM-StartUp-4531a2452aba4f198864862ff5c2c6ce -parent 14964 -events -wadVer1v5 -UseProxyServer -XStoreAccounts WadAccount#true#devstoreaccount1#Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==#http://127.0.0.1:10002#http://127.0.0.1:10001#http://127.0.0.1:10000
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:26:38] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:04 PM] Running in emulator mode, crash dumps not enabled
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:04 PM] Checking to see if Application Insights extension needs to be configured.
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:00:05 PM] In emulator mode and using devstore updating XStoreAccount info, command line args: -LocalPath "C:\Users\Stefan\AppData\Local\dftmp\Resources\4ef08706-8955-440f-97cd-eab1421062a0\WAD0105"  -ConfigFile "C:\Users\Stefan\AppData\Local\dftmp\Resources\4ef08706-8955-440f-97cd-eab1421062a0\WAD0105\Configuration\MaConfig.xml" -ShutDownEvent WADDM-ShutDown-4e57de35ba0145858015422a4ec51125  -TotalShutDownEvent WADDM-TotalShutDown-4e57de35ba0145858015422a4ec51125 -InitializedEvent WADM-StartUp-4e57de35ba0145858015422a4ec51125 -parent 22736 -events -wadVer1v5 -UseProxyServer -XStoreAccounts WadAccount#true#devstoreaccount1#Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==#http://127.0.0.1:10002#http://127.0.0.1:10001#http://127.0.0.1:10000
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:00:35 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:27:08] MonAgentHost.exe started
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:27:08] DiagnoticsPlugin started.
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:27:08] DiagnoticsPlugin now waiting on events "DiagnosticPlugin-ShutdownEvent", "DiagnosticPlugin-TotalShutdownEvent" or "DiagnosticPlugin-RestartEvent".
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:27:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:01:05 PM] MonAgentHost.exe started
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:01:05 PM] DiagnoticsPlugin started.
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:01:05 PM] DiagnoticsPlugin now waiting on events "DiagnosticPlugin-ShutdownEvent", "DiagnosticPlugin-TotalShutdownEvent" or "DiagnosticPlugin-RestartEvent".
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:01:05 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:27:38] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:01:35 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Information: 0 : [26.07.2019. 17:28:07] Failed to update IIS Directory state in directory monitor
+DiagnosticsPlugin.exe Information: 0 : [07/26/2019 11:02:03 PM] Failed to update IIS Directory state in directory monitor
 Retrieving the COM class factory for component with CLSID {2B72133B-3F5B-4602-8952-803546CE3344} failed due to the following error: 80040154 Class not registered (Exception from HRESULT: 0x80040154 (REGDB_E_CLASSNOTREG)).
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:28:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:02:05 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:28:39] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:02:35 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:29:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:03:05 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:29:38] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:03:35 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:30:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:04:05 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:30:38] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:04:35 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:31:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:05:05 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:31:38] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:05:35 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:32:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:06:05 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:32:39] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:06:35 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:33:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:07:05 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:33:38] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:07:35 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:34:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:08:05 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:34:38] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:08:35 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:35:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:35:38] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:36:09] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:36:39] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:37:08] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:37:39] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:38:09] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:38:39] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:39:09] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:39:39] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:40:09] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
-   at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
-   at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
-   at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)
-DiagnosticsPlugin.exe Error: 0 : [26.07.2019. 17:40:39] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
+DiagnosticsPlugin.exe Error: 0 : [07/26/2019 11:09:05 PM] Microsoft.Cis.Monitoring.Query.QueryException: ErrorFail
    at Microsoft.Cis.Monitoring.Query.QueryLocalTable..ctor(String TableName, String TablePath)
    at ApplicationInsightsExtension.MATableReader.ReadTableRecords(String tableName, String tablePath, DateTime startTime, DateTime endTime)
    at Microsoft.Azure.Plugins.Diagnostics.dll.MAStatusWriter.UpdateStatusReport(Object sender, ElapsedEventArgs e)

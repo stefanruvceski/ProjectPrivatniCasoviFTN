@@ -236,7 +236,11 @@ namespace Common
                                                  where g.PartitionKey == _class.ToString()
                                                  select g;
 
-                retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+                try
+                {
+                    retVal = requests.ToList().Max(x => int.Parse(x.RowKey)) + 1;
+                }
+                catch { }
             }
             else if (_class.Equals(CLASSES.TEACHERCLASS))
             {
@@ -803,7 +807,7 @@ namespace Common
 
                 return true;
             }
-            catch
+            catch(Exception e)
             {
                 return false;
             }

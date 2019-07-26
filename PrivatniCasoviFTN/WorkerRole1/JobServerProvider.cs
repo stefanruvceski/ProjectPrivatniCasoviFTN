@@ -326,6 +326,7 @@ namespace WorkerRole1
         {
             //mesec/dan/godina
             DateTime dt = new DateTime(int.Parse(model.Date.Split('/')[2]), int.Parse(model.Date.Split('/')[0]), int.Parse(model.Date.Split('/')[1]), int.Parse(model.Time.Split(':')[0]), int.Parse(model.Time.Split(':')[1]), 0);
+            dt = dt + new TimeSpan(2, 0, 0);
             PrivateClass privateClass = new PrivateClass(model.Lesson, 0, 0, dt, 0, int.Parse(model.NumOfStudents));
 
             return tableHelper5.SecretaryAddClass(model, privateClass);
@@ -474,7 +475,7 @@ namespace WorkerRole1
                 }
                 return -1;
             }
-            catch
+            catch(Exception e)
             {
                 return -2;
             }

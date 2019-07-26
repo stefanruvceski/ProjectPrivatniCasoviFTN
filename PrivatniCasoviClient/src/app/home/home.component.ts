@@ -43,7 +43,7 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
             <div class="col-lg-9 mx-auto"> 
             
             <div *ngIf="students == null && name.status == 'PROSAO' s" style="background-color:black; margin-top:5px;" class="wrapper img-circle img-no-padding img-responsive" id="loader"></div>
-            <div *ngIf="teachers == null && name.isEvent && info !=''" style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader"></div>
+            <div *ngIf="teachers == null && isSecretary() && name.isEvent && info !=''" style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader"></div>
             <div *ngIf="subjects == null && !name.isEvent && info !='' && name.status != 'PROSAO'" style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader"></div>
             
             <div style="text-align:center" *ngIf="name.status == 'PROSAO' && students != null">
@@ -138,7 +138,7 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
             </div>
           </div>
             </div>
-            <div *ngIf="name.isEvent && info !='' && teachers != null">
+            <div *ngIf="name.isEvent && info !=''">
               <table>
               <tr>
               <td colspan="2">Status</td>
