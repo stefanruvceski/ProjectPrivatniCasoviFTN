@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace PrivatniCasoviAPI.Controllers
@@ -14,6 +15,7 @@ namespace PrivatniCasoviAPI.Controllers
     [Authorize]
     public class UserController : ApiController
     {
+        #region Actions
         IContract proxy = null;
         [HttpPost]
         [Route("api/users/edit")]
@@ -93,8 +95,7 @@ namespace PrivatniCasoviAPI.Controllers
 
         }
 
-
-
-
+      
+        #endregion
     }
 }

@@ -549,7 +549,7 @@ namespace Common
             return requests.ToList()[0];
         }
 
-        private StudentClass GetStudentClass(string userId, string classId)
+        public StudentClass GetStudentClass(string userId, string classId)
         {
             IQueryable<StudentClass> requests = from g in table.CreateQuery<StudentClass>()
                                                 where g.PartitionKey == _class.ToString() && g.StudentId == int.Parse(userId) && g.ClassId == int.Parse(classId)
@@ -860,6 +860,43 @@ namespace Common
             return requests.ToList();
         }
 
+        public void CheckClassPresence()
+        {
+            try
+            {
+                TableHelper tc = new TableHelper(CLASSES.TEACHERCLASS.ToString());
+                TableHelper sc = new TableHelper(CLASSES.STUDENTCLASS.ToString());
+                IQueryable<PrivateClass> requests = from g in table.CreateQuery<PrivateClass>()
+                                                    where g.PartitionKey == _class.ToString()
+                                                    select g;
+
+                foreach (PrivateClass item in requests.ToList())
+                {
+                    if (DateTime.Now > (item.Date + new TimeSpan(2, 0, 0)))
+                    {
+                        User teacher = tc.GetClassTeacher(item.RowKey);
+                        List<User> students = sc.GetClassStudents(item.RowKey);
+
+                        if (teacher != null)
+                        {
+                            teacher.AttendedClasses++;
+                            tc.AddOrReplace(teacher);
+                        }
+
+                        if (students.Count != 0)
+                        {
+                            students.ForEach(x =>
+                            {
+                                x.AttendedClasses++;
+                                sc.AddOrReplace(x);
+                            });
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+
         public void CheckClassStatus()
         {
             IQueryable<PrivateClass> requests = from g in table.CreateQuery<PrivateClass>()
@@ -965,6 +1002,8 @@ namespace Common
                 return null;
             }
         }
+
+      
 
         #endregion
     }

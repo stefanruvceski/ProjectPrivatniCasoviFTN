@@ -62,5 +62,9 @@ namespace Common
         SubjectBindingModel GetSubjectByName(string name);
         [OperationContract]
         TeacherSubjectBindingModel GetTeacherSubjectsAsync(string teacherId);
+        [OperationContract]
+        List<string> GetAllClassStudents(string classId);
+        [OperationContract]
+        bool RemoveClassStudents(string students, string classId);
     }
 }

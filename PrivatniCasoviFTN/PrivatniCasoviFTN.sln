@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassStatusWorkerRole", "ClassStatusWorkerRole\ClassStatusWorkerRole.csproj", "{07C9CA60-E525-43A4-B840-51320F6ED760}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendedClassWorkerRole", "AttendedClassWorkerRole\AttendedClassWorkerRole.csproj", "{6D094B21-2F5A-4DE2-8903-3AE5C05E8A2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{07C9CA60-E525-43A4-B840-51320F6ED760}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07C9CA60-E525-43A4-B840-51320F6ED760}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07C9CA60-E525-43A4-B840-51320F6ED760}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D094B21-2F5A-4DE2-8903-3AE5C05E8A2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D094B21-2F5A-4DE2-8903-3AE5C05E8A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D094B21-2F5A-4DE2-8903-3AE5C05E8A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D094B21-2F5A-4DE2-8903-3AE5C05E8A2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

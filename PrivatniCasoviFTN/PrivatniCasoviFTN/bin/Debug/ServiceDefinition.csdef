@@ -73,4 +73,20 @@
       <Import moduleName="Diagnostics" />
     </Imports>
   </WorkerRole>
+  <WorkerRole name="AttendedClassWorkerRole" vmsize="Standard_D1_v2">
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+    </ConfigurationSettings>
+    <Contents>
+      <Content destination=".\">
+        <SourceDirectory path="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\rcf\Debug\AttendedClassWorkerRoleContent\" />
+      </Content>
+      <Content destination=".\">
+        <SourceDirectory path="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\ecf\AttendedClassWorkerRoleContent\" />
+      </Content>
+    </Contents>
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+  </WorkerRole>
 </ServiceDefinition>

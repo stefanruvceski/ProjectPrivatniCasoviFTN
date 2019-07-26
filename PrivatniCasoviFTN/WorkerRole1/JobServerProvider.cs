@@ -595,5 +595,40 @@ namespace WorkerRole1
 
             return retVal;
         }
+
+        public List<string> GetAllClassStudents(string classId)
+        {
+            List<string> retVal = new List<string>();
+
+            List<User> students = tableHelper6.GetClassStudents(classId);
+
+            students.ForEach(item =>
+            {
+                retVal.Add(item.Username);
+            });
+
+            return retVal;
+        }
+
+        public bool RemoveClassStudents(string students, string classId)
+        {
+            try
+            {
+                students.Split('_').ToList().ForEach(student =>
+                {
+                    if (student != "")
+                    {
+                        string studentId = tableHelper8.GetIdByUsername(student);
+                        tableHelper6.Delete(tableHelper6.GetStudentClass(studentId, classId));
+                    }
+                });
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { OptionsInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -40,7 +40,19 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
     <div class="modal-body" style="background-color: rgba(0, 0, 0, 0.6);color:white;">
     <div class="container-fluid">
   <div class="row no-gutter">
-            <div class="col-lg-9 mx-auto">
+            <div class="col-lg-9 mx-auto"> 
+            
+            <div *ngIf="students == null && name.status == 'PROSAO' s" style="background-color:black; margin-top:5px;" class="wrapper img-circle img-no-padding img-responsive" id="loader"></div>
+            <div *ngIf="teachers == null && name.isEvent && info !=''" style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader"></div>
+            <div *ngIf="subjects == null && !name.isEvent && info !='' && name.status != 'PROSAO'" style="background-color:black;" class="wrapper img-circle img-no-padding img-responsive" id="loader"></div>
+            
+            <div style="text-align:center" *ngIf="name.status == 'PROSAO' && students != null">
+              <h4>{{name.title}}</h4>
+              <br>
+              <div id="students" *ngFor="let student of students">
+              <input  type="checkbox" value="{{student}}" ><label>  {{student}}</label>
+              </div>
+            </div>
             <form *ngIf="info ==''"  class="form-signin" [formGroup]="profileForm" (submit)="onSubmit()">
               <div class="form-label-group">
               <label for="inputUsername">Username</label>
@@ -63,7 +75,7 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
               <label for="inputPhone">Phone</label>
                 <input type="text" id="inputPhone" formControlName="phone" class="form-control" placeholder="Phone" >
               </div>
-<br>
+              <br>
               <div class="form-label-group">
               <label for="inputEmail">Preffer Email</label>
                 <input type="email" id="inputPhone" formControlName="email" class="form-control" placeholder="Preffer Email" >
@@ -84,7 +96,7 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
               <br><br>
               <button class="btn btn-lg btn-outline-danger btn-block btn-round text-uppercase font-weight-bold mb-2" [disabled]="profileForm.invalid"  type="submit">Send informations</button>
             </form>
-            <div *ngIf="!name.isEvent && info !=''">
+            <div *ngIf="!name.isEvent && info !='' && name.status != 'PROSAO' && subjects != null">
             <form class="form-signin" [formGroup]="profileForm2" (submit)="onSubmit()">
             
          
@@ -126,7 +138,7 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
             </div>
           </div>
             </div>
-            <div *ngIf="name.isEvent && info !=''">
+            <div *ngIf="name.isEvent && info !='' && teachers != null">
               <table>
               <tr>
               <td colspan="2">Status</td>
@@ -188,10 +200,12 @@ import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
             <button *ngIf="name.isEvent && name.isMine=='no' && isTeacher()"button type="button" class="btn btn-success btn-link" (click)="acceptClass(name.id)">Accept class</button>
             <button *ngIf="name.isEvent && name.isMine=='yes' && isStudent()"button type="button" class="btn btn-danger btn-link" (click)="studentDeclineClass(name.id)">Decline class</button>
             <button *ngIf="name.isEvent && name.isMine=='yes' && isTeacher()"button type="button" class="btn btn-danger btn-link" (click)="teacherDeclineClass(name.id)">Decline class</button>
-            <button *ngIf="!name.isEvent && isStudent()"button type="button" class="btn btn-success btn-link" (click)="requestClass()">Request class</button>
+            <button *ngIf="!name.isEvent && isStudent() && name.status !='PROSAO'"button type="button" class="btn btn-success btn-link" (click)="requestClass()">Request class</button>
             <div class="row"><div class="col">
             <button *ngIf="name.isEvent && isSecretary() && name.status != 'ACCEPTED'" button type="button" class="btn btn-success btn-link" (click)="assignClass(name.id)">Assign</button>
-            <button *ngIf="!name.isEvent && isSecretary()"button type="button" class="btn btn-success btn-link" (click)="secretaryRequestClass()">Request class</button>
+            <button *ngIf="!name.isEvent && isSecretary() && name.status !='PROSAO' "button type="button" class="btn btn-success btn-link" (click)="secretaryRequestClass()">Request class</button>
+            <button *ngIf="!name.isEvent && isSecretary() && name.status =='PROSAO' "button type="button" class="btn btn-success btn-link" (click)="secretaryRemoveStudents()">Remove</button>
+            
             </div> <div class="divider"></div><div class="col">
             <button *ngIf="name.isEvent && name.status != 'DECLINED' && isSecretary()" button type="button" class="btn btn-danger btn-link" (click)="secretaryDeclineClass(name.id)">Decline</button>
             </div></div>
@@ -242,10 +256,16 @@ export class NgbdModalContent {
           email: ['', [Validators.minLength(3), Validators.maxLength(30)]],
           degree: ['', [ Validators.minLength(3), Validators.maxLength(30)]],
           });
+          students: Observable<string>;
     constructor( public activeModal: NgbActiveModal,
                 private fb: FormBuilder, private privateClassService: PrivateClassService,private userService: UserService, private subjectService: SubjectService) {
-                 
-                  if(HomeComponent.class.isEvent){
+                  if(HomeComponent.class.status == 'PROSAO'){
+                    this.privateClassService.getClassStudents(HomeComponent.class.id).subscribe(data=>{
+                        this.students = data;
+                       
+                    });
+                  }
+                  else if(HomeComponent.class.isEvent){
                     this.subjectService.getAllSubjectTeachers(HomeComponent.class.title).subscribe(data=> {
                       this.teachers = data;
                       this.teacher = data[0];
@@ -254,7 +274,7 @@ export class NgbdModalContent {
                   else{
                     this.subjectService.getAllSubjects().subscribe(data=> {
                       this.subjects = data;
-                      console.log(data);
+                    
                     });
                   }
                   this.privateClass = new  AddPrivateClass("","","","","");
@@ -268,7 +288,7 @@ export class NgbdModalContent {
         const file = event.target.files[0];
 
         const reader = new FileReader();
-        reader.onload = e => {this.user.Image = reader.result.toString(); console.log(this.user.Image); };
+        reader.onload = e => {this.user.Image = reader.result.toString();  };
 
         reader.readAsDataURL(file);
         // this.user.Document = file;
@@ -317,6 +337,37 @@ export class NgbdModalContent {
       }, error => {
         alert(error);
       });
+    }
+    secretaryRemoveStudents(){
+     
+      let element =  document.getElementById('students') as HTMLElement;
+      
+      let studs= "";
+      if(element != null){
+        element.childNodes.forEach(x=>{
+          let el = x as HTMLInputElement;
+        
+          if(el.type  == 'checkbox' && el.checked){
+            studs += el.value+ "_";
+          }
+        });
+        this.activeModal.close();
+        if(studs != ""){
+          this.privateClassService.removeClassStudents(studs ,HomeComponent.class.id).subscribe(data=>{
+            alert('success');
+          }, error => {
+            alert(error);
+          });
+        }
+        else{
+          alert("You didn't select any students.");
+         
+        }
+      }
+      else{
+        this.activeModal.close();
+      }
+      
     }
     studentDeclineClass(id:string){
       this.activeModal.close();
@@ -470,7 +521,6 @@ export class HomeComponent implements OnInit {
             if (this.user.Username.split('_')[0] == "") {
                 this.open();
             }
-          console.log(HomeComponent.class);
           if(this.isTeacher()){
             this.getNotTeacherSubjects();
           }
@@ -497,8 +547,11 @@ export class HomeComponent implements OnInit {
     open() {
       
         const modalRef = this.modalService.open(NgbdModalContent);
+       
         modalRef.componentInstance.name = HomeComponent.class;
-        modalRef.componentInstance.info = this.user.Username.split('_')[0];
+        if(HomeComponent.class.status != "PROSAO"){
+          modalRef.componentInstance.info = this.user.Username.split('_')[0];
+        }
 
         modalRef.result.then((result) => {
           this.updateEvents();
@@ -596,6 +649,8 @@ export class HomeComponent implements OnInit {
                 HomeComponent.class.date = args.date.toLocaleDateString();
                 HomeComponent.class.time = "no";
                 HomeComponent.class.isEvent = false;
+                HomeComponent.class.status = "";
+
               } 
               else{
                 HomeComponent.class.date = args.date.toLocaleDateString();
@@ -612,30 +667,39 @@ export class HomeComponent implements OnInit {
         },
        
         eventClick: function(arg){
-           console.log( new Date());
 
            if(arg.event.start < new Date()){
-             alert('You cant see passed event.');
-           }
-          if(arg.event.id.split('_')[4] != 'DECLINED' && arg.event.start > new Date()){
-              let element =  document.getElementById('radi') as HTMLElement;
-              HomeComponent.class.startDate = arg.event.start.toLocaleString();
-              HomeComponent.class.endDate = arg.event.end.toLocaleString();
-              HomeComponent.class.title = arg.event.title;
-              HomeComponent.class.teacher = arg.event.id.split('_')[1];
-              HomeComponent.class.numOfStud = arg.event.id.split('_')[2];
-              HomeComponent.class.lesson = arg.event.id.split('_')[3];
-              HomeComponent.class.id = arg.event.id.split('_')[0];
-              HomeComponent.class.isEvent = true;
-              HomeComponent.class.status = arg.event.id.split('_')[4]
-              HomeComponent.class.isMine = arg.event.id.split('_')[5]
-              console.log('more');
-              element.click();
+              if(localStorage.getItem('group') == 'PrivatniCasoviSecretaries'){
+                  if(arg.event.id.split('_')[4] == 'ACCEPTED'){
+                 
+                    let element =  document.getElementById('radi') as HTMLElement;
+                    HomeComponent.class.id = arg.event.id.split('_')[0];
+                    HomeComponent.class.title = arg.event.title;
+                    HomeComponent.class.status = "PROSAO";
+                    element.click();
+                  }
+                  else{
+                    alert('You cant see passed event.');
+                  }
+              }
+              else{
+                alert('You cant see passed event.');
+              }
             }
-            else {
-              console.log('ne more');
-            }
-
+            else if(arg.event.id.split('_')[4] != 'DECLINED' && arg.event.start > new Date()){
+                let element =  document.getElementById('radi') as HTMLElement;
+                HomeComponent.class.startDate = arg.event.start.toLocaleString();
+                HomeComponent.class.endDate = arg.event.end.toLocaleString();
+                HomeComponent.class.title = arg.event.title;
+                HomeComponent.class.teacher = arg.event.id.split('_')[1];
+                HomeComponent.class.numOfStud = arg.event.id.split('_')[2];
+                HomeComponent.class.lesson = arg.event.id.split('_')[3];
+                HomeComponent.class.id = arg.event.id.split('_')[0];
+                HomeComponent.class.isEvent = true;
+                HomeComponent.class.status = arg.event.id.split('_')[4]
+                HomeComponent.class.isMine = arg.event.id.split('_')[5]
+                element.click();
+              }
         },
         header: {
           left: 'prev next',
@@ -695,19 +759,7 @@ export class HomeComponent implements OnInit {
     }
 
 
-    display(){
-      console.log(this.eventsModel);
-    }
-    eventClick(model) {
-      console.log(model);
-    }
-    eventDragStop(model) {
-      console.log(model);
-    }
     
-    dateClick(model) {
-      console.log(model);
-    }
     updateHeader() {
       this.options.header = {
         left: 'prev,next myCustomButton',
@@ -717,7 +769,7 @@ export class HomeComponent implements OnInit {
     }
     updateEvents() {
       this.privateClassService.getUserClasses().subscribe(data => {
-        console.log(data);
+       
         this.eventsModel = [{}];
         data.forEach((value: PrivateClass) => {
           

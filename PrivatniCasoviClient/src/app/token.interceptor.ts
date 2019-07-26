@@ -7,8 +7,7 @@ export class TokenInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         const jwt = localStorage.getItem('jwt');
-        console.log(req);
-        console.log('usao inter');
+      
         if (jwt) {
             req = req.clone({
                 setHeaders: {
@@ -19,7 +18,6 @@ export class TokenInterceptor implements HttpInterceptor {
 'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
              } });
         }
-        console.log(req);
 
         return next.handle(req);
     }

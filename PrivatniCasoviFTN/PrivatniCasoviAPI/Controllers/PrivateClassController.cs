@@ -251,7 +251,43 @@ namespace PrivatniCasoviAPI.Controllers
             }
         }
 
-       
+        [HttpGet]
+        [Route("api/privateclass/getallclassstudents")]
+        public async Task<List<string>> GetAllClassStudents(string classId)
+        {
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
+            {
+                Connect();
+                return proxy.GetAllClassStudents(classId);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("api/privateclass/removeclassstudents")]
+        public async Task<IHttpActionResult> RemoveClassStudents( string classId, string students)
+        {
+            if (await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
+            {
+                Connect();
+                if (proxy.RemoveClassStudents(students, classId))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Inner error.");
+                }
+            }
+            else
+            {
+                return BadRequest("Not Authorized.");
+            }
+        }
+
         private void Connect()
         {
             if (proxy == null)

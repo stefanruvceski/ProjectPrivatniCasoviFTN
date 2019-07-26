@@ -20,15 +20,18 @@ export class AppComponent implements OnInit {
     constructor(private route: Router, private adalSvc: MsAdalAngular6Service,
         private servis: TestService, private renderer: Renderer, private router: Router,
         @Inject(DOCUMENT, ) private document: any, private element: ElementRef, public location: Location) {
-        console.log(this.adalSvc.userInfo);
-        const token = this.adalSvc.acquireToken('https://graph.microsoft.com').subscribe((tokenn: string) => {
-          localStorage.setItem('jwt', tokenn);
-          console.log(tokenn);
-          this.route.navigate(['/home']);
-        });
-
-
+    
+        this.getToken();       
     }
+
+    getToken(){
+         this.adalSvc.acquireToken('https://graph.microsoft.com').subscribe((token: string) => {
+            localStorage.setItem('jwt', token);
+        
+            this.route.navigate(['/home']);
+          });
+    }
+
     ngOnInit() {
         var navbar : HTMLElement = this.element.nativeElement.children[0].children[0];
         this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
@@ -76,7 +79,6 @@ export class AppComponent implements OnInit {
     onclick() {
         this.servis.fja().subscribe(stri => {
           alert(stri);
-          console.log(stri);
         },
         error => {
     alert(error);
