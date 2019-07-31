@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PrivatniCasoviFTN" generation="1" functional="0" release="0" Id="c7df9bbb-9dd8-4565-b62e-17fe879ebea3" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PrivatniCasoviFTN" generation="1" functional="0" release="0" Id="dd65444e-7bcd-41d6-893e-6c5677e62382" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="PrivatniCasoviFTNGroup" generation="1" functional="0" release="0">
       <componentports>
@@ -8,9 +8,19 @@
             <lBChannelMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/LB:PrivatniCasoviAPI:Endpoint1" />
           </inToChannel>
         </inPort>
-        <inPort name="WorkerRole1:InputRequest" protocol="tcp">
+        <inPort name="WorkerRole1:PrivateClassInputRequest" protocol="tcp">
           <inToChannel>
-            <lBChannelMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/LB:WorkerRole1:InputRequest" />
+            <lBChannelMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/LB:WorkerRole1:PrivateClassInputRequest" />
+          </inToChannel>
+        </inPort>
+        <inPort name="WorkerRole1:SubjectInputRequest" protocol="tcp">
+          <inToChannel>
+            <lBChannelMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/LB:WorkerRole1:SubjectInputRequest" />
+          </inToChannel>
+        </inPort>
+        <inPort name="WorkerRole1:UserInputRequest" protocol="tcp">
+          <inToChannel>
+            <lBChannelMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/LB:WorkerRole1:UserInputRequest" />
           </inToChannel>
         </inPort>
       </componentports>
@@ -77,9 +87,19 @@
             <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/PrivatniCasoviAPI/Endpoint1" />
           </toPorts>
         </lBChannel>
-        <lBChannel name="LB:WorkerRole1:InputRequest">
+        <lBChannel name="LB:WorkerRole1:PrivateClassInputRequest">
           <toPorts>
-            <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1/InputRequest" />
+            <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1/PrivateClassInputRequest" />
+          </toPorts>
+        </lBChannel>
+        <lBChannel name="LB:WorkerRole1:SubjectInputRequest">
+          <toPorts>
+            <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1/SubjectInputRequest" />
+          </toPorts>
+        </lBChannel>
+        <lBChannel name="LB:WorkerRole1:UserInputRequest">
+          <toPorts>
+            <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1/UserInputRequest" />
           </toPorts>
         </lBChannel>
       </channels>
@@ -145,7 +165,7 @@
           <role name="AttendedClassWorkerRole" generation="1" functional="0" release="0" software="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\AttendedClassWorkerRole" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaWorkerHost.exe " memIndex="-1" hostingEnvironment="consoleroleadmin" hostingEnvironmentVersion="2">
             <settings>
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
-              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;AttendedClassWorkerRole&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;AttendedClassWorkerRole&quot; /&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;InputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
+              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;AttendedClassWorkerRole&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;AttendedClassWorkerRole&quot; /&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;PrivateClassInputRequest&quot; /&gt;&lt;e name=&quot;SubjectInputRequest&quot; /&gt;&lt;e name=&quot;UserInputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
             </settings>
             <resourcereferences>
               <resourceReference name="DiagnosticStore" defaultAmount="[4096,4096,4096]" defaultSticky="true" kind="Directory" />
@@ -163,7 +183,7 @@
             <settings>
               <aCS name="DataConnectionString" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
-              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;ClassStatusWorkerRole&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;AttendedClassWorkerRole&quot; /&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;InputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
+              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;ClassStatusWorkerRole&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;AttendedClassWorkerRole&quot; /&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;PrivateClassInputRequest&quot; /&gt;&lt;e name=&quot;SubjectInputRequest&quot; /&gt;&lt;e name=&quot;UserInputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
             </settings>
             <resourcereferences>
               <resourceReference name="DiagnosticStore" defaultAmount="[4096,4096,4096]" defaultSticky="true" kind="Directory" />
@@ -184,7 +204,7 @@
             <settings>
               <aCS name="DataConnectionString" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
-              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;PrivatniCasoviAPI&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;AttendedClassWorkerRole&quot; /&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;InputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
+              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;PrivatniCasoviAPI&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;AttendedClassWorkerRole&quot; /&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;PrivateClassInputRequest&quot; /&gt;&lt;e name=&quot;SubjectInputRequest&quot; /&gt;&lt;e name=&quot;UserInputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
             </settings>
             <resourcereferences>
               <resourceReference name="DiagnosticStore" defaultAmount="[4096,4096,4096]" defaultSticky="true" kind="Directory" />
@@ -200,12 +220,14 @@
         <groupHascomponents>
           <role name="WorkerRole1" generation="1" functional="0" release="0" software="C:\Users\Stefan\Documents\GitHub\ProjectPrivatniCasoviFTN\PrivatniCasoviFTN\PrivatniCasoviFTN\csx\Debug\roles\WorkerRole1" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaWorkerHost.exe " memIndex="-1" hostingEnvironment="consoleroleadmin" hostingEnvironmentVersion="2">
             <componentports>
-              <inPort name="InputRequest" protocol="tcp" portRanges="11000" />
+              <inPort name="PrivateClassInputRequest" protocol="tcp" portRanges="11001" />
+              <inPort name="SubjectInputRequest" protocol="tcp" portRanges="11002" />
+              <inPort name="UserInputRequest" protocol="tcp" portRanges="11000" />
             </componentports>
             <settings>
               <aCS name="DataConnectionString" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
-              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;WorkerRole1&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;AttendedClassWorkerRole&quot; /&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;InputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
+              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;WorkerRole1&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;AttendedClassWorkerRole&quot; /&gt;&lt;r name=&quot;ClassStatusWorkerRole&quot; /&gt;&lt;r name=&quot;PrivatniCasoviAPI&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot;&gt;&lt;e name=&quot;PrivateClassInputRequest&quot; /&gt;&lt;e name=&quot;SubjectInputRequest&quot; /&gt;&lt;e name=&quot;UserInputRequest&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
             </settings>
             <resourcereferences>
               <resourceReference name="DiagnosticStore" defaultAmount="[4096,4096,4096]" defaultSticky="true" kind="Directory" />
@@ -236,16 +258,26 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="6398e504-7db7-461d-8dbe-c5a3dfc1ea23" ref="Microsoft.RedDog.Contract\ServiceContract\PrivatniCasoviFTNContract@ServiceDefinition">
+    <implementation Id="142a33b2-6e50-4ce6-8cab-2db0eb1914f9" ref="Microsoft.RedDog.Contract\ServiceContract\PrivatniCasoviFTNContract@ServiceDefinition">
       <interfacereferences>
-        <interfaceReference Id="e64ab3a8-2c24-430d-a621-2f9f5b0db8cd" ref="Microsoft.RedDog.Contract\Interface\PrivatniCasoviAPI:Endpoint1@ServiceDefinition">
+        <interfaceReference Id="32fd98fc-210e-4684-91f0-4755bc3bb32c" ref="Microsoft.RedDog.Contract\Interface\PrivatniCasoviAPI:Endpoint1@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/PrivatniCasoviAPI:Endpoint1" />
           </inPort>
         </interfaceReference>
-        <interfaceReference Id="628c3794-fc0f-4c7d-a3a4-ef6dc08047ba" ref="Microsoft.RedDog.Contract\Interface\WorkerRole1:InputRequest@ServiceDefinition">
+        <interfaceReference Id="6f6d137e-111e-4a20-85a9-9f4e3a8ab59f" ref="Microsoft.RedDog.Contract\Interface\WorkerRole1:PrivateClassInputRequest@ServiceDefinition">
           <inPort>
-            <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1:InputRequest" />
+            <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1:PrivateClassInputRequest" />
+          </inPort>
+        </interfaceReference>
+        <interfaceReference Id="f08c65d4-34ed-492c-bc50-4231f9b82aac" ref="Microsoft.RedDog.Contract\Interface\WorkerRole1:SubjectInputRequest@ServiceDefinition">
+          <inPort>
+            <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1:SubjectInputRequest" />
+          </inPort>
+        </interfaceReference>
+        <interfaceReference Id="64481d27-38b9-486d-9121-2b6d906b76e8" ref="Microsoft.RedDog.Contract\Interface\WorkerRole1:UserInputRequest@ServiceDefinition">
+          <inPort>
+            <inPortMoniker name="/PrivatniCasoviFTN/PrivatniCasoviFTNGroup/WorkerRole1:UserInputRequest" />
           </inPort>
         </interfaceReference>
       </interfacereferences>

@@ -43,7 +43,9 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
     </ConfigurationSettings>
     <Endpoints>
-      <InputEndpoint name="InputRequest" protocol="tcp" port="11000" localPort="11000" />
+      <InputEndpoint name="PrivateClassInputRequest" protocol="tcp" port="11001" localPort="11001" />
+      <InputEndpoint name="SubjectInputRequest" protocol="tcp" port="11002" localPort="11002" />
+      <InputEndpoint name="UserInputRequest" protocol="tcp" port="11000" localPort="11000" />
     </Endpoints>
     <Certificates />
   </WorkerRole>

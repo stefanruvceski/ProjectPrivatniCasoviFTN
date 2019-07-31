@@ -124,7 +124,9 @@
     <Compile Include="Database_Model\TeacherSubject.cs" />
     <Compile Include="Database_Model\User.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="IContract.cs" />
+    <Compile Include="ISubjectContract.cs" />
+    <Compile Include="IPrivateClassContract.cs" />
+    <Compile Include="IUserContract.cs" />
     <Compile Include="Models\AadObject.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\UserGroupsAndDirectoryRoles.cs" />

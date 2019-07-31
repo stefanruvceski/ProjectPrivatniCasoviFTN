@@ -15,8 +15,11 @@ namespace PrivatniCasoviAPI.Controllers
     [Authorize]
     public class UserController : ApiController
     {
-        #region Actions
-        IContract proxy = null;
+        #region proxy
+        IUserContract proxy = null;
+        #endregion
+
+        #region api/users/edit
         [HttpPost]
         [Route("api/users/edit")]
         public async System.Threading.Tasks.Task<IHttpActionResult> EditAsync(EditUserInfoBindingModel model)
@@ -29,9 +32,9 @@ namespace PrivatniCasoviAPI.Controllers
             string type = "";
             if (await AuthorizationHelper.IsInGroup("PrivatniCasoviStudents"))
                 type = "PrivatniCasoviStudents";
-            else if(await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
+            else if (await AuthorizationHelper.IsInGroup("PrivatniCasoviTeachers"))
                 type = "PrivatniCasoviTeachers";
-            else if(await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
+            else if (await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
                 type = "PrivatniCasoviSecretaries";
             try
             {
@@ -39,16 +42,18 @@ namespace PrivatniCasoviAPI.Controllers
                 if (!proxy.EditUserInformations(model, type))
                     return BadRequest("Internal error");
             }
-            catch(Exception e)
+            catch
             {
 
             }
             return Ok();
         }
+        #endregion
 
+        #region api/users/onsignin
         [HttpGet]
         [Route("api/users/onsignin")]
-        public async System.Threading.Tasks.Task<EditUserInfoBindingModel> OnSingInAsync()
+        public async System.Threading.Tasks.Task<EditUserInfoBindingModel> OnSingIn()
         {
             Connect();
 
@@ -60,12 +65,14 @@ namespace PrivatniCasoviAPI.Controllers
             else if (await AuthorizationHelper.IsInGroup("PrivatniCasoviSecretaries"))
                 type = "PrivatniCasoviSecretaries";
 
-            EditUserInfoBindingModel retVal =  proxy.GetUserByEmail(User.Identity.Name,type);
+            EditUserInfoBindingModel retVal = proxy.GetUserByEmail(User.Identity.Name, type);
             retVal.Username += "_" + await AuthorizationHelper.GetGroupName();
 
             return retVal;
         }
+        #endregion
 
+        #region api/users/getuserinfo
         [HttpGet]
         [Route("api/users/getuserinfo")]
         public EditUserInfoBindingModel GetUserInfo()
@@ -73,7 +80,9 @@ namespace PrivatniCasoviAPI.Controllers
             Connect();
             return proxy.GetUserForEdit(User.Identity.Name);
         }
+        #endregion
 
+        #region api/users/getallteachers
         [HttpGet]
         [Route("api/users/getallteachers")]
         public List<EditUserInfoBindingModel> GetAllMathTeachers(string type)
@@ -81,6 +90,9 @@ namespace PrivatniCasoviAPI.Controllers
             Connect();
             return proxy.GetAllMathTeachers(type);
         }
+        #endregion
+
+        #region WCF Connection
         private void Connect()
         {
             if (proxy == null)
@@ -89,13 +101,11 @@ namespace PrivatniCasoviAPI.Controllers
                 netTcpBinding.MaxBufferSize = int.MaxValue;
                 netTcpBinding.MaxReceivedMessageSize = int.MaxValue;
                 netTcpBinding.MaxBufferPoolSize = int.MaxValue;
-                ChannelFactory<IContract> factory = new ChannelFactory<IContract>(netTcpBinding, new EndpointAddress($"net.tcp://localhost:11000/InputRequest"));
+                ChannelFactory<IUserContract> factory = new ChannelFactory<IUserContract>(netTcpBinding, new EndpointAddress($"net.tcp://localhost:11000/UserInputRequest"));
                 proxy = factory.CreateChannel();
             }
 
         }
-
-      
         #endregion
     }
 }

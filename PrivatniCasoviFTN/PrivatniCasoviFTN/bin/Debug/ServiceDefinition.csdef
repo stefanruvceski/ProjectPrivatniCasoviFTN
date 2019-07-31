@@ -42,7 +42,9 @@
       <Setting name="DataConnectionString" />
     </ConfigurationSettings>
     <Endpoints>
-      <InputEndpoint name="InputRequest" protocol="tcp" port="11000" />
+      <InputEndpoint name="UserInputRequest" protocol="tcp" port="11000" />
+      <InputEndpoint name="PrivateClassInputRequest" protocol="tcp" port="11001" />
+      <InputEndpoint name="SubjectInputRequest" protocol="tcp" port="11002" />
     </Endpoints>
     <Contents>
       <Content destination=".\">

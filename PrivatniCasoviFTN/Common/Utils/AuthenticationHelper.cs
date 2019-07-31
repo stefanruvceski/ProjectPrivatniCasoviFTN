@@ -69,7 +69,7 @@ namespace Common.Utils
                 {
                     result = await authContext.AcquireTokenAsync(resourceId, clientCred, userAssertion);
                 }
-                catch (Exception e)
+                catch
                 {
 
                 }

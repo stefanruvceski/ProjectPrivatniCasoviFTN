@@ -24,8 +24,8 @@ namespace Common
         CLASSES _class;
         #endregion
 
-        #region Kreiranje tabele
-        // Kreiranje tabele
+        #region Constructor
+        
         public TableHelper(string tableName)
         {
             storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
@@ -38,7 +38,6 @@ namespace Common
             }
             Enum.TryParse(tableName, out _class);
         }
-        #endregion
 
         public void InitTable(List<CustomEntity> list)
         {
@@ -127,8 +126,9 @@ namespace Common
 
             table.ExecuteBatch(tableOperations);
         }
+        #endregion
 
-        #region Operacije nad tabelom
+        #region Operations
         public void AddOrReplace(CustomEntity entity)
         {
 
@@ -767,7 +767,7 @@ namespace Common
                 tStudentClass.AddOrReplace(studentClass);
                 return 1;
             }
-            catch (Exception e)
+            catch 
             {
                 return 0;
             }
@@ -807,7 +807,7 @@ namespace Common
 
                 return true;
             }
-            catch(Exception e)
+            catch
             {
                 return false;
             }

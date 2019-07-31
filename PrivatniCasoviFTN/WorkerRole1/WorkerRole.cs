@@ -16,7 +16,9 @@ namespace WorkerRole1
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-        JobServer js = new JobServer();
+        UserService us = new UserService();
+        PrivateClassService ps = new PrivateClassService();
+        SubjectService ss = new SubjectService();
         public override void Run()
         {
             Trace.TraceInformation("WorkerRole1 is running");
@@ -40,7 +42,9 @@ namespace WorkerRole1
             // see the MSDN topic at https://go.microsoft.com/fwlink/?LinkId=166357.
 
             bool result = base.OnStart();
-            js.Open();
+            us.Open();
+            ps.Open();
+            ss.Open();
             Trace.TraceInformation("WorkerRole1 has been started");
 
             return result;
@@ -52,7 +56,9 @@ namespace WorkerRole1
 
             this.cancellationTokenSource.Cancel();
             this.runCompleteEvent.WaitOne();
-            js.Close();
+            us.Close();
+            ps.Close();
+            ss.Close();
             base.OnStop();
 
             Trace.TraceInformation("WorkerRole1 has stopped");

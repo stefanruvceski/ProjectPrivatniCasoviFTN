@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace WorkerRole1
 {
-    public class JobServer
+    public class UserService
     {
         ServiceHost sh;
-        string name = "InputRequest";
+        string name = "UserInputRequest";
         RoleInstanceEndpoint endpoint;
 
 
         
         
 
-        public JobServer()
+        public UserService()
         {
             NetTcpBinding netTcpBinding = new NetTcpBinding();
             netTcpBinding.MaxBufferSize = int.MaxValue;
@@ -28,9 +28,9 @@ namespace WorkerRole1
             netTcpBinding.MaxBufferPoolSize = int.MaxValue;
             endpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints[name];
 
-            sh = new ServiceHost(typeof(JobServerProvider));
+            sh = new ServiceHost(typeof(UserProvider));
 
-            sh.AddServiceEndpoint(typeof(IContract), netTcpBinding, $"net.tcp://{endpoint.IPEndpoint}/{name}");
+            sh.AddServiceEndpoint(typeof(IUserContract), netTcpBinding, $"net.tcp://{endpoint.IPEndpoint}/{name}");
         }
 
         public void Open()
